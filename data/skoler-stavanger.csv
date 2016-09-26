@@ -1,0 +1,74 @@
+Nord,øst,Latitude,Longitude,ID,OBJTYPE,KOMM,BYGGTYP_NBR,INFORMASJON,Skolenavn,ADRESSE,Hjemmeside,ELEVER,KAPASITET
+6538735.70,311664.25,58.946442,5.726693,1,Bygning,1103,619,Kommunal,Auglend Skole,Hjalmar Johansensgt. 32,http://www.minskole.no/auglend,Barnetrinn ukjent  ELEVER/TRINN 8.-4   9.-3   10.-3, 
+6540811.35,310683.00,58.964696,5.707375,2,Bygning,1103,613,Kommunal,Eiganes skole,Duesvei 35,http://www.minskole.no/eiganes,ELEVER/TRINN 1.-51  2.-68  3.-51  4.- 69  5.-49  6.-45  7.-41,13 klasserom 
+6542534.78,310512.00,58.980302,5.702956,3,Bygning,1103,613,Kommunal,Byfjord skole,Soltunveien 28,http://www.minskole.no/byfjord,ELEVER/TRINN 1.-58  2.-61  3.-60  4.-60  5.-54  6.-62  7.-52,14 klasserom 
+6533607.35,310739.00,58.900337,5.714215,4,Bygning,1103,613,Kommunal,Godeset skole,Folkvangveien 50,http://www.minskole.no/godeset,ELEVER/TRINN 1.-51  2.-45  3.-39  4.-48  5.-33  6.-44  7.-41,14 klasserom 
+6538538.50,307604.97,58.940129,5.648528,5,Bygning,1103,613,Kommunal,Hafrsfjord skole,Madlasandnes,https://www.minskole.no/hafrsfjord,ELEVER/TRINN 1.-41  2.-48  3.-42  4.-50  5.-50  6.-36  7.-58,14 klasserom 
+6544250.35,312315.00,58.996488,5.732501,6,Bygning,1103,613,Kommunal,Hundvåg skole,Hundvågveien 75,https://www.minskole.no/hundvaag,ELEVER/TRINN 1.-68  2.-66  3.-67  4.-59  5.-62  6.-57  7.-76,22 klasserom 
+6541590.04,311248.19,58.972132,5.716442,7,Bygning,1103,613,Kommunal,Kampen skole,Kampensgata 33,https://www.minskole.no/kampen,ELEVER/TRINN 1.-59  2.-62  3.-43  4.-53  5.-43  6.-45  7.-62,18 klasserom 
+6538424.35,312787.82,58.944487,5.745595,8,Bygning,1103,613,Kommunal,Kvaleberg skole,Hillevågsveien 82,http://www.minskole.no/kvaleberg,ELEVER/TRINN 1.-53  2.-52  3.-60  4.-53  5.-45  6.-52  7.- 47,18 klasserom 
+6541308.26,304841.92,58.966325,5.604738,9,Bygning,1103,613,Kommunal,Kvernevik skole,Heiloveien 11,http://www.minskole.no/kvernevik,ELEVER/TRINN 1.-66  2.-79  3.-63  4.-66  5.-47  6.-72  7.-61,27 klasserom 
+6540012.35,309917.65,58.957328,5.694603,10,Bygning,1103,613,Kommunal,Lassa skole,Rektor Berntsens gate 9,http://www.minskole.no/lassa,ELEVER/TRINN 1.-57  2.-57  3.-52  4.-42  5.-53  6.-56  7.-71,15 klasserom 
+6539217.35,308936.00,58.949703,5.678294,11,Bygning,1103,613,Kommunal,Madlamark skole,Rappveien 17,http://www.minskole.no/madlamark,ELEVER/TRINN 1.-51  2.-51  3.-59  4.-59  5.-49  6.-41  7.-38  8.-0   9. -1  10.-1,18 klasserom 
+6538371.18,309604.18,58.942698,5.690870,12,Bygning,1103,613,Kommunal,Madlavoll skole,Jernalderveien 47,https://www.minskole.no/madlavoll,ELEVER/TRINN 1.-68  2.-40  3.-55  4.-58  5.-41  6.-50  7.-60,17 klasserom 
+6540678.23,313142.58,58.964777,5.751061,13,Bygning,1103,613,Kommunal,Nylund skole,Nylundsgata 1,http://www.minskole.no/nylund,ELEVER/TRINN 1.-70  2.-83  3.-90  4.-70  5.-62  6.-76  7.-54,21 klasserom 
+6543817.18,314082.00,58.993310,5.763836,14,Bygning,1103,613,Kommunal,Roaldsøy skole,Nordvikveien 23A,http://www.minskole.no/roaldsoy,ELEVER/TRINN 1.-15  2.-20  3.-16  4.-25  5.-25  6.-22  7.-20,8 klasserom 
+6540877.93,312672.82,58.966167,5.741133,15,Bygning,1103,613,Kommunal,Storhaug skole,Sandeidgata 25,http://www.minskole.no/storhaug,ELEVER/TRINN 1.-57  2.-47  3.-50  4.-53  5.-39  6.-44  7.-42,16 klasserom 
+6540706.85,305698.02,58.961695,5.620735,16,Bygning,1103,613,Kommunal,Sunde skole,Sundeveien 10,http://www.minskole.no/sunde,ELEVER/TRINN 1.-84  2.-91  3.-77  4.-66  5.-80  6.-74  7.-78,21 klasserom 
+6542980.18,309214.00,58.983763,5.679844,17,Bygning,1103,613,Kommunal,Tasta skole,Randabergveien 165,http://www.minskole.no/tasta,ELEVER/TRINN 1.-52  2.-35  3.-45  4.-41  5.-51  6.-42  7.-39,21 klasserom 
+6539307.05,310439.80,58.951250,5.704012,18,Bygning,1103,613,Kommunal,Tjensvoll skole,Tjensvollveien 54,http://www.minskole.no/tjensvoll,ELEVER/TRINN 1.-70  2.67  3.-56  4.-58  5.-56  6.-47  7.-42,22 klasserom 
+6544286.00,309461.38,58.973756,5.723932,19,Bygning,1103,613,Kommunal,Vardenes skole,Gamle Dusavikveien 4,http://www.minskole.no/vardenes,ELEVER/TRINN 1.-41  2.- 41  3.-44  4.-37  5.-43  6.-44  7.-37,14 klasserom 
+6536956.53,311964.00,58.931107,5.732774,21,Bygning,1103,613,Kommunal,Vaulen skole,Augelandsbakken 27,http://www.minskole.no/vaulen,ELEVER/TRINN 1.-89  2.- 84  3.-76  4.-81  5.-77  6.-78 7.-91,25 klasserom 
+6540439.53,312128.82,58.962164,5.732761,22,Bygning,1103,613,Kommunal,Våland skole,Schives gate 21,http://www.minskole.no/vaaland,ELEVER/TRINN 1.-87  2.- 66  3.-76  4.-68  5.-75  6.-71 7.-70,23 klasserom 
+6533332.00,311845.65,58.898492,5.734005,23,Bygning,1103,613,Kommunal,Gausel skole,Gauselbakken 103,http://www.minskole.no/gausel,ELEVER/TRINN 1.-56  2.-68  3.-61  4.-79  5.-73  6.-77  7.-62,21 klasserom 
+6544918.18,312020.00,59.002382,5.726685,24,Bygning,1103,613,Kommunal,Skeie skole,Terje vigens vei 1,http://www.minskole.no/skeie,ELEVER/TRINN 1.-43  2.-63  3.-46  4.-61  5.-53  6.-54  7.-58,21 klasserom 
+6539584.18,306876.35,58.952239,5.642161,25,Bygning,1103,614,Kommunal,Revheim skole,Revheimsveien 128,http://www.minskole.no/revheim,,14
+6540992.10,312405.61,58.967355,5.737033,26,Bygning,1103,616,Fylkeskommunal,Bergeland videregående skole,Vaisenhusgt. 50,http://www.bergeland.vgs.no/,,Maks 903 elever 
+6539443.23,313183.20,58.953754,5.752366,27,Bygning,1103,616,Fylkeskommunal,Godalen videregående skole,østre ring 55,http://godalen.vgs.no/,,725 elever 
+6537318.35,312241.00,58.934235,5.737124,28,Bygning,1103,616,Fylkeskommunal,Hetland videregående skole,Breidablikkveien 16,http://www.hetland.vgs.no/,,Maks 598 elever 
+6535037.18,311584.00,58.913493,5.727772,29,Bygning,1103,616,Fylkeskommunal,Jåttå videregående skole,Jåttåvågveien 3,http://www.jaattaa.vgs.no/,,Maks 1041 elever 
+6541003.45,311714.42,58.967091,5.724884,30,Bygning,1103,616,Fylkeskommunal,Sankt Olav videregående skole,Jens Zetlitz gata 33,http://www.st-olav.vgs.no/,,838 elever 
+6539813.68,309976.80,58.955713,5.695840,31,Bygning,1103,616,Fylkeskommunal,St. Svithun videregående skole,Ytre Eiganesveien 30,http://www.svithun.vgs.no/,,814 elever 
+6541206.35,312190.82,58.969114,5.733047,32,Bygning,1103,616,Fylkeskommunal,Stavanger katedralskole  Kongsgård,Haakon VII's gate 4,http://www.stavanger-katedralskole.vgs.no/,,Maks 555 elever 
+6542765.18,311191.82,58.982141,5.714710,33,Bygning,1103,616,Fylkeskommunal,Stavanger offshore tekniske skole,Kalhammarveien 54,http://sots.no/,Maks 140,584 elever sammen med elevene på fagskolen 
+6540762.71,311911.56,58.965044,5.728605,34,Bygning,1103,616,Privat,Noroff,Engelsminnegata 16A,https://www.noroff.no/,,40
+6543603.85,311685.31,58.989649,5.724271,35,Bygning,1103,616,Privat,Skoleskipet Gann,Tømmerodden 1,http://www.gann.no/hjem,,120
+6533201.23,311835.80,58.897180,5.733566,36,Bygning,1103,613,Privat,British International School of Stavanger,Gauselbakken 107,http://www.biss.no/,,Ukjent 
+6537797.73,312134.00,58.938915,5.734214,37,Bygning,1103,615,Privat,Steinerskolen i Stavanger,Skolevollen 19,http://www.stavanger.steinerskolen.no/,,Ukjent 
+6540351.12,309716.20,58.960384,5.691208,38,Bygning,1103,615,Privat,Stavanger Kristne grunnskole,Adjunkt Hauglandsgata 52,http://www.stavangerkristnegrunnskole.no/,,Ukjent 
+6538778.18,311643.10,58.946483,5.726794,39,Bygning,1103,613,Kommunal,Auglend skole,Hjalmar Johansens gate 32,http://www.minskole.no/auglend,ELEVER/TRINN 1.-68  2.-69  3.-86  4.-52  5.-52  6.-64  7.-57,22 klasserom 
+6535224.33,311389.82,58.915223,5.724265,40,Bygning,1103,613,Kommunal,Jåtten skole,Ordfører Askelandsgate 11,http://www.minskole.no/jaatten,ELEVER/TRINN 1.-79  2.-100  3.-101  4.-95  5.-76  6.-85  7.-69,28 klasserom 
+6544111.76,312468.58,58.995224,5.735939,41,Bygning,1103,614,Kommunal,Austbø skole,Austbøsvingene 50,http://www.minskole.no/austbo,ELEVER/TRINN 8.-138  9.-112  10.-134,15 klasserom 
+6538212.95,309221.50,58.940468,5.684139,42,Bygning,1103,614,Kommunal,Gosen skole,Sophus Bugges gate 13,http://www.minskole.no/gosen,ELEVER/TRINN 8.-103  9.-123  10.-103 (Gosen ATO skole 8.-11  9.-10  10.-10),12 klasserom 
+6535527.35,311292.00,58.917831,5.722232,43,Bygning,1103,614,Kommunal,Hinna skole,Ordfører Tveteraasgate 11,http://www.minskole.no/hinna,ELEVER/TRINN 8.-101  9.-95  10.-96,12/15 klasserom 
+6540733.00,311572.00,58.964407,5.722864,44,Bygning,1103,614,Kommunal,Kannik skole,St. Svituns gate 40,http://www.minskole.no/kannik,ELEVER/TRINN 8.-172  9.-188  10.-182,19 klasserom 
+6537706.15,312166.72,58.937474,5.735075,45,Bygning,1103,614,Kommunal,Kristianslyst skole,Skolevollen 17,http://www.minskole.no/kristianslyst,ELEVER/TRINN 8.-140  9.-111  10.-129,22 klasserom 
+6541475.18,304933.00,58.968396,5.607635,46,Bygning,1103,614,Kommunal,Smiodden skole,Alkeveien 19,http://www.minskole.no/smiodden,ELEVER/TRINN 8. -81  9. - 82  10. -80,12 klasserom 
+6540702.18,312585.82,58.964691,5.740410,47,Bygning,1103,614,Kommunal,Sankt Svithun skole,Vikedalsveien 11,http://www.minskole.no/svithun,ELEVER/TRINN 8. -82  9. -107  10. -109,12 klasserom 
+6542468.18,310392.82,58.979680,5.701133,48,Bygning,1103,614,Kommunal,Tastaveden skole,Soltunveien 30,http://www.minskole.no/tastaveden,ELEVER/TRINN 8. -94  9. -91  10. -76,13 klasserom 
+6539117.00,311560.65,58.950132,5.723977,49,Bygning,1103,614,Kommunal,Ullandhaug skole,Hjalmar Johansens gate 13,http://www.minskole.no/ullandhaug,/ TRINN 8.-94  9.-73  10.-109,14/16 klasserom 
+6543041.00,312374.65,58.985646,5.734782,50,Bygning,1103,615,Kommunal,Buøy skole,Skipsbyggergata 19A,https://www.minskole.no/buoy,ELEVER/TRINN 1.-26  2.-36  3.-24  4.-21  5.-16  6.-20  7.-22,8 klasserom på barnetrinn og 3 på ungdomstrinn 
+6533451.18,311237.18,58.899177,5.723171,51,Bygning,1103,615,Kommunal,Gautesete skole,Heddeveien 143,http://www.minskole.no/gautesete,ELEVER/TRINN 1.-29  2. -24  3.-29  4.-29  5.-26  6.-34  7.-29  8.-86  9.-101  10.-101,13 klasserom på barnetrinn og 9 på ungdomstrinn 
+6544840.00,312759.82,59.001910,5.740156,52,Bygning,1103,615,Kommunal,Lunde skole,Lerkeskogen 1,http://www.minskole.no/lunde,,7 klasserom på barnetrinn og 6 på ungdomstrinn 
+6543246.18,309920.82,58.986345,5.691965,53,Bygning,1103,614,Kommunal,Tastarustå skole,Gjerdeveien 32,http://www.minskole.no/tastarustaa,ELEVER/TRINN 8. -124  9. -96  10. -116,14 klasser 
+6543681.75,309362.58,58.990000,5.682240,54,Bygning,1103,613,Kommunal,Teinå skole,Eldfiskbakken 11,http://www.minskole.no/teinaa,ELEVER/TRINN 1.-39  2.-48  3.-55  4.-27  5.-51  6.-59  7.-41,13 klasser 
+6545040.18,313629.00,59.004233,5.755628,55,Bygning,1103,619,Kommunal,Lundsvågen Naturskole,Kisteneset 31,,,Ukjent 
+6540928.31,313434.41,58.967258,5.755176,56,Bygning,1103,619,Kommunal,Johannes Læringssenter,Haugesundsgata 27,http://www.velkommentiljohannes.no/,ELEVER/TRINN 1.-1  2.34  3.-20  4.-13  5.-65  6.-17  7.-7  8.-85  9.-0  10.-29,Ukjent 
+6541989.18,311589.41,58.975839,5.722325,57,Bygning,1103,619,Kommunal,Stavanger kulturskole,Sandvigå 5,http://www.stavangerkulturskole.no/,,Ukjent 
+6539955.18,313791.18,58.958610,5.762014,58,Bygning,1103,619,Kommunal,Lenden skole og ressurssenter  Skoleteamet,Søre Ramsvigvei 55,http://www.minskole.no/lenden,,Ukjent 
+6540369.74,312020.24,58.961425,5.730901,59,Bygning,1103,616,Privat,Uldals Videregående Skole,Rektor Steens plass 1,http://www.uldals.no/,,30
+6540335.02,312021.47,58.961425,5.730901,60,Bygning,1103,616,Privat,Wang Toppidrett Stavanger AS,Rektor Steens plass 1,http://wang.no/,,175
+6537840.78,312132.91,58.938684,5.734895,61,Bygning,1103,616,Privat,Steinerskolen i Stavanger,Skolevollen 19,http://www.stavanger.steinerskolen.no/,,40
+6539308.03,307550.73,58.949704,5.654760,62,Bygning,1103,615,Privat,International School of Stavanger,Treskeveien 3,http://www.isstavanger.no/,,700
+6541564.56,311233.47,58.972134,5.716483,63,Bygning,1103,615,Privat,Lycée français de Stavanger,Kampensgate 33,http://www.lyceefrancaisstavanger.fr/,, 
+6537763.45,309954.81,58.937382,5.697425,64,Bygning,1103,621,Statlig,Universitetet i Stavanger,Kjell Arholmsgate 41,https://www.uis.no/,, 
+6541602.28,311000.38,58.971938,5.712422,65,Bygning,1103,621,Privat,Misjonshøgskolen,Misjonsmarka 12,http://www.vid.no/,, 
+6541149.18,313258.00,58.969095,5.751701,66,Bygning,1103,621,Privat,BI Stavanger,Hesbygata 5,https://www.bi.no/bli-student/bi-stavanger/,, 
+6539421.68,310353.41,58.952443,5.703459,67,Bygning,1103,619,Folkehøgskole,Solborg Folkehøgskole,Tjensvollveien 44,https://solborg.fhs.no/,, 
+6540802.60,311911.49,58.965066,5.728663,68,Bygning,1103,619,Fagskole,Noroff Stavanger,Engelsminnegata 16A,https://www.noroff.no/om/studiesteder/stavanger,, 
+6540851.53,312342.82,58.966024,5.736067,69,Bygning,1103,619,Fagskole,Kunstskolen i Rogaland,Birkelandsgate 2,http://kir.no/,, 
+6541021.26,312406.19,58.967343,5.737113,70,Bygning,1103,619,Fagskole,Bergeland videregående skole,Vaisenhusgata 50,http://www.bergeland.vgs.no/,, 
+6542800.43,311187.42,58.982258,5.714685,71,Bygning,1103,619,Fagskole,Stavanger offshore tekniske skole,Kalhammarveien 54,http://sots.no/,Max 450, 
+6541217.48,312975.52,58.969773,5.746894,72,Bygning,1103,619,Kommunal,Lenden skole og Ressurssenter,Bratteberggata 18,http://www.minskole.no/lenden,, 
+6538344.90,311805.58,58.943185,5.728740,74,Bygning,1103,619,Fagskole,Folkeuniversitetet Stavanger,Auglendsmyrå 2,https://www.folkeuniversitetet.no/,, 
+6538898.25,312244.66,58.948413,5.736161,76,Bygning,1103,619,Fylkeskommunal skole for spesielle behov,Møllehagen skolesenter,Torgveien 29,http://www.mollehagen.no/,,Ukjent 

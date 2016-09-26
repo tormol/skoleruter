@@ -1,0 +1,9 @@
+tag skole: http://open.stavanger.kommune.no/dataset?tags=skole
+skoler info: http://open.stavanger.kommune.no/dataset/skoler-stavanger
+skoler data: http://open.stavanger.kommune.no/dataset/8f8ac030-0d03-46e2-8eb7-844ee11a6203/resource/0371a1db-7074-4568-a0cc-499a5dccfe98/download/skoler.csv
+rute samleside: http://open.stavanger.kommune.no/dataset/skolerute-stavanger
+rute data 15-16: http://open.stavanger.kommune.no/dataset/86d3fe44-111e-4d82-be5a-67a9dbfbfcbb/resource/0fc84cf0-fcb6-4154-97ff-134ce7f90acf/download/skoleruter.csv
+rute data 16-17: http://open.stavanger.kommune.no/dataset/86d3fe44-111e-4d82-be5a-67a9dbfbfcbb/resource/32d52130-ce7c-4282-9d37-3c68c7cdba92/download/skolerute-2016-17.csv
+
+komplisert API: http://docs.ckan.org/en/latest/api/
+CSS selector for å finne linker: section#dataset-resources > ul.resource-list > li.resource-item > div > ul.dropdown-menu > li > a[href]

@@ -1,0 +1,13 @@
+[package]
+name = "finn_fri"
+version = "0.1.0"
+authors = ["Torbjørn Birch Moltu <t.b.moltu@lyse.net>"]
+
+[dependencies]
+chrono = "0.2.25"
+clap = "2.12"
+encoding_rs = "0.2.3"
+
+[[bin]]
+name = "finn_fri"
+path = "main.rs"
