@@ -15,10 +15,25 @@
 
     <!-- Include Knockout -->
     <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
+    <script src="knockoutMapping.js" type="text/javascript"></script>
+
+    <style>
+      .data {
+        width: 80px;
+        border: 1px solid black;
+        transition: border 1s;
+      }
+      .part {
+        height: 20px;
+        float: left;
+      }
+      .green {
+        background-color: green;
+      }
+    </style>
 
     <!-- Import Javascripts from local folder -->
-    <script src="/js/myscript.js"></script>
-
+    <script src="tableGen.js"></script>
 
     <!-- TODO remember to add metadata -->
 
@@ -27,11 +42,16 @@
 </head>
     <body>
 
-<h1>This is the starasdasdt ofnewtest the project test change</h1>
 
-<p id="demo">A Paragraph.</p>
+<table>
+  <thead>
+    <tr id=units>
+    </tr>
+  </thead>
+  <tbody id=q>
 
-<button type="button" onclick="myFunction()">Try it</button
+  </tbody>
+</table>
 
 </body>
 </html>
