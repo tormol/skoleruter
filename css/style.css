@@ -11,3 +11,19 @@ p {
     font-family: verdana;
     font-size: 20px;
 }
+    /*
+    //TODO maybe add these to an own css file? vvv
+    */
+
+.data {
+    width: 80px;
+    border: 1px solid black;
+    transition: border 1s;
+}
+.part {
+    height: 20px;
+    float: left;
+}
+.green {
+    background-color: green;
+}
