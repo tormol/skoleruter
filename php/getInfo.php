@@ -36,26 +36,26 @@ if ($want==1){//Get all schools with all freedays (most used)
   $sqlgetOrderNumber="select s.navn n, f.dato d, f.ikke_for_ansatte ika,f.grunn g from skole s, fri f where s.ID=f.skoleID  order by n ;";
 	if ($result=mysqli_query($mysqli,$sqlgetOrderNumber))
   {
-  // Fetch one and one row
-  while ($row=mysqli_fetch_row($result))
+  	// Fetch one and one row
+  	while ($row=mysqli_fetch_row($result))
     {
 			$navn=utf8_encode($row[0]);
 			$dato=$row[1];
 			$ikkeAnsatte=$row[2];
 			$grunn=utf8_encode($row[3]);
 			if(strpos($navn,'SFO') !== false){//Er sfo
-			array_push($sfo[$navn],array($dato,$grunn));
+				array_push($sfo[$navn],array($dato,$grunn));
 			}
 			else{
 				array_push($elev[$navn],array($dato,$grunn));
 				if($ikkeAnsatte==0){
-						array_push($laerer[$navn],array($dato,$grunn));
+					array_push($laerer[$navn],array($dato,$grunn));
 				}
 			}
     }
-  // Free result set
-  mysqli_free_result($result);
-}
+  	// Free result set
+  	mysqli_free_result($result);
+	}
 
   $res = array("elev"=>$elev,"lærer"=>$laerer,"sfo"=>$sfo);
   $jsonstring= json_encode($res);
@@ -63,10 +63,10 @@ if ($want==1){//Get all schools with all freedays (most used)
 	echo $jsonstring;
 }
 else if ($want==2){//Ikke ferdig
-//TODO
-$mysqli->close();
+	//TODO
+	$mysqli->close();
 }
 else if ($want==3){//Ikke ferdig
-//TODO
-$mysqli->close();
+	//TODO
+	$mysqli->close();
 }
