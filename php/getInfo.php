@@ -39,6 +39,9 @@ if ($want == 1) { //Get all schools with all freedays (most used)
             $dato        = $row[1];
             $ikkeAnsatte = $row[2];
             $grunn       = utf8_encode($row[3]);
+            if($grunn==""){
+              $grunn="Ukjent";
+            }
             if (strpos($navn, 'SFO') !== false) { //Er sfo
                 array_push($sfo[$navn], array(
                     $dato,
