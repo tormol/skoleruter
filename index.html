@@ -18,6 +18,7 @@
 
     <!-- Import Javascripts from local folder -->
     <script src="js/tableGen.js"></script>
+    <script src="js/buttons.js"></script>
 
     <!-- TODO remember to add metadata -->
 
@@ -26,6 +27,30 @@
 </head>
     <body>
 
+<!-- Search box -->
+<form>
+  <input type="text" placeholder="Search..." required>
+  <input type="button" value="Search">
+</form>
+
+<!-- adapted from: http://www.w3schools.com/howto/howto_js_dropdown.asp -->
+<div class="dropdown">
+  <button onclick="visningstype()" class="dropbtn">Visninstype</button>
+  <div id="myDropdown" class="dropdown-content">
+    <a href="#">Måned</a>
+    <a href="#">Uke</a>
+    <a href="#">Dag</a>
+  </div>
+</div>
+
+<div class="dropdown2">
+  <button onclick="fritype()" class="dropbtn2">Fritype</button>
+  <div id="myDropdown2" class="dropdown-content2">
+    <a href="#">Elev</a>
+    <a href="#">Lærer</a>
+    <a href="#">SFO</a>
+  </div>
+</div>
 
 <table>
   <thead>
