@@ -5,8 +5,8 @@
 
 $(function(){
     var data = $.getJSON("php/data.json", function (data) {
-        console.log(createDailyView(data["elev"])); // put elev/sfo in second arg
-
+       var defaultView = createDailyView(data["elev"]) // put elev/sfo in second arg
+        console.log(defaultView)
     });
 });
 
