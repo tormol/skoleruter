@@ -3105,7 +3105,7 @@ insert into fri (skoleID,dato,ikke_for_ansatte,grunn) values
 	(22,'2017-07-28',0,''),
 	(22,'2017-07-29',0,'Lørdag'),
 	(22,'2017-07-30',0,'Søndag'),
-	(22,'2017-07-31',0,',,,OK,,,,'),
+	(22,'2017-07-31',0,''),
 	(23,'2016-08-01',0,'Planleggingsdag'),
 	(23,'2016-08-02',0,'Planleggingsdag'),
 	(23,'2016-08-06',0,'Lørdag'),
