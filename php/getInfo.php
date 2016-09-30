@@ -3,6 +3,7 @@
 //Work in Progress
 //Want:1 now works
 //Want:2 now works
+//Want:3 now works
 $want   = $_POST["want"];
 $skole="";
 if($want!=1){
@@ -80,10 +81,10 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 } else if ($want == 2) {
 
 	if (strpos($skole, 'SFO') !== false) { //Er sfo
-		$sqlgetOrderNumber = "select s.navn n, f.dato d,f.grunn g from skole s, fri f where s.navn=\"$skole\" and s.ID=f.skoleID  order by n ;";
+		$sql = "select s.navn n, f.dato d,f.grunn g from skole s, fri f where s.navn=\"$skole\" and s.ID=f.skoleID  order by n ;";
 		$sfo=array();
 		$sfo[$skole] = array();
-		if ($result = mysqli_query($mysqli, $sqlgetOrderNumber)) {
+		if ($result = mysqli_query($mysqli, $sql)) {
 				// Fetch one and one row
 				while ($row = mysqli_fetch_row($result)) {
 						$navn        = utf8_encode($row[0]);
@@ -115,8 +116,8 @@ if ($want == 1) { //Get all schools with all freedays (most used)
     $elev              = array();
 		$laerer[$skole] = array();
 		$elev[$skole]   = array();
-		$sqlgetOrderNumber = "select s.navn n, f.dato d, f.ikke_for_ansatte ika,f.grunn g from skole s, fri f where s.navn=\"$skole\" and s.ID=f.skoleID  order by n ;";
-		if ($result = mysqli_query($mysqli, $sqlgetOrderNumber)) {
+		$sql = "select s.navn n, f.dato d, f.ikke_for_ansatte ika,f.grunn g from skole s, fri f where s.navn=\"$skole\" and s.ID=f.skoleID  order by n ;";
+		if ($result = mysqli_query($mysqli, $sql)) {
 				// Fetch one and one row
 				while ($row = mysqli_fetch_row($result)) {
 						$navn        = utf8_encode($row[0]);
@@ -153,7 +154,30 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 		}
 	}
 
-} else if ($want == 3) { //Ikke ferdig
+} else if ($want == 3) {
     //TODO
+		$adresse="";
+		$nettside="";
+		$telefon="";
+		$posisjon="";
+
+		$sql= "select adresse, nettside, telefon,posisjon from skole where navn=\"$skole\";";
+
+		if ($result = mysqli_query($mysqli, $sql)) {
+				// Fetch one and one row
+				while ($row = mysqli_fetch_row($result)) {
+						$adresse        = utf8_encode($row[0]);
+						$nettside        = $row[1];
+						$telefon = $row[2];
+						$posisjon       = utf8_encode($row[3]);
+				}
+
+				// Free result set
+				mysqli_free_result($result);
     $mysqli->close();
+}
+$result=array("navn"=>$skole,"adresse"=>$adresse,"nettside"=>$nettside,"telefon"=>$telefon,"posisjon"=>$posisjon);
+$jsonstring = json_encode($result);
+echo $jsonstring;
+
 }
