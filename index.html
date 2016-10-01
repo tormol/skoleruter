@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <title>Skoleruter | main page</title>
+    <!-- TODO add more metadata? -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/style.css">
 
     <!-- Include needed files from CDN -->
-    <!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified CSS 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    -->
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <!-- Latest compiled JavaScript -->
+    <!-- Latest compiled JavaScript 
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+    -->
     <!-- Include Knockout -->
     <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
 
@@ -20,13 +26,33 @@
     <script src="js/tableGen.js"></script>
     <script src="js/buttons.js"></script>
 
-    <!-- TODO remember to add metadata -->
+    <!-- Boostrap files -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <title>Skoleruter</title>
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 </head>
     <body>
 
+<header>
+  <div class="page-header">
+    <h1>Skoleruter <small>Sammenlign fridager</small></h1>
+  </div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Properties</a></li>
+            <li><a href="property.html">Special deals</a></li>
+            <li><a href="checkout.html">Checkout</a></li>
+        </ul>
+    </nav>
+</header>
+
+</main>
 <!-- Search box -->
 <form>
   <input type="text" placeholder="Search..." required>
@@ -52,6 +78,7 @@
   </div>
 </div>
 
+<!-- GANTT Table -->
 <table>
   <thead>
     <tr id=units>
@@ -61,6 +88,15 @@
 
   </tbody>
 </table>
+</main>
+
+<footer>
+    <div class="contact">
+        <span class="strong">Kunde service:</span> |
+        +47 321 09 654 |
+        <a href="#">contact@noreply.com</a>
+    </div>
+</footer>
 
 </body>
 </html>
