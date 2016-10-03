@@ -1,9 +1,9 @@
 use std::fs::File;
 use std::io::{stderr,Read,Write};
-//use std::fmt::Write as fmtWrite;
 use std::path::{Path,PathBuf};
 use std::str::FromStr;
 use std::borrow::Cow::{self,Borrowed,Owned};
+use std::cmp::{Ordering,max};
 use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied,Vacant};
 use std::sync::mpsc::channel;
@@ -35,7 +35,7 @@ fn leak_string(mut s: String) -> &'static mut str {
 		let slice: &'static mut str = transmute(s.as_mut_str());
 		forget(s);
 		slice
-	} 
+	}
 }
 
 
@@ -50,7 +50,7 @@ struct SkoleDetaljer<'a> {
 }
 
 #[allow(non_camel_case_types)]
-#[derive(Clone, PartialEq,Eq,PartialOrd,Ord)]
+#[derive(PartialEq,Eq)]
 enum SFO {
 	er,
 	har_ikke,
@@ -85,10 +85,11 @@ fn main() {
 	let threads = paths.into_iter().map(|path| {
 		let sender = send_content.clone();
 		let path = PathBuf::from(path);
-		thread::spawn(move|| { 
+		thread::spawn(move|| {
+			let sist_oppdatert = Date::from_str("2020-02-02").unwrap();
 			let mut content = read_file(&path);
 			for filetype in FILE_TYPES {
-				match filetype(content, &path) {
+				match filetype(content, &path, sist_oppdatert) {
 					Ok(mut skoler) => {
 						for skole in skoler.values_mut() {
 							juster_sfo_kommentarer(skole);
@@ -150,18 +151,41 @@ fn read_file(path: &Path) -> String {
 			log!("{:?} er hverken UTF-8 eller WINDOWS_1252", path);
 		}
 		s
-	}) 
+	})
 }
 
+
 fn merge_schools(all: &mut HashMap<String,Skole>, add: HashMap<String,Skole<'static>>) {
-	assert!(all.is_empty(), "TODO support multiple files");
-	std::mem::replace(all, add);
+	for (lowercase, add) in add {
+		match all.entry(lowercase.clone()) {
+			Vacant(ve) => {ve.insert(add);},
+			Occupied(mut oe) => {
+				let master = oe.get_mut();
+				master.data_til = max(master.data_til, add.data_til);
+				master.sist_oppdatert = max(master.sist_oppdatert, add.sist_oppdatert);
+				master.fri.extend(add.fri);
+				if master.navn == lowercase {
+					master.navn = add.navn;
+				}
+				if add.kontakt.is_some() {
+					abort_if!(master.kontakt.is_some(), "Flere filer har kontakt-informasjon for {}", &master.navn);
+					master.kontakt = add.kontakt;
+				}
+			}
+		}
+	}
 }
+
 
 fn to_sql(mut skoler: Vec<Skole>) {
 	abort_if!(skoler.len() > std::u16::MAX as usize,
 	          "Database-skjemaet må oppdateres: for mange skoler: {}", skoler.len() );
-	skoler.sort_by_key(|s| s.sfo.clone() );
+	// IDs to SFOs must already exists
+	skoler.sort_by_key(|s| match s.sfo {
+		SFO::er       => Ordering::Less,
+		SFO::har_ikke => Ordering::Equal,
+		SFO::har(_)   => Ordering::Greater,
+	});
 	#[allow(non_snake_case)]
 	struct FriTbl<'a> {
 		skoleID: u16,
@@ -188,7 +212,6 @@ fn to_sql(mut skoler: Vec<Skole>) {
 	println!("");
 	println!("insert into skole (ID,sfo,navn,data_gyldig_til,sist_oppdatert,telefon,adresse,nettside,posisjon) values");
 	for (i,skole) in skoler.iter().enumerate() {
-		// TODO length asserts
 		let sfo = match skole.sfo {
 			SFO::er => "null".to_string(),
 			SFO::har(ref navn) => {skoler.iter().position(|s| *s.navn == navn[..] ).unwrap()+1}.to_string(),
@@ -201,6 +224,10 @@ fn to_sql(mut skoler: Vec<Skole>) {
 		let adresse = skole.kontakt.map(|k| k.adresse ).unwrap_or("");
 		let url = skole.kontakt.map(|k| k.nettside ).unwrap_or("");
 		let pos = skole.kontakt.map(|k| k.koordinater ).unwrap_or("0,0");
+
+		abort_if!(skole.navn.len() > 255, "For langt navn: {:?}", skole.navn);
+		abort_if!(adresse.len() > 1000, "For lang adresse: {:?}", adresse);
+		abort_if!(url.len() > 1000, "For lang URL: {:?}", url);
 		let sep = if i+1 == skoler.len() {';'} else {','};
 		println!("\t({},{},'{}','{:?}','{:?}',{},'{}','{}',POINT({})){}",
 		         i+1, sfo, skole.navn, skole.data_til.unwrap(), skole.sist_oppdatert,
@@ -228,7 +255,7 @@ fn juster_sfo_kommentarer(skole: &mut Skole) {
 				SFO::er => dag.kommentar = &dag.kommentar[..new_len],
 				SFO::har(_) => dag.kommentar = "",
 				SFO::har_ikke => log!("{}, som ikke har SFO, har den {} kommentaren {:?}",
-				                      &skole.navn, dag.date, dag.kommentar),  
+				                      &skole.navn, dag.date, dag.kommentar),
 			}
 		} else if dag.kommentar.contains("SFO") || dag.kommentar.contains("sfo") {
 			log!("Kan ikke gjøre noe med kommentaren {:?} for {} ved {}",
@@ -267,13 +294,23 @@ fn sfo_navn(mut skole: &str) -> String {
 	format!("{} SFO", skole)
 }
 
+fn ikke_fri(janei: &str, nullable: bool) -> Option<bool> {
+	match janei.trim() {
+		"Ja" | "ja" => Some(true),
+		"Nei" | "nei" => Some(false),
+		"Ikke tilgjengelig" if nullable => None,
+		feil => abort!("Ugyldig verdi for ja / nei felt: {:?}", feil),
+	}
+}
+
 
 /// Map key is lowercase school name
 /// Err and first parameter is file content
-type FileReader = fn(String,&Path) -> Result<HashMap<String,Skole<'static>>, String>;
-const FILE_TYPES: &'static[FileReader] = &[stavanger_ruter/*,stavanger_skoler,gjesdal_ruter*/];
+type FileReader = fn(String,&Path,Date) -> Result<HashMap<String,Skole<'static>>, String>;
+const FILE_TYPES: &'static[FileReader] = &[stavanger_ruter,gjesdal_ruter/*,stavanger_skoler*/];
 
-fn stavanger_ruter(data: String, path: &Path) -> Result<HashMap<String,Skole<'static>>, String> {
+fn stavanger_ruter(data: String, path: &Path, sist_oppdatert: Date)
+-> Result<HashMap<String,Skole<'static>>, String> {
 	match data.lines().next().map(|header| header.to_lowercase() ) {
 		None => abort!("{:?} er tom", path),
 		Some(header) => {
@@ -282,9 +319,8 @@ fn stavanger_ruter(data: String, path: &Path) -> Result<HashMap<String,Skole<'st
 			}
 		},
 	}
-	let data = leak_string(data); 
+	let data = leak_string(data);
 
-	let sist_oppdatert = Date::from_str("2020-02-02").unwrap();//TODO
 
 	struct Rad {
 		date: Date,
@@ -294,11 +330,6 @@ fn stavanger_ruter(data: String, path: &Path) -> Result<HashMap<String,Skole<'st
 		sfo: bool,
 		kommentar: &'static str
 	}
-    fn ikke_fri(janei: &str) -> bool {match janei {
-		"Ja" | "ja" => true,
-		"Nei" | "nei" => false,
-		feil => abort!("Ugyldig verdi for ja / nei felt: {:?}", feil),
-	}}
 
 	let rader = data.lines()
 	                .skip(1)// header
@@ -308,9 +339,9 @@ fn stavanger_ruter(data: String, path: &Path) -> Result<HashMap<String,Skole<'st
 					.map(|felt| Rad {
 			             date: Date::from_str(felt[0]).unwrap(),
 			             skole: felt[1],
-			             elev: ikke_fri(felt[2]),
-			             laerer: ikke_fri(felt[3]),
-			             sfo: ikke_fri(felt[4]),
+			             elev: ikke_fri(felt[2], false).unwrap(),
+			             laerer: ikke_fri(felt[3], false).unwrap(),
+			             sfo: ikke_fri(felt[4], true).unwrap_or(false),
 			             kommentar: felt[5].trim()
 	                 })
 					.inspect(|rad| assert!(!rad.elev || rad.laerer, "Teacher has left us kids alone") )
@@ -324,6 +355,7 @@ fn stavanger_ruter(data: String, path: &Path) -> Result<HashMap<String,Skole<'st
 			Occupied(_) => {},
 		};
 	}
+	// FIXME use max date of file
 	let mut har_sfo = HashMap::<&'static str,String>::new();
 	for rad in &rader {
 		if rad.sfo {
@@ -374,4 +406,94 @@ fn stavanger_ruter(data: String, path: &Path) -> Result<HashMap<String,Skole<'st
 	let begge = skoler.chain(sfoer);
 
 	Ok(begge.map(|sted| (sted.navn.to_lowercase(), sted) ).collect())
+}
+
+
+fn gjesdal_ruter(content: String, path: &Path, sist_oppdatert: Date)
+-> Result<HashMap<String,Skole<'static>>, String> {
+	match content.lines().next().map(|header| header.to_lowercase() ) {
+		None => abort!("{:?} er tom", path),
+		Some(header) => {
+			if header != "dato,skole ,elevdag ,sfodag ,kommentar " {
+				log!("{}", header);
+				return Err(content);
+			}
+		},
+	}
+	let content = leak_string(content);
+
+	struct Row {
+		date: Date,
+		school: &'static str,
+		pupils: bool,
+		sfo: Option<bool>,
+		comment: &'static str
+	}
+
+	let rows = content.lines()
+	                  .skip(1)// header
+	                  .filter(|line| !line.is_empty() )// the last is
+	                  .map(|line| line.splitn(5, ",").collect::<Vec<_>>() )
+					  .map(|mut part| {
+					       if part.len() == 4 {
+						       part.push("");
+						   }
+						   abort_if!(part.len() != 5, "{:?} har veldig ugyldig csv: {:?}", &path, &part);
+						   Row {
+						       date: Date::parse_from_str(part[0].trim(), "%d.%m.%Y").expect("Ugyldig dato"),
+							   school: part[1].trim(),
+							   pupils: ikke_fri(part[2], false).unwrap(),
+							   sfo: ikke_fri(part[3], true),
+							   comment: part[4].trim()
+						   }
+					   })
+					  .collect::<Vec<Row>>();
+
+	let last = rows.iter().map(|row| row.date ).max();
+	let mut schools = HashMap::<&'static str,bool>::new();// last date, has sfo
+	for row in &rows {
+		schools.entry(row.school).or_insert(row.sfo.is_some());
+	}
+
+	let mut both = HashMap::new();
+	for (school_name,has_sfo) in schools {
+		let rows = rows.iter().filter(|r| r.school == school_name ).collect::<Vec<_>>();
+		fn to_fri(row: &&Row) -> Fri<'static> {
+			Fri {
+				date: row.date,
+				for_ansatte: true,
+				kommentar: row.comment,
+			}
+		}
+
+		let sfo = if has_sfo {
+			let out = rows.iter().filter(|r| match r.sfo {
+				Some(sfo) => !sfo,
+				None => abort!("SFO for {} er delvis \"Ikke tilgjengelig\"", school_name),
+			}).map(to_fri).collect();
+			let name = sfo_navn(school_name);
+			both.insert(name.to_lowercase(), Skole{
+				navn: Owned(name.clone()),
+				sfo: SFO::er,
+				sist_oppdatert: sist_oppdatert,
+				data_til: last,
+				kontakt: None,
+				fri: out,
+			});
+			SFO::har(name)
+		} else {
+			SFO::har_ikke
+		};
+
+		let out = rows.iter().filter(|r| !r.pupils ).map(to_fri).collect();
+		both.insert(school_name.to_lowercase(), Skole {
+			navn: Borrowed(school_name),
+			sfo: sfo,
+			sist_oppdatert: sist_oppdatert,
+			data_til: last,
+			kontakt: None,
+			fri: out,
+		});
+	}
+	Ok(both)
 }
