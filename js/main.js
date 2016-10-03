@@ -6,10 +6,10 @@
 $(function(){
     var data = $.getJSON("php/data.json", function (data) {
        var defaultView = createDailyView(data["elev"]) // put elev/sfo in second arg
-        var weeklyView = createWeeklyView(defaultView)
+       //var weeklyView = createWeeklyView(defaultView)
 
-      //  console.log(defaultView)
-        console.log(weeklyView)
+        //console.log(defaultView);
+        printDays(defaultView);
+        //console.log(weeklyView)
     });
 });
-

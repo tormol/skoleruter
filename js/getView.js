@@ -1,3 +1,4 @@
+
 /**
  * Created by Linds on 29/09/2016.
  */
@@ -14,7 +15,7 @@ function createWeeklyObject(dailyObject){
   //  console.log(skolenavn)
     var weeklyObject = {}
 
-    console.log(dailyObject)
+    //console.log(dailyObject)
 
          $.each(dailyObject, function(skolenavn, aars) {
             var aarsobj = {}
@@ -40,8 +41,12 @@ function createWeeklyObject(dailyObject){
 }
 
 function createDailyView(data){
+    var startTime = new Date().getTime(); //#1
+    var day = createDailyObject(data);
 
-    return createDailyObject(data)
+    /* Add this line under and #1 over to test the time an operation takes in seconds */
+    console.log((new Date().getTime() - startTime) / 1000 + " seconds elapsed");
+    return day;
 }
 
 function createDailyObject(data){
@@ -53,72 +58,50 @@ function createDailyObject(data){
      */
 
     /*
-     Return example
+     Return eksempel
      { "Våland" : {
-     aars nr : {
-     (måned nr:) int : {
-     (dags nr) int  : string / Eventuelt int, men hva dag er dette etc? Isåfall egen func
+        aars nr : {
+          (måned nr:) int : {
+            (dags nr) int  : string / Eventuelt int, men hva dag er dette etc? Isåfall egen func
      */
 
-    var dayObject = {}
+    var dayObject = {};
     $.each(data, function(skolenavn, fridager) {
+        var aarsobj = {}, date = {};
+        var aar = [], mnd = [];
 
-        var aarsobj = {}
-
-        var date = {}
-        var aar = []
-        var mnd = []
-
+        //Disse variablene brukes til å passa på at samme måned ikke legges til mer enn en gang
+        var forrigeMnd = -1, forrigeAar = -1;
         $.each(fridager, function(_, datoMedBeskrivelse) {
-            aar.push(datoMedBeskrivelse[0].split('-')[0])
-            mnd.push(datoMedBeskrivelse[0].split('-')[1])
-            date[datoMedBeskrivelse[0]] = datoMedBeskrivelse[1]
-
-        })
-
-         aar = aar.filter(function(elem, index, self) {
-            return index == self.indexOf(elem);
-        })
-         mnd = mnd.filter(function(elem, index, self) {
-            return index == self.indexOf(elem);
-        })
-
-
-
+            var sAar = datoMedBeskrivelse[0].substring(0,4), sMnd = datoMedBeskrivelse[0].substring(5,7);
+            if(sAar != forrigeAar){ aar.push(sAar); forrigeAar = sAar; }
+            if(sMnd != forrigeMnd){ mnd.push(sMnd); forrigeMnd = sMnd; }
+            date[datoMedBeskrivelse[0]] = datoMedBeskrivelse[1];
+        });
 
         $.each(aar, function(_, aars) { //per år
-
-
-            var mndobj = []
-            $.each(mnd, function(_, mnds) { //per mnd
-                var dagsobject= []
-
-            $.each(date, function(datoen, besken) { //dato innført
-
-                if (aars == datoen.split("-")[0]) {
-
-                    if (mnds == datoen.split("-")[1]) {
-                        dagsobject[datoen.split("-")[2]] = besken // TODO besken == kommentar /les kommentarene på toppen av func
+            var mndobj = [];
+            $.each(mnd, function(test, mnds) { //per mnd
+              //Nødvendig for å sikre at alle feltene i en måned får en verdi
+                var dagsobject = [];
+                $.each(date, function(datoen, besken) { //dato innført
+                    var sAar = datoen.substring(0,4), sMnd = datoen.substring(5,7), sDag = datoen.substring(8,10);
+                    if (aars == sAar && mnds == sMnd) {
+                      if(sDag.charAt(0) == '0') sDag = sDag.substring(1);
+                      if(sMnd.charAt(0) == '0') sMnd = sMnd.substring(1);
+                      dagsobject[sDag] = besken; // TODO besken == kommentar /les kommentarene på toppen av func
                     }
-                }
-            })
-                mndobj[mnds] = dagsobject
-        })
-            aarsobj[aars] = mndobj
-})
-
-        dayObject[skolenavn] = aarsobj
-    })
-
-
-    return dayObject
+                });
+                mndobj[(mnds.charAt(0) == '0') ? mnds.substring(1) : mnds] = dagsobject; //Cause YES
+            });
+            aarsobj[aars] = mndobj;
+        });
+        dayObject[skolenavn] = aarsobj;
+    });
+    console.log(dayObject);
+    return dayObject;
 }
-/*
- function daysInMonth(month,year) {
- // returns days in given month, 0 value ignored so gives correct month.
- return new Date(year, month, 0).getDate()
- }
- */
+
 // http://stackoverflow.com/questions/18478741/get-weeks-in-year
 function getWeekNumber(d) {
     // Copy date so don't modify original
