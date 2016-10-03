@@ -29,6 +29,7 @@ p {
     background-color: green;
 }
 
+
 #tableDiv {
   width: 90%;
             overflow-x:scroll;
@@ -162,3 +163,15 @@ form {
                 background-color:#fafafa;
                 color:#207cca;
 }
+
+.jumbotron {
+    /* add bootstrap jumbotron background image */
+    background: url("../img/banner.jpg");
+    /* change bootstrap jumbotron text color */
+    
+}
+
+.footer {
+    margin:1em;
+}
+
