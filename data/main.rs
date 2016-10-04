@@ -50,9 +50,10 @@ struct SkoleDetaljer<'a> {
 }
 
 #[allow(non_camel_case_types)]
-#[derive(PartialEq,Eq)]
-enum SFO {
-	er,
+#[derive(PartialEq,Eq, Debug)]
+enum SFO {// Strings are lowercase
+	vet_ikke,
+	er_for(String),
 	har_ikke,
 	har(String),
 }
@@ -177,6 +178,15 @@ fn merge_schools(all: &mut HashMap<String,Skole>, add: HashMap<String,Skole<'sta
 					abort_if!(master.kontakt.is_some(), "Flere filer har kontakt-informasjon for {}", &master.navn);
 					master.kontakt = add.kontakt;
 				}
+				let old = mem::replace(&mut master.sfo, SFO::vet_ikke);
+				master.sfo = match (old, add.sfo) {
+					(SFO::vet_ikke, n) => n,
+					(o, SFO::vet_ikke) => o,
+					(SFO::har_ikke, SFO::har(name)) => SFO::har(name),
+					(SFO::har(name), SFO::har_ikke) => SFO::har(name),
+					(a, b) => if a == b {a}
+							  else {abort!("{} er {:?} i en fil, men {:?} i en annen.", master.navn, a, b)}
+				};
 			}
 		}
 	}
@@ -188,9 +198,10 @@ fn to_sql(mut skoler: Vec<Skole>) {
 	          "Database-skjemaet må oppdateres: for mange skoler: {}", skoler.len() );
 	// IDs to SFOs must already exists
 	skoler.sort_by_key(|s| match s.sfo {
-		SFO::er       => Ordering::Less,
-		SFO::har_ikke => Ordering::Equal,
-		SFO::har(_)   => Ordering::Greater,
+		SFO::er_for(_) => Ordering::Less,
+		SFO::har_ikke  => Ordering::Equal,
+		SFO::har(_)    => Ordering::Greater,
+		SFO::vet_ikke  => Ordering::Less,
 	});
 	#[allow(non_snake_case)]
 	struct FriTbl<'a> {
@@ -219,9 +230,10 @@ fn to_sql(mut skoler: Vec<Skole>) {
 	println!("insert into skole (ID,sfo,navn,data_gyldig_til,sist_oppdatert,telefon,adresse,nettside,posisjon) values");
 	for (i,skole) in skoler.iter().enumerate() {
 		let sfo = match skole.sfo {
-			SFO::er => "null".to_string(),
+			SFO::er_for(_) => "null".to_string(),
 			SFO::har(ref navn) => {skoler.iter().position(|s| *s.navn == navn[..] ).unwrap()+1}.to_string(),
 			SFO::har_ikke => "null".to_string(),
+			SFO::vet_ikke => continue,
 		};
 		let tlf = match skole.kontakt.and_then(|k| k.telefon ) {
 			Some(tlf) => format!("'{}'", std::str::from_utf8(&tlf[..]).unwrap()),
@@ -258,10 +270,11 @@ fn juster_sfo_kommentarer(skole: &mut Skole) {
 				new_len -= 2;
 			}
 			match skole.sfo {
-				SFO::er => dag.kommentar = &dag.kommentar[..new_len],
+				SFO::er_for(_) => dag.kommentar = &dag.kommentar[..new_len],
 				SFO::har(_) => dag.kommentar = "",
 				SFO::har_ikke => log!("{}, som ikke har SFO, har den {} kommentaren {:?}",
 				                      &skole.navn, dag.date, dag.kommentar),
+				SFO::vet_ikke => abort!("Vet ikke om {} er SFO eller ikke", skole.navn),
 			}
 		} else if dag.kommentar.contains("SFO") || dag.kommentar.contains("sfo") {
 			log!("Kan ikke gjøre noe med kommentaren {:?} for {} ved {}",
@@ -386,7 +399,7 @@ fn stavanger_ruter(data: String, path: &Path, sist_oppdatert: Date)
 				       .collect::<Vec<_>>();
 		Skole {
 			navn: Owned(navn.clone()),
-			sfo: SFO::er,
+			sfo: SFO::er_for(skole.to_lowercase()),
 			sist_oppdatert: sist_oppdatert,
 			data_til: Some(skoler[skole]),
 			kontakt: None,
@@ -486,7 +499,7 @@ fn gjesdal_ruter(content: String, path: &Path, sist_oppdatert: Date)
 			let name = sfo_navn(school_name);
 			both.insert(name.to_lowercase(), Skole{
 				navn: Owned(name.clone()),
-				sfo: SFO::er,
+				sfo: SFO::er_for(school_name.to_lowercase()),
 				sist_oppdatert: sist_oppdatert,
 				data_til: last,
 				kontakt: None,
