@@ -8,6 +8,7 @@ use std::collections::HashMap;
 use std::collections::hash_map::Entry::{Occupied,Vacant};
 use std::sync::mpsc::channel;
 use std::thread;
+use std::mem;
 extern crate clap;
 use clap::App;
 extern crate encoding_rs;
@@ -30,10 +31,9 @@ macro_rules! abort_if {($cond:expr, $format:expr $(,$arg:expr)*) => {{
 	}
 }}}
 fn leak_string(mut s: String) -> &'static mut str {
-	use std::mem::{transmute,forget};
 	unsafe {
-		let slice: &'static mut str = transmute(s.as_mut_str());
-		forget(s);
+		let slice: &'static mut str = mem::transmute(s.as_mut_str());
+		mem::forget(s);
 		slice
 	}
 }
@@ -79,23 +79,26 @@ struct ParsedFile {
 
 
 fn main() {
-	let paths = args();
+	let (paths,remove_obvious) = args();
 
 	let (send_content,receive_content) = channel::<ParsedFile>();
 	let threads = paths.into_iter().map(|path| {
 		let sender = send_content.clone();
 		let path = PathBuf::from(path);
 		thread::spawn(move|| {
-			let sist_oppdatert = Date::from_str("2020-02-02").unwrap();
+			let last_updated = Date::from_str("2020-02-02").unwrap();
 			let mut content = read_file(&path);
 			for filetype in FILE_TYPES {
-				match filetype(content, &path, sist_oppdatert) {
-					Ok(mut skoler) => {
-						for skole in skoler.values_mut() {
-							juster_sfo_kommentarer(skole);
-							rens_fri(&mut skole.fri, &skole.navn);
+				match filetype(content, &path, last_updated) {
+					Ok(mut schools) => {
+						for school in schools.values_mut() {
+							if remove_obvious {
+								remove_never_school(&mut school.fri);
+							}
+							set_summer(&mut school.fri, &school.navn);
+							juster_sfo_kommentarer(school);
 						}
-						let pf = ParsedFile{ path: path, skoler: skoler };
+						let pf = ParsedFile{ path: path, skoler: schools };
 						let _ = sender.send(pf);// No need to propagate panic in the main thread.
 						return;
 					},
@@ -122,17 +125,20 @@ fn main() {
 	to_sql(all);
 }
 
-fn args() -> Vec<PathBuf> {
+fn args() -> (Vec<PathBuf>,bool) {
 	let matches = App::new("finn_fri")
                       .version("0.1")
                       .author("Gruppe 5")
                       .about("konverterer skoleruter og skole-info til SQL")
-                      .args_from_usage("<fil.csv>... 'kan enten være en skolerute eller skole-info, tolkes ut i fra'")
+                      .args_from_usage("--remove-obvious `Ikke nevn fridager i Juli eller helger`
+					                    <file.csv>... 'kan enten være en skolerute eller skole-info, tolkes ut i fra'")
                       .get_matches();
-	let paths = matches.values_of_os("fil.csv").unwrap_or_else(||
+	let remove_obvious = matches.is_present("remove-obvious");
+	let paths = matches.values_of_os("file.csv").unwrap_or_else(||
 		abort!("Ingen filer")
 	);
-	paths.map(|s| PathBuf::from(s) ).collect()
+	let paths = paths.map(|s| PathBuf::from(s) ).collect();
+	(paths,remove_obvious)
 }
 
 fn read_file(path: &Path) -> String {
@@ -264,23 +270,29 @@ fn juster_sfo_kommentarer(skole: &mut Skole) {
 	}
 }
 
-/// Fjern helger, Juli og sett kommentar for sommerferie
-fn rens_fri(dager: &mut Vec<Fri<'static>>, skole: &str) {
-	for i in (0..dager.len()).rev() {
-		let date = dager[i].date;
-		// if date.weekday().number_from_monday() > 5 {
-		// 	// helg, ikke alle har kommentar Lørdag eller Søndag
-		// 	dager.swap_remove(i);
-		// }
-		if dager[i].kommentar.is_empty() {
-			match dager[i].date.month() {
-				6 if date.day() >= 10 => dager[i].kommentar = "sommerferie",
-				7 => {/*dager.swap_remove(i);*/},
-				8 if date.day() <= 23 => dager[i].kommentar = "sommerferie",
-				_ => log!("Fri uten kommentar: {} ved {}", date, skole),
+/// Many days in the summer holiday has no comment.
+/// This function sets it to "Sommerferie".
+fn set_summer(out: &mut[Fri<'static>], school: &str) {
+	for day in out {
+		if day.kommentar.is_empty() {
+			let date = (day.date.month(), day.date.day());
+			if date >= (6,10) && date <= (8,24) {
+				day.kommentar = "Sommerferie";
+			} else {
+				log!("Fri uten kommentar: {} ved {}", day.date, school);
 			}
 		}
 	}
+}
+
+/// Remove weekends and July
+fn remove_never_school(out: &mut Vec<Fri<'static>>) {
+	out.retain(|day|
+		// weekend, not alle have "Lørdag" or "Søndag" as comment.
+		day.date.weekday().number_from_monday() <= 5
+		// July
+		&& (day.date.month() != 7 /*|| day.kommentar.is_empty()*/)
+	);
 }
 
 
