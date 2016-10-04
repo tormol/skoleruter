@@ -6,12 +6,13 @@
 //Want:3 now works
 $want  = $_POST["want"];
 $skole = "";
-if ($want != 1) {
+if ($want != 1 && $want !=4) {
 	 $skole = $_POST["school"];
 }
 //1 Get all schools with all freedays (most used)
 //2 One school with days off
 //3 Get all info about a school
+//4 Get all school names
 $mysqli = mysqli_connect("localhost", "root", "", "skoleruter");
 mysqli_set_charset($mysqli, "utf8"); //Set charset
 if ($mysqli->connect_error) {
@@ -183,4 +184,15 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 	 $jsonstring = json_encode($result);
 	 echo $jsonstring;
 
+}
+else if($want==4){//All school names
+	$sql="select navn from skole";
+	$skoler=array();
+	if ($result = mysqli_query($mysqli, $sql)) {
+		while ($row = mysqli_fetch_row($result)) {
+			array_push($skoler,utf8_encode($row[0]));
+		}
+	}
+	$jsonstring = json_encode($skoler);
+	echo $jsonstring;
 }
