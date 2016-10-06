@@ -26,7 +26,7 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 	 $result            = $mysqli->query($sqlgetOrderNumber);
 	 if ($result->num_rows != 0) {
 			 while ($row = $result->fetch_assoc()) {
-					 $name = utf8_encode($row['navn']);
+					 $name = $row['navn'];
 					 if (strpos($name, 'SFO') !== false) { //Er sfo
 							 $sfo[$name] = array();
 					 } else {
@@ -42,10 +42,12 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 	 if ($result = mysqli_query($mysqli, $sqlgetOrderNumber)) {
 			 // Fetch one and one row
 			 while ($row = mysqli_fetch_row($result)) {
-					 $navn        = utf8_encode($row[0]);
+					 $navn        = $row[0];
+
 					 $dato        = $row[1];
 					 $ikkeAnsatte = $row[2];
-					 $grunn       = utf8_encode($row[3]);
+					 $grunn       = $row[3];
+
 					 if ($grunn == "") {
 							 $grunn = "Ukjent";
 					 }
@@ -76,7 +78,7 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 			 "lærer" => $laerer,
 			 "sfo" => $sfo
 	 );
-	 $jsonstring = json_encode($res);
+	 $jsonstring = json_encode($res,JSON_UNESCAPED_UNICODE);
 	 $mysqli->close();
 	 echo $jsonstring;
 } else if ($want == 2) {
@@ -88,9 +90,9 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 			 if ($result = mysqli_query($mysqli, $sql)) {
 					 // Fetch one and one row
 					 while ($row = mysqli_fetch_row($result)) {
-							 $navn  = utf8_encode($row[0]);
+							 $navn  = $row[0];
 							 $dato  = $row[1];
-							 $grunn = utf8_encode($row[2]);
+							 $grunn = $row[2];
 							 if ($grunn == "") {
 									 $grunn = "Ukjent";
 							 }
@@ -105,7 +107,7 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 					 $res        = array(
 							 "sfo" => $sfo
 					 );
-					 $jsonstring = json_encode($res);
+					 $jsonstring = json_encode($res,JSON_UNESCAPED_UNICODE);
 					 $mysqli->close();
 					 echo $jsonstring;
 			 } else {
@@ -120,10 +122,10 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 			 if ($result = mysqli_query($mysqli, $sql)) {
 					 // Fetch one and one row
 					 while ($row = mysqli_fetch_row($result)) {
-							 $navn        = utf8_encode($row[0]);
+							 $navn        = $row[0];
 							 $dato        = $row[1];
 							 $ikkeAnsatte = $row[2];
-							 $grunn       = utf8_encode($row[3]);
+							 $grunn       = $row[3];
 							 if ($grunn == "") {
 									 $grunn = "Ukjent";
 							 }
@@ -145,7 +147,7 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 							 "elev" => $elev,
 							 "lærer" => $laerer
 					 );
-					 $jsonstring = json_encode($res);
+					 $jsonstring = json_encode($res,JSON_UNESCAPED_UNICODE);
 					 $mysqli->close();
 					 echo $jsonstring;
 			 } else {
@@ -164,10 +166,10 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 	 if ($result = mysqli_query($mysqli, $sql)) {
 			 // Fetch one and one row
 			 while ($row = mysqli_fetch_row($result)) {
-					 $adresse  = utf8_encode($row[0]);
+					 $adresse  = $row[0];
 					 $nettside = $row[1];
 					 $telefon  = $row[2];
-					 $posisjon = utf8_encode($row[3]);
+					 $posisjon = $row[3];
 			 }
 
 			 // Free result set
@@ -181,7 +183,7 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 			 "telefon" => $telefon,
 			 "posisjon" => $posisjon
 	 );
-	 $jsonstring = json_encode($result);
+	 $jsonstring = json_encode($result,JSON_UNESCAPED_UNICODE);
 	 echo $jsonstring;
 
 }
@@ -190,9 +192,9 @@ else if($want==4){//All school names
 	$skoler=array();
 	if ($result = mysqli_query($mysqli, $sql)) {
 		while ($row = mysqli_fetch_row($result)) {
-			array_push($skoler,utf8_encode($row[0]));
+			array_push($skoler,$row[0]);
 		}
 	}
-	$jsonstring = json_encode($skoler);
+	$jsonstring = json_encode($skoler,JSON_UNESCAPED_UNICODE);
 	echo $jsonstring;
 }
