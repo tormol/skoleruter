@@ -4,26 +4,25 @@ $(function(){
 
 $(function(){
     $('.chosen-select').on('change', function(evt, params) {
-        sendskolevalg(evt, params);
+        getskolevalg(evt, params);
     });
 });
 
 //funksjon for å hente ut valgte skoler
-function sendskolevalg(evt, params){
+function getskolevalg(evt, params){
     var skolevalg = [];
     skolevalg = $('.chosen-select').val()
     //console.log(skolevalg);
-    printdays(skolevalg);
+    return skolevalg;
     }
 
 //IKKE I BRUK. Kan brukes om hver ny params vil sendes istedenfor hele valglisten hver gang
-function sendskolevalg2(evt, params){
+function getskolevalg2(evt, params){
     var skolevalg = [];
     $.each(params, function(){
         skolevalg.push(params);
     });
-    console.log(skolevalg);
-    printdays(skolevalg);
+    return skolevalg;
     }
 
 $(function() {
