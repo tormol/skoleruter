@@ -1,1 +1,9 @@
 chosenfiles/
+
+# PHPstorm
+.idea/
+
+# misc
+[Tt]humbs.db
+*.DS_Store
+*~
