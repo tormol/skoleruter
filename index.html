@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
+    <link rel="stylesheet" type="text/css" href="css/chosen.min.css">
     <!-- Include needed files from CDN -->
     <!-- Latest compiled and minified CSS
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -21,12 +21,20 @@
     -->
     <!-- Include Knockout -->
     <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
+    <!-- Include Moments -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
     <!-- Import Javascripts from local folder -->
     <script src="js/getView.js"></script>
     <script src="js/printer.js"></script>
     <script src="js/tableHeadFixer.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/chosen.jquery.min.js"></script>
     <!-- <script src="js/buttons.js"></script> -->
 
 
@@ -70,43 +78,66 @@
       <ul class="nav navbar-nav">
         <form class="navbar-form navbar-left">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Søk">
+          <select class="chosen-select" id="skolevalg" data-placeholder="Velg skole..." multiple style="width:350px;">
+            <option>Auglend skole</option>
+            <option>Austbø skole</option>
+            <option>Buøy skole</option>
+            <option>Byfjord skole</option>
+            <option>Eiganes skole</option>
+            <option>Gausel skole"</option>
+            <option>Gautesete skole</option>
+            <option>Godeset skole</option>
+            <option>Gosen skole</option>
+            <option>Hafrsfjord skole</option>
+            <option>Hinna skole</option>
+            <option>Hundvåg skole</option>
+            <option>Jåtten skole</option>
+            <option>Johannes læringssenter</option>
+            <option>Kampen skole</option>
+            <option>Kannik skole</option>
+            <option>Kristianlyst skole</option>
+            <option>Kvaleberg skole</option>
+            <option>Kvernevik skole</option>
+            <option>Lassa skole</option>
+            <option>Lenden skole og ressurssenter</option>
+            <option>Lunde skole</option>
+            <option>Lundsvågen naturskole</option>
+            <option>Madlamark skole</option>
+            <option>Madlavoll skole</option>
+            <option>Nylund skole</option>
+            <option>Revheim skole</option>
+            <option>Roaldsøy skole</option>
+            <option>Skeie skole</option>
+            <option>Smiodden skole</option>
+            <option>St. Svithun skole</option>
+            <option>Storhaug skole</option>
+            <option>Sunde skole</option>
+            <option>Tasta skole</option>
+            <option>Tastarustå skole</option>
+            <option>Tastaveden skole</option>
+            <option>Teinå skole</option>
+            <option>Tjensvoll skole</option>
+            <option>Ullandhaug skole</option>
+            <option>Våland skole</option>
+            <option>Vardenes skole</option>
+            <option>Vassøy skole</option>
+            <option>Vaulen skole</option>
+          </select>
         </div>
-        <button type="submit" class="btn btn-default">Søk</button>
-      </form>
-        <!--<li class="active"><a href="#">Favoritter <span class="sr-only">(current)</span></a></li>-->
-         <li><a href="#">Favoritter</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Filter <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li class="dropdown-header">Visningstype</li>
-            <li><a href="#">Måned</a></li>
-            <li><a href="#">Uke</a></li>
-            <li><a href="#">Dag</a></li>
-            <li role="separator" class="divider"></li>
-            <li class="dropdown-header">Fritype</li>
-            <li><a href="#">Elev</a></li>
-            <li><a href="#">Lærer</a></li>
-            <li><a href="#">SFO</a></li>
-          </ul>
-        </li>
-      </ul>
 
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Log In</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Profil</a></li>
-            <li><a href="#">Favoritter</a></li>
-            <li><a href="#">Varslinger</a></li>
-            <!--<li role="separator" class="divider"></li>
-            <li><a href="#">Log in</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Log Out</a></li>-->
-          </ul>
-        </li>
-      </ul>
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker1'>
+                <input type='text' name="daterange" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+
+
+
+      </form>
+
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
