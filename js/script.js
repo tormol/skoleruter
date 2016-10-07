@@ -13,7 +13,7 @@ function getskolevalg(evt, params){
     var skolevalg = [];
     skolevalg = $('.chosen-select').val()
     //console.log(skolevalg);
-    return skolevalg;
+    selectSchools(skolevalg);
     }
 
 //IKKE I BRUK. Kan brukes om hver ny params vil sendes istedenfor hele valglisten hver gang
@@ -22,7 +22,7 @@ function getskolevalg2(evt, params){
     $.each(params, function(){
         skolevalg.push(params);
     });
-    return skolevalg;
+    selectSchools(skolevalg);
     }
 
 $(function() {
