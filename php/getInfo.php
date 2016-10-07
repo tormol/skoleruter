@@ -4,6 +4,9 @@
 //Want:1 now works
 //Want:2 now works
 //Want:3 now works
+
+
+
 $want  = $_POST["want"];
 $skole = "";
 if ($want != 1 && $want !=4) {
@@ -78,7 +81,20 @@ if ($want == 1) { //Get all schools with all freedays (most used)
 			 "lærer" => $laerer,
 			 "sfo" => $sfo
 	 );
-	 $jsonstring = json_encode($res,JSON_UNESCAPED_UNICODE);
+
+    // TODO YNGVES OBJECT OVERSETTER... yes
+    $object = array();
+
+    foreach ($res as $person => $skoler) {
+        foreach ($skoler as $skolenavn => $data) {
+            foreach ($data as $test => $singleData) {
+                $object[$person][$skolenavn][(int)((substr($singleData[0], 0, 4)))][(int)(substr($singleData[0], 5, 2))][(int)(substr($singleData[0], 8, 2))] =  $singleData[1];
+
+            }
+        }
+    }
+
+	 $jsonstring = json_encode($object,JSON_UNESCAPED_UNICODE);
 	 $mysqli->close();
 	 echo $jsonstring;
 } else if ($want == 2) {

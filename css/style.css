@@ -79,7 +79,9 @@ p {
 }
 
 #tableDiv {
-  height: 100em;
+
+
+    height: 10%
 }
 
 #fixTable {
