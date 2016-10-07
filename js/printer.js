@@ -10,8 +10,11 @@ function printDays(dagsObjekt) {
     $.each(dagsObjekt, function(skolenavn, SkoleObj) { //For hver skole
       var row = $("<tr></tr>");
       var navn = $("<td></td>").text(skolenavn);
+      //console.log(navn);
       navn.addClass("headcol");
       row.append(navn);
+      
+      addskolevalg(skolenavn);
       //$('#q').append('<tr><td>' + skolenavn + '</td></tr>')
       $.each(SkoleObj, function(Aar, AarObj) { //For hvert år
         $.each(AarObj, function(Mnd, MndObj) { //For hver Mnd
@@ -41,4 +44,10 @@ function printDays(dagsObjekt) {
 
 function daysInMonth(month,year) {
   return new Date(year, month, 0).getDate()
+}
+
+function addskolevalg(skolenavn){
+      var valg = $("<option></option>").text(skolenavn);
+     $("#skolevalg").append(valg);
+
 }
