@@ -2,7 +2,29 @@ $(function(){
     $(".chosen-select").chosen();
 });
 
+$(function(){
+    $('.chosen-select').on('change', function(evt, params) {
+        sendskolevalg(evt, params);
+    });
+});
 
+//funksjon for å hente ut valgte skoler
+function sendskolevalg(evt, params){
+    var skolevalg = [];
+    skolevalg = $('.chosen-select').val()
+    //console.log(skolevalg);
+    printdays(skolevalg);
+    }
+
+//IKKE I BRUK. Kan brukes om hver ny params vil sendes istedenfor hele valglisten hver gang
+function sendskolevalg2(evt, params){
+    var skolevalg = [];
+    $.each(params, function(){
+        skolevalg.push(params);
+    });
+    console.log(skolevalg);
+    printdays(skolevalg);
+    }
 
 $(function() {
     $('input[name="daterange"]').daterangepicker({
