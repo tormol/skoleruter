@@ -4,11 +4,12 @@ var month = new Date().getMonth() + 1;
 var day = new Date().getDate();
 
 function printDays(dagsObjekt) {
-    //console.log(dagsObjekt["Auglend skole"]["2016"]["10"]);
-    //$('#units').append('<td></td><td>Jan</td><td>Feb</td><td>Mar</td><td>Apr</td><td>Mai</td><td>Jun</td><td>Jul</td><td>Aug</td><td>Sep</td><td>Okt</td><td>Nov</td><td>Des</td>');
+    $('#units').append($("<td></td>").addClass("topBar")); //Appends an empty field for the corner
+
+    var skoleNr = 1;
     $.each(dagsObjekt, function(skolenavn, SkoleObj) { //For hver skole
       var row = $("<tr></tr>");
-      var navn = $("<th></th>").text(skolenavn);
+      var navn = $("<td></td>").text(skolenavn);
       navn.addClass("headcol");
       row.append(navn);
       //$('#q').append('<tr><td>' + skolenavn + '</td></tr>')
@@ -18,8 +19,13 @@ function printDays(dagsObjekt) {
             for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ //Dag = tallet; MndObj[Dag] = Beskjed
               //Sjekker om datoen er størren enn dagens dato
                 if((parseInt(Aar) == parseInt(year) && Mnd >= month && Dag >= day) || parseInt(Aar) > parseInt(year)){
+
+                  if(skoleNr == 1){
+                    var dato = $("<td></td>").addClass("topBar").text(Dag + "/" + Mnd + "/" + Aar.substring(2,4) + "\n" + (MndObj[Dag] == undefined || MndObj[Dag] == "Ukjent" ? "" : MndObj[Dag].replace(" ", "")));
+                    $('#units').append(dato);
+                  }
+
                   var element = $("<td></td>");
-                  element.text(Dag + "\n" + Mnd + "\n" + Aar);
                   element.addClass((MndObj[Dag] == undefined) ? "data" : "data green");
                   row.append(element);
                 }
@@ -28,7 +34,9 @@ function printDays(dagsObjekt) {
         });
       });
       $('#q').append(row);
+      skoleNr++;
     });
+    $("#fixTable").tableHeadFixer({"left" : 1});
 }
 
 function daysInMonth(month,year) {
