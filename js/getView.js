@@ -45,7 +45,7 @@ function createDailyView(data){
     var day = createDailyObject(data);
 
     /* Add this line under and #1 over to test the time an operation takes in seconds */
-    console.log((new Date().getTime() - startTime) / 1000 + " seconds elapsed");
+    //console.log((new Date().getTime() - startTime) / 1000 + " seconds elapsed");
     return day;
 }
 
@@ -98,7 +98,7 @@ function createDailyObject(data){
         });
         dayObject[skolenavn] = aarsobj;
     });
-    console.log(dayObject);
+    //console.log(dayObject);
     return dayObject;
 }
 

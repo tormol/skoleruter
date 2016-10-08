@@ -49,5 +49,5 @@ function daysInMonth(month,year) {
 function addskolevalg(skolenavn){
       var valg = $("<option></option>").text(skolenavn);
      $("#skolevalg").append(valg);
-
+     $("#skolevalg").trigger("chosen:updated");
 }
