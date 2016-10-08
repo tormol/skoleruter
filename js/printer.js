@@ -51,3 +51,9 @@ function addskolevalg(skolenavn){
      $("#skolevalg").append(valg);
      $("#skolevalg").trigger("chosen:updated");
 }
+
+function filterDates(period){
+  // TODO: Implementer filtrering på dato av tabell
+  // perioden er dictionary av typen {start:dd/mm/yyyy, end:dd/mm/yyyy}
+  //start er første dag og end er siste dag i perioden som er valgt
+}
