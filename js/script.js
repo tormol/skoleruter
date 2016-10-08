@@ -68,6 +68,9 @@ $(function() {
         "endDate": "01/11/2016",
         "minDate": "01/08/2016"
     }, function(start, end, label) {
-    console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+        var period ={start:start.format('DD/MM/YYYY'),end:end.format('DD/MM/YYYY')};
+        filterDates(period)
+        //console.log(period);
+        console.log("New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY') + ' (predefined range: ' + label + ')");
     }); 
 });

@@ -11,5 +11,6 @@ $(function(){
         //console.log(defaultView);
         printDays(defaultView);
         //console.log(weeklyView)
+        
     });
 });
