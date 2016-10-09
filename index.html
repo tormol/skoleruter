@@ -37,13 +37,14 @@
     <script src="js/transition.js"></script>
     <script src="js/collapse.js"></script>
 </head>
-    <body>
+<body>
 
 <header>
-  <div class="jumbotron text-center" style="color:white;margin:0;" >
+  <div class="page-header text-center">
     <h1>Skoleruter</h1>
     <p>Sammenlign fridager</p>
   </div>
+</header>
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -55,7 +56,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-     <a class="navbar-brand" href="index.html">SklRTR</a>
+      <!--Why have the name two places?-->
+      <!--<a class="navbar-brand" href="index.html">SklRTR</a>-->
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -118,32 +120,29 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
             </div>
-
-
-
+        </div>
       </form>
-      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-</header>
 
-
-<!-- GANTT Table -->
-
-<div id=parent>
-  <div id=tableDiv>
-  <table id=fixTable>
-    <thead>
-      <tr id=units>
-      </tr>
-    </thead>
-    <tbody id=q>
-
-    </tbody>
-  </table>
+<main id="parent"><!-- GANTT Table -->
+  <div id="tableDiv">
+    <table id="fixTable">
+      <thead>
+        <tr id="units">
+        </tr>
+      </thead>
+      <tbody id="q">
+      </tbody>
+    </table>
   </div>
-</div>
+<!--
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-16 table-responsive">
+-->
+</main>
 
 <!--
 <div class="container">
@@ -155,27 +154,19 @@
           </tr>
         </thead>
         <tbody id=q>
-
         </tbody>
       </table>
     </div>
   </div>
 -->
 
-
-
-</main>
-  <div class="row">
-    <div class="col-sm-16 well footer">
-      <footer>
-          <div class="contact">
-              <span class="strong">Kunde service:</span> |
-              +47 321 09 654 |
-              <a href="#">contact@noreply.com</a>
-          </div>
-      </footer>
-    </div>
+<footer>
+  <div class="well">
+    <span class="strong">Kunde service:</span>
+    | +47 321 09 654
+    | <a href="#">contact@noreply.com</a>
   </div>
-</div>
+</footer>
+
 </body>
 </html>

@@ -6,7 +6,7 @@ var test;
 function printDays(dagsObjekt, start, end) {
     $("#q").empty()
     $('#units').empty()
-    $('#units').append($("<td></td>").addClass("topBar")); //Appends an empty field for the corner
+    $('#units').append($("<td></td>")); //Appends an empty field for the corner
     //console.log(start)
     var skoleNr = 1;
     $.each(dagsObjekt, function(skolenavn, SkoleObj) { //For hver skole
@@ -14,7 +14,6 @@ function printDays(dagsObjekt, start, end) {
       var navn = $("<td></td>").text(skolenavn);
       //console.log((start == null) ? null : start.substr(3,2))
       //  console.log((start == null) ? null : start.substr(6,4))
-      navn.addClass("headcol");
       row.append(navn);
 
       addskolevalg(skolenavn);
@@ -24,19 +23,22 @@ function printDays(dagsObjekt, start, end) {
        //   if(Mnd != 0 && MndObj.length > 0){ //Hopper over tilfellet når måned = 0
             for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ //Dag = tallet; MndObj[Dag] = Beskjed
               //Sjekker om datoen er størren enn dagens dato
-
-                if(dateInRange(Aar, Mnd, Dag, year, month, day, start, end)) {
-                 //   console.log("triggered")
-                  if(skoleNr == 1){
-                    var dato = $("<td></td>").addClass("topBar").text(Dag + "/" + Mnd + "/" + Aar.substring(2,4) + "\n" + (MndObj[Dag] == undefined || MndObj[Dag] == "Ukjent" ? "" : MndObj[Dag].replace(" ", "")));
-                    $('#units').append(dato);
+              if(dateInRange(Aar, Mnd, Dag, year, month, day, start, end)) {
+              //console.log("triggered")
+                if(skoleNr == 1){
+                  var dato = $("<td></td>").text(Dag + "/" + Mnd + "/" + Aar.substring(2,4));
+                  if (MndObj[Dag] != undefined && MndObj[Dag] != "Ukjent") {
+                    dato.text(dato.text() + "\n" + MndObj[Dag].replace(" ", ""));
                   }
-
-                  var element = $("<td></td>");
-                  element.addClass((MndObj[Dag] == undefined) ? "data" : "data green");
-                   // console.log("triggered")
-                  row.append(element);
+                  $('#units').append(dato);
                 }
+
+                var element = $("<td></td>");
+                if (MndObj[Dag] != undefined) {
+                  element.addClass("no_school");
+                }
+                row.append(element);
+              }
             }
          // }
         });
