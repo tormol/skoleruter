@@ -1,5 +1,9 @@
 <?php
 //Written by Aleksander Vevle
+
+//DO NOT USE THIS, USE OTHER PHP-FILES
+
+
 //Work in Progress
 //Want:1 now works
 //Want:2 now works
