@@ -29,7 +29,7 @@ function printDays(dagsObjekt, start, end) {
                 if(dateInRange(Aar, Mnd, Dag, year, month, day, start, end)) {
                  //   console.log("triggered")
                   if(skoleNr == 1){
-                    var dato = $("<td></td>").addClass("topBar").text(Dag + "/" + Mnd + "/" + Aar.substring(2,4));
+                    var dato = $("<td></td>").addClass("topBar").text(getTopText(Dag, Mnd, Aar, MndObj[Dag]));
                     $('#units').append(dato);
                   }
 
@@ -49,6 +49,32 @@ function printDays(dagsObjekt, start, end) {
     $("#fixTable").tableHeadFixer({"left" : 1});
     test = dagsObjekt
 }
+
+function getTopText(dag, mnd, aar, bes){
+  var text = dag + "/" + mnd + "/" + aar.substring(2,4) + "\n";
+  if(bes != undefined && bes[0] != ",,,OK,,,," && bes[0] != "Ukjent"){
+   var temp = bes[0];
+   temp = temp.replace(" ", "");
+   if(temp == "Planleggingsdag") temp = "Plan.dag";
+   if(temp == "1.Nyttårsdag") temp =    "1.Ny.dag";
+   if(temp == "Vinterferie") temp =     "Vint.fer.";
+   if(temp == "Palmesøndag") temp =     "Pal.søn.";
+   if(temp == "Påskeferie") temp =      "Pås.fer.";
+   if(temp == "Skjærtorsdag") temp =    "Skjærtor.";
+   if(temp == "Langfredag") temp =      "Langfre.";
+   if(temp == "1.påskedag") temp =      "1.påske.";
+   if(temp == "2.påskedag") temp =      "2.påske.";
+   if(temp == "Off.Høytidsdag") temp =  "Off.Høy.";
+   if(temp == "Grunnlovsdag") temp =    "Gru.lov.";
+   if(temp == "KristiHimmelfartsdag") temp =  "Kri.Him.";
+   if(temp == "1.pinsedag") temp =      "1.pinse.";
+   if(temp == "2.pinsedag") temp =      "2.pinse.";
+   if(temp == "sommerferie") temp =     "som.fer.";
+   text += temp;
+  }
+  return text;
+}
+
 function getColour(arr) {
    // console.log(arr)
     switch(arr[1]) {
@@ -61,7 +87,7 @@ function getColour(arr) {
         case "SKOLEDAG, INGEN SFO":
             return "reddest"
         default:
-            console.log((arr[1] == null) ? "" : arr[1])
+            //console.log((arr[1] == null) ? "" : arr[1])
         return "green"
     }
 
