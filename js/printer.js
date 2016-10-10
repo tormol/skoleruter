@@ -92,7 +92,7 @@ It'll hide all the schools that it doesn't need?
 var activelist = []
 // GLOBAL VARIABLES: so it doesn't need to fetch a new reference list each time..
 function selectSchools(activeSchools) {
-    console.log(activeSchools)
+
     activelist = activeSchools
     // if reference list is empty, try to fetch a new one
     var listref = generateReferences()
@@ -102,7 +102,7 @@ function selectSchools(activeSchools) {
     $.each(listref, function(skoler, refs) {
             //check if selected school is in display list,
             // if no schools is in display list, show all schools
-        if (($.inArray(skoler, activeSchools)) != -1 || activeSchools == null) {
+        if (($.inArray(skoler, activeSchools)) != -1 || activeSchools == null || activelist.length == 0) {
             // shows school if in display list or if list is empty, else hide
             $(refs).show();
     } else {
