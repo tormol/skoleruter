@@ -4,15 +4,15 @@
 
 
 $(function(){
-    var data = $.getJSON("php/data2.json", function (data) {
+    var data = $.getJSON("php/elevogsfosammen2.json", function (data) {
       // var defaultView = createDailyView(data["elev"]) // put elev/sfo in second arg
-//        console.log(data)
+        console.log(data)
         //console.log(defaultView);
 
      //   printDays(defaultView);
         //console.log(weeklyView)
 
-        printDays(data['elev'], null, null);
+        printDays(data['elevOgSfo'], null, null);
 
        // var testSchools =["Auglend skole", "Våland skole", "Hundvåg skole"]
 

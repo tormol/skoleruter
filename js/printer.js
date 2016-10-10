@@ -6,6 +6,7 @@ var test;
 function printDays(dagsObjekt, start, end) {
     $("#q").empty()
     $('#units').empty()
+    console.log(dagsObjekt)
     $('#units').append($("<td></td>").addClass("topBar")); //Appends an empty field for the corner
     //console.log(start)
     var skoleNr = 1;
@@ -28,13 +29,14 @@ function printDays(dagsObjekt, start, end) {
                 if(dateInRange(Aar, Mnd, Dag, year, month, day, start, end)) {
                  //   console.log("triggered")
                   if(skoleNr == 1){
-                    var dato = $("<td></td>").addClass("topBar").text(Dag + "/" + Mnd + "/" + Aar.substring(2,4) + "\n" + (MndObj[Dag] == undefined || MndObj[Dag] == "Ukjent" ? "" : MndObj[Dag].replace(" ", "")));
+                    var dato = $("<td></td>").addClass("topBar").text(Dag + "/" + Mnd + "/" + Aar.substring(2,4));
                     $('#units').append(dato);
                   }
 
                   var element = $("<td></td>");
-                  element.addClass((MndObj[Dag] == undefined) ? "data" : "data green");
-                   // console.log("triggered")
+
+                  element.addClass((MndObj[Dag] == undefined) ? "data" : ("data " + getColour(MndObj[Dag])));
+
                   row.append(element);
                 }
             }
@@ -47,7 +49,23 @@ function printDays(dagsObjekt, start, end) {
     $("#fixTable").tableHeadFixer({"left" : 1});
     test = dagsObjekt
 }
+function getColour(arr) {
+   // console.log(arr)
+    switch(arr[1]) {
+        case "FRIDAG":
+            return "green"
 
+        case "SFODAG":
+            return "red"
+
+        case "SKOLEDAG, INGEN SFO":
+            return "reddest"
+        default:
+            console.log((arr[1] == null) ? "" : arr[1])
+        return "green"
+    }
+
+}
 function dateInRange(Aar, Mnd, Dag, yearToday, monthToday, dayToday, start, end){
     //console.log(start == null)
     if (start == null || end == null) {

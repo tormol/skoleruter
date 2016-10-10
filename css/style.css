@@ -28,7 +28,15 @@ p {
 .green {
     background-color: #166312;
 }
-
+.blue {
+    background-color: lightskyblue;
+}
+.red {
+    background-color: lightcoral;
+}
+.reddest {
+    background-color: red;
+}
 
 /*#tableDiv {
   width: 90%;
@@ -80,11 +88,12 @@ p {
 
 #tableDiv {
 
+    height: 50em;
 
-    height: 10%
 }
 
 #fixTable {
+
   width: 1800px !important;
 }
 
