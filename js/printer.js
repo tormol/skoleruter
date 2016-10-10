@@ -88,11 +88,14 @@ It'll hide all the schools that it doesn't need?
 
 
  */
-var listref = {}
+
+var activelist = []
 // GLOBAL VARIABLES: so it doesn't need to fetch a new reference list each time..
 function selectSchools(activeSchools) {
+    console.log(activeSchools)
+    activelist = activeSchools
     // if reference list is empty, try to fetch a new one
-    if (Object.keys(listref).length == 0) { generateReferences()}
+    var listref = generateReferences()
 
 
     //iterate through the reference list
@@ -109,6 +112,7 @@ function selectSchools(activeSchools) {
 }
 function generateReferences() {
     var references = {}
+    var listref = {}
     // fetches references, as index:reference
     references = $("#q").children();
     // loops through each reference to fetch schoolname of that references
@@ -116,7 +120,7 @@ function generateReferences() {
         // store each reference in listref with schoolname as index
         listref[objects.firstChild.textContent] = objects;
     })
-
+    return listref;
 }
 function daysInMonth(month,year) {
   return new Date(year, month, 0).getDate()
@@ -130,9 +134,12 @@ function addskolevalg(skolenavn){
 
 function filterDates(period){
   // TODO: Implementer filtrering på dato av tabell
-    console.log(period["start"])
-    console.log(test)
+   // console.log(period["start"])
+    //console.log(test)
     printDays(test, period["start"], period["end"]);
+    console.log("s")
+    console.log(activelist);
+    selectSchools(activelist);
   // perioden er dictionary av typen {start:dd/mm/yyyy, end:dd/mm/yyyy}
   //start er første dag og end er siste dag i perioden som er valgt
 }
