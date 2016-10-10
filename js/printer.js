@@ -46,8 +46,28 @@ function printDays(dagsObjekt, start, end) {
       $('#q').append(row);
       skoleNr++;
     });
-    $("#fixTable").tableHeadFixer({"left" : 1});
+
+    var table = $("#fixTable");
+    table.tableHeadFixer({"left" : 1});
+
+    var parent = table.parent();
+    // This cannot be done at $(document).ready() because the menu changes size.
+    setHeight(parent);
+    $(window).resize(function() {
+        setHeight(parent);
+    })
+
     test = dagsObjekt
+}
+
+// Make the table fill the available space, while avoding scrolling of the whole pake.
+function setHeight(div) {
+    var total = window.innerHeight;//$(window).height() gives different value before resize
+    var above = div.offset().top;
+    var below = $("footer").outerHeight(true);
+    var available = total - above - below;
+    div.height(available);
+    //console.log("total: "+total+", above: "+above+", below: "+below+", available: "+available);
 }
 
 function dateInRange(Aar, Mnd, Dag, yearToday, monthToday, dayToday, start, end){

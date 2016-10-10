@@ -23,17 +23,11 @@ nav.navbar {
 }
 
 
-#parent {
+main {
   margin-left: 2.5%;
   margin-right: 2.5%;
-  /*height: 300px;*/
   width: 95%;
 }
-
-#tableDiv {
-  height: 10%
-}
-
 #fixTable {
   width: 1800px !important;
 }
@@ -46,7 +40,8 @@ thead td {
   padding: 0.25em 1em;
   background-color: #3e3e3e;
   color: white;
-/*  max-width: 7.5em;
+/*even width:
+  max-width: 7.5em;
   min-width: 7.5em;
   overflow-x: hidden;*/
 }
@@ -70,10 +65,11 @@ thead td {
 
 footer {
   width: 100%;
-  margin: 1em 0 0 0;
+  margin: 1em 0 20px 0;
   padding: 0;
 }
-footer>div {
-  margin: 0 auto;
-  padding: 0.5em;
+/*the inner bottom margin somehow wasn't included in the size of the outer,
+  which made scroll-bars appear*/ 
+footer>div.well {
+  margin-bottom: 0;
 }
