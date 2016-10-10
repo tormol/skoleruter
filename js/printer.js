@@ -2,18 +2,21 @@
 var year = new Date().getFullYear();
 var month = new Date().getMonth() + 1;
 var day = new Date().getDate();
-
-function printDays(dagsObjekt) {
+var test;
+function printDays(dagsObjekt, start, end) {
+    $("#q").empty()
+    $('#units').empty()
     $('#units').append($("<td></td>").addClass("topBar")); //Appends an empty field for the corner
-
+    //console.log(start)
     var skoleNr = 1;
     $.each(dagsObjekt, function(skolenavn, SkoleObj) { //For hver skole
       var row = $("<tr></tr>");
       var navn = $("<td></td>").text(skolenavn);
-      //console.log(navn);
+      //console.log((start == null) ? null : start.substr(3,2))
+      //  console.log((start == null) ? null : start.substr(6,4))
       navn.addClass("headcol");
       row.append(navn);
-      
+
       addskolevalg(skolenavn);
       //$('#q').append('<tr><td>' + skolenavn + '</td></tr>')
       $.each(SkoleObj, function(Aar, AarObj) { //For hvert år
@@ -21,8 +24,9 @@ function printDays(dagsObjekt) {
        //   if(Mnd != 0 && MndObj.length > 0){ //Hopper over tilfellet når måned = 0
             for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ //Dag = tallet; MndObj[Dag] = Beskjed
               //Sjekker om datoen er størren enn dagens dato
-                if((parseInt(Aar) == parseInt(year) && Mnd >= month && Dag >= day) || parseInt(Aar) > parseInt(year)){
 
+                if(dateInRange(Aar, Mnd, Dag, year, month, day, start, end)) {
+                 //   console.log("triggered")
                   if(skoleNr == 1){
                     var dato = $("<td></td>").addClass("topBar").text(Dag + "/" + Mnd + "/" + Aar.substring(2,4) + "\n" + (MndObj[Dag] == undefined || MndObj[Dag] == "Ukjent" ? "" : MndObj[Dag].replace(" ", "")));
                     $('#units').append(dato);
@@ -30,6 +34,7 @@ function printDays(dagsObjekt) {
 
                   var element = $("<td></td>");
                   element.addClass((MndObj[Dag] == undefined) ? "data" : "data green");
+                   // console.log("triggered")
                   row.append(element);
                 }
             }
@@ -40,6 +45,40 @@ function printDays(dagsObjekt) {
       skoleNr++;
     });
     $("#fixTable").tableHeadFixer({"left" : 1});
+    test = dagsObjekt
+}
+
+function dateInRange(Aar, Mnd, Dag, yearToday, monthToday, dayToday, start, end){
+    //console.log(start == null)
+    if (start == null || end == null) {
+        if((Aar == yearToday && Mnd >= monthToday) || Aar > year){
+
+            if(Mnd == monthToday) {
+                return (Dag >= dayToday) ? true : false
+            }
+            return true
+        }
+
+    }else if (start != null && end != null){
+
+
+        var fDate,lDate,cDate;
+
+        // CHANGING TO RETARDED AMERICAN TIME UNITs
+        fDate = Date.parse(start.substr(3,2) + "/" + start.substr(0,2) + "/" + start.substr(6,4));
+        lDate = Date.parse(end.substr(3,2) + "/" + end.substr(0,2) + "/" + end.substr(6,4));
+        cDate = Date.parse(Mnd + "/" + Dag + "/" + Aar);
+
+
+        if((cDate <= lDate && cDate >= fDate)) {
+            return true;
+        }
+
+
+    }
+
+
+    return false
 }
 
 /*
@@ -91,6 +130,9 @@ function addskolevalg(skolenavn){
 
 function filterDates(period){
   // TODO: Implementer filtrering på dato av tabell
+    console.log(period["start"])
+    console.log(test)
+    printDays(test, period["start"], period["end"]);
   // perioden er dictionary av typen {start:dd/mm/yyyy, end:dd/mm/yyyy}
   //start er første dag og end er siste dag i perioden som er valgt
 }
