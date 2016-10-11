@@ -6,6 +6,12 @@ p {
     /*font-size: 20px;*/
 }
 
+body, body>* {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 header {
   background: url("../img/banner.jpg") no-repeat center center fixed;
   background-size: cover;
@@ -23,11 +29,6 @@ nav.navbar {
 }
 
 
-main {
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-  width: 95%;
-}
 #fixTable {
   width: 1800px !important;
 }
@@ -64,12 +65,9 @@ thead td {
 
 
 footer {
-  width: 100%;
-  margin: 1em 0 20px 0;
-  padding: 0;
+   margin-top: 1em;
 }
-/*the inner bottom margin somehow wasn't included in the size of the outer,
-  which made scroll-bars appear*/ 
 footer>div.well {
-  margin-bottom: 0;
+  margin: 0 auto;
+  display: table;
 }
