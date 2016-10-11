@@ -51,6 +51,7 @@ function printDays(dagsObjekt, start, end) {
     table.tableHeadFixer({"left" : 1});
 
     var parent = table.parent();
+    parent.focus();
     // This cannot be done at $(document).ready() because the menu changes size.
     setHeight(parent);
     $(window).resize(function() {
