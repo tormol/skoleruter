@@ -267,11 +267,11 @@ fn to_sql(mut skoler: Vec<Skole>) {
 
 fn juster_sfo_kommentarer(skole: &mut Skole) {
 	for dag in &mut skole.fri {
-		if dag.kommentar.ends_with(" SFO") || dag.kommentar.ends_with(" sfo") {
-			let mut new_len = dag.kommentar.len() - 4;
-			if dag.kommentar[..new_len].ends_with(" -") {
-				new_len -= 2;
-			}
+		if dag.kommentar.ends_with("SFO") || dag.kommentar.ends_with("sfo") {
+			let separators = dag.kommentar.bytes().rev().skip(3)
+			                              .take_while(|&b| b == b' ' || b == b'-' )
+										  .count();
+			let new_len = dag.kommentar.len() - 3 - separators;
 			match skole.sfo {
 				SFO::er_for(_) => dag.kommentar = &dag.kommentar[..new_len],
 				SFO::har(_) => dag.kommentar = "",
@@ -314,7 +314,8 @@ fn remove_never_school(out: &mut Vec<Fri<'static>>) {
 
 
 fn sfo_navn(mut skole: &str) -> String {
-	if skole.ends_with(" skole") {
+	if skole.ends_with(" skole") || skole.ends_with(" Skole")
+	|| skole.ends_with(" skule") || skole.ends_with(" Skule") {
 		skole = &skole[..skole.len()-6];
 	} else {
 		log!("Tvilsomt SFO-navn: \"{}\" SFO", skole);
