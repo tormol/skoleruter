@@ -4,8 +4,9 @@ use std::path::{Path,PathBuf};
 use std::str::FromStr;
 use std::borrow::Cow::{self,Borrowed,Owned};
 use std::cmp::{Ordering,max};
-use std::collections::HashMap;
+use std::collections::{HashMap,BTreeMap};
 use std::collections::hash_map::Entry::{Occupied,Vacant};
+use std::collections::btree_map::Entry as BTreeEntry;
 use std::sync::mpsc::channel;
 use std::thread;
 use std::mem;
@@ -111,7 +112,7 @@ fn main() {
 	}).collect::<Vec<_>>();
 	drop(send_content);
 
-	let mut all = HashMap::new();
+	let mut all = BTreeMap::new();
 	for content in receive_content.iter() {
 		merge_schools(&mut all, content.skoler);
 	}
@@ -162,15 +163,17 @@ fn read_file(path: &Path) -> String {
 }
 
 
-fn merge_schools(all: &mut HashMap<String,Skole>, add: HashMap<String,Skole<'static>>) {
+fn merge_schools(all: &mut BTreeMap<String,Skole>, add: HashMap<String,Skole<'static>>) {
 	for (lowercase, add) in add {
 		match all.entry(lowercase.clone()) {
-			Vacant(ve) => {ve.insert(add);},
-			Occupied(mut oe) => {
+			BTreeEntry::Vacant(ve) => {ve.insert(add);},
+			BTreeEntry::Occupied(mut oe) => {
 				let master = oe.get_mut();
 				master.data_til = max(master.data_til, add.data_til);
 				master.sist_oppdatert = max(master.sist_oppdatert, add.sist_oppdatert);
 				master.fri.extend(add.fri);
+				master.fri.sort_by_key(|d| d.date );
+
 				if master.navn == lowercase {
 					master.navn = add.navn;
 				}
