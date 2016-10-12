@@ -10,4 +10,4 @@ encoding_rs = "0.2.4"
 
 [[bin]]
 name = "finn_fri"
-path = "main.rs"
+path = "src/main.rs"
