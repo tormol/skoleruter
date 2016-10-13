@@ -44,18 +44,21 @@ pub enum SFO {// Strings are lowercase
 }
 
 pub struct Skole<'a> {
-	pub navn: Cow<'a,str>,
-	pub sfo: SFO,
+	pub navn: &'a str,
+	pub har_sfo: bool,
+	pub har_laerer_fri: bool,
 	pub sist_oppdatert: Date,
 	pub data_til: Option<Date>,
 	pub kontakt: Option<SkoleDetaljer<'a>>,
-	pub fri: Vec<Fri<'a>>,
+	pub fri: Vec<Fri>,
 }
 
-pub struct Fri<'a> {
-    pub date: Date,
-	pub for_ansatte: bool,
-    pub kommentar: &'a str,
+pub struct Fri {
+    pub date: Date
+	pub pupils: bool,
+	pub teachers: Option<bool>,
+	pub afterschool: Option<bool>, 
+    pub comment: &'static str,
 }
 
 pub struct ParsedFile {

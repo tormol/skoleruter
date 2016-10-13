@@ -12,16 +12,6 @@ use common::*;
 pub type FileReader = fn(String,&Path,Date) -> Result<HashMap<String,Skole<'static>>, String>;
 pub const FILE_TYPES: &'static[FileReader] = &[stavanger_ruter,gjesdal_ruter/*,stavanger_skoler*/];
 
-fn sfo_navn(mut skole: &str) -> String {
-	if skole.ends_with(" skole") || skole.ends_with(" Skole")
-	|| skole.ends_with(" skule") || skole.ends_with(" Skule") {
-		skole = &skole[..skole.len()-6];
-	} else {
-		log!("Tvilsomt SFO-navn: \"{}\" SFO", skole);
-	}
-	format!("{} SFO", skole)
-}
-
 fn ikke_fri(janei: &str, nullable: bool) -> Option<bool> {
 	match janei.trim() {
 		"Ja" | "ja" => Some(true),
@@ -31,8 +21,26 @@ fn ikke_fri(janei: &str, nullable: bool) -> Option<bool> {
 	}
 }
 
+fn to_school<I:Iterator<Item=(&'static str,bool,Vec<Fri>)>>
+(schools: I, has_teachers: bool) -> HashMap<String,Skole> {
+	schools.map(|(name,(has_afterschool, fri))| {
+		let last_date = fri.iter().map(|day| day.date ).max().unwrap();
+		fri.retain(|day| day.pupils || day.afterschool == Some(true) );
+		let school = Skole {
+			navn: name,
+			har_sfo: has_afterschool,
+			har_laerer_fri: true,
+			sist_oppdatert: last_updated,
+			data_til: Some(last),
+			kontakt: None,
+			fri: fri,
+		};
+	}).map(|school| {
+		(school.navn.to_lowercase(), school)
+	}).collect()
+}
 
-fn stavanger_ruter(data: String, path: &Path, sist_oppdatert: Date)
+fn stavanger_ruter(data: String, path: &Path, last_updated: Date)
 -> Result<HashMap<String,Skole<'static>>, String> {
 	match data.lines().next().map(|header| header.to_lowercase() ) {
 		None => abort!("{:?} er tom", path),
@@ -45,94 +53,63 @@ fn stavanger_ruter(data: String, path: &Path, sist_oppdatert: Date)
 	let data = leak_string(data);
 
 
-	struct Rad {
+	struct Row {// true => there is school/work/afterschool
 		date: Date,
-		skole: &'static str,
-		elev: bool,
-		laerer: bool,
-		sfo: bool,
-		kommentar: &'static str
+		school: &'static str,
+		pupils: bool,
+		teachers: bool,
+		afterschool: bool,
+		comment: &'static str,
+		line: usize,
+	}
+	let rows = data.lines().enumerate()
+	               .skip(1)// header
+	               .filter(|&(_,line)| !line.is_empty() )// the last is
+	               .map(|(i,line)| (i+1, line.splitn(6, ",").collect::<Vec<_>>()) )
+	               .inspect(|&(n,fields)| {
+				            abort_if!(fields.len() != 6, "{}:{}: Ugyldig csv", path, n)
+				    })
+				   .map(|(n,fields)| Row {
+					    date: Date::from_str(fields[0]).unwrap(),
+			            school: fields[1],
+			            pupils: ikke_fri(fields[2], false).unwrap(),
+			            teachers: ikke_fri(fields[3], false).unwrap(),
+			            afterschool: ikke_fri(fields[4], true).unwrap_or(false),
+			            comment: fields[5].trim(),
+						line: n,
+				    })
+				   .inspect(|row| {
+				            abort_if!(row.pupils && !row.teachers,
+				                      "{}:{}: Teacher has left us kids alone", path, n)
+                    })
+
+	let mut schools = HashMap::<&str,Vec<Fri>>::new();
+	for row in rows {
+		schools.entry(row.name)
+		       .or_insert_with(|| Vec::new() )
+			   .push(Fri {
+					date: row.date,
+					pupils: !row.pupils,
+					teachers: Some(!row.teachers),
+					afterschool: Some(!row.afterschool),
+					comment: row.comment,
+			    /});
 	}
 
-	let rader = data.lines()
-	                .skip(1)// header
-	                .filter(|line| !line.is_empty() )// the last is
-	                .map(|line| line.splitn(6, ",").collect::<Vec<_>>() )
-	                .inspect(|felt| assert!(felt.len() == 6, "Ugyldig csv") )
-					.map(|felt| Rad {
-			             date: Date::from_str(felt[0]).unwrap(),
-			             skole: felt[1],
-			             elev: ikke_fri(felt[2], false).unwrap(),
-			             laerer: ikke_fri(felt[3], false).unwrap(),
-			             sfo: ikke_fri(felt[4], true).unwrap_or(false),
-			             kommentar: felt[5].trim()
-	                 })
-					.inspect(|rad| assert!(!rad.elev || rad.laerer, "Teacher has left us kids alone") )
-					.collect::<Vec<_>>();
-
-	let mut skoler = HashMap::<&'static str,Date>::new();
-	for rad in &rader {
-		match skoler.entry(rad.skole) {
-			Vacant(v) => {v.insert(rad.date);},
-			Occupied(ref mut e) if *e.get() < rad.date => {e.insert(rad.date);},
-			Occupied(_) => {},
-		};
-	}
-	// FIXME use max date of file
-	let mut har_sfo = HashMap::<&'static str,String>::new();
-	for rad in &rader {
-		if rad.sfo {
-			har_sfo.entry(rad.skole).or_insert_with(|| sfo_navn(rad.skole) );
+	let schools = schools.into_iter().map(|(name,fri)| {
+		let has_afterschool = fri.iter().any(|day| day.afterschool == Some(false) );
+		if !has_afterschool {
+			for day in fri {
+				day.afterschool = None,
+			}
 		}
-	}
-
-	let sfoer = har_sfo.iter().map(|(&skole, navn)| {
-		let fri = rader.iter()
-		               .filter(|rad| rad.skole == skole && !rad.sfo )
-		               .map(|rad| Fri {
-					        date: rad.date,
-					        for_ansatte: true,
-					        kommentar: rad.kommentar,
-				        })
-				       .collect::<Vec<_>>();
-		Skole {
-			navn: Owned(navn.clone()),
-			sfo: SFO::er_for(skole.to_lowercase()),
-			sist_oppdatert: sist_oppdatert,
-			data_til: Some(skoler[skole]),
-			kontakt: None,
-			fri: fri,
-		}
-	}).collect::<Vec<_>>();
-	let skoler = skoler.into_iter().map(|(navn,data_til)| {
-		let fri = rader.iter()
-		               .filter(|rad| rad.skole == navn && !rad.elev )
-					   .map(|rad| Fri {
-						    date: rad.date,
-							for_ansatte: !rad.laerer,
-							kommentar: rad.kommentar,
-					    })
-					   .collect::<Vec<_>>();
-		let sfo = match har_sfo.remove(navn) {
-			Some(sfo) => SFO::har(sfo),
-			None => SFO::har_ikke,
-		};
-		Skole {
-			navn: Borrowed(navn),
-			sfo: sfo,
-			sist_oppdatert: sist_oppdatert,
-			data_til: Some(data_til),
-			kontakt: None,
-			fri: fri,
-		}
-	});
-	let begge = skoler.chain(sfoer);
-
-	Ok(begge.map(|sted| (sted.navn.to_lowercase(), sted) ).collect())
+		(name, has_afterschool, fri)
+	})
+	Ok(to_school(schools, true))
 }
 
 
-fn gjesdal_ruter(content: String, path: &Path, sist_oppdatert: Date)
+fn gjesdal_ruter(content: String, path: &Path, last_updated: Date)
 -> Result<HashMap<String,Skole<'static>>, String> {
 	match content.lines().next().map(|header| header.to_lowercase() ) {
 		None => abort!("{:?} er tom", path),
@@ -149,10 +126,9 @@ fn gjesdal_ruter(content: String, path: &Path, sist_oppdatert: Date)
 		date: Date,
 		school: &'static str,
 		pupils: bool,
-		sfo: Option<bool>,
+		afterschool: Option<bool>,
 		comment: &'static str
 	}
-
 	let rows = content.lines()
 	                  .skip(1)// header
 	                  .filter(|line| !line.is_empty() )// the last is
@@ -166,57 +142,27 @@ fn gjesdal_ruter(content: String, path: &Path, sist_oppdatert: Date)
 						       date: Date::parse_from_str(part[0].trim(), "%d.%m.%Y").expect("Ugyldig dato"),
 							   school: part[1].trim(),
 							   pupils: ikke_fri(part[2], false).unwrap(),
-							   sfo: ikke_fri(part[3], true),
+							   afterschool: ikke_fri(part[3], true),
 							   comment: part[4].trim()
 						   }
-					   })
-					  .collect::<Vec<Row>>();
+					   });
 
-	let last = rows.iter().map(|row| row.date ).max();
-	let mut schools = HashMap::<&'static str,bool>::new();// last date, has sfo
-	for row in &rows {
-		schools.entry(row.school).or_insert(row.sfo.is_some());
+	let mut schools = HashMap::<&str,Vec<Fri>>::new();
+	for row in rows {
+		schools.entry(row.name)
+		       .or_insert_with(|| Vec::new() )
+			   .push(Fri {
+					date: row.date,
+					pupils: !row.pupils,
+					teachers: None,
+					afterschool: row.afterschool.map(|yes| !yes ),
+					comment: row.comment,
+			    });
 	}
 
-	let mut both = HashMap::new();
-	for (school_name,has_sfo) in schools {
-		let rows = rows.iter().filter(|r| r.school == school_name ).collect::<Vec<_>>();
-		fn to_fri(row: &&Row) -> Fri<'static> {
-			Fri {
-				date: row.date,
-				for_ansatte: true,
-				kommentar: row.comment,
-			}
-		}
-
-		let sfo = if has_sfo {
-			let out = rows.iter().filter(|r| match r.sfo {
-				Some(sfo) => !sfo,
-				None => abort!("SFO for {} er delvis \"Ikke tilgjengelig\"", school_name),
-			}).map(to_fri).collect();
-			let name = sfo_navn(school_name);
-			both.insert(name.to_lowercase(), Skole{
-				navn: Owned(name.clone()),
-				sfo: SFO::er_for(school_name.to_lowercase()),
-				sist_oppdatert: sist_oppdatert,
-				data_til: last,
-				kontakt: None,
-				fri: out,
-			});
-			SFO::har(name)
-		} else {
-			SFO::har_ikke
-		};
-
-		let out = rows.iter().filter(|r| !r.pupils ).map(to_fri).collect();
-		both.insert(school_name.to_lowercase(), Skole {
-			navn: Borrowed(school_name),
-			sfo: sfo,
-			sist_oppdatert: sist_oppdatert,
-			data_til: last,
-			kontakt: None,
-			fri: out,
-		});
-	}
-	Ok(both)
+	let schools = schools.into_iter().map(|(name,fri)| {
+		let has_afterschool = fri.first().unwrap().afterschool.is_some();
+		(name, has_afterschool, fri)
+	})
+	Ok(to_school(schools, false))
 }
