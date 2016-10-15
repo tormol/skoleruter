@@ -24,6 +24,25 @@ function getskolevalg2(evt, params){
     });
     selectSchools(skolevalg);
     }
+    
+
+    $(function(){
+    $(".chosen-select2").chosen();
+});
+
+$(function(){
+    $('.chosen-select2').on('change', function(evt, params) {
+        getinfovalg(evt, params);
+    });
+});
+
+//funksjon for å hente ut valgte skoler
+function getinfovalg(evt, params){
+    var infovalg = [];
+    infovalg = $('.chosen-select2').val()
+    //console.log(skolevalg);
+    selectInfo(infovalg);
+    }
 
 $(function() {
     $('input[name="daterange"]').daterangepicker({
