@@ -4,7 +4,7 @@
 $mysqli = mysqli_connect("localhost", "root", "", "skoleruter");
 mysqli_set_charset($mysqli, "utf8"); //Set charset
 if ($mysqli->connect_error) {
-	 die("Error, please try again");
+    die("Error, please try again");
 }
 
 $laerer            = array();
@@ -45,7 +45,8 @@ if ($result = mysqli_query($mysqli, $sqlgetOrderNumber)) {
         } else {
             array_push($elev[$navn], array(
                 $dato,
-                $grunn
+                $grunn,
+                $ikkeAnsatte
             ));
             if ($ikkeAnsatte == 0) {
                 array_push($laerer[$navn], array(
@@ -59,55 +60,112 @@ if ($result = mysqli_query($mysqli, $sqlgetOrderNumber)) {
     mysqli_free_result($result);
 }
 
-$keyselev=array_keys($elev);
-$keyssfo=array_keys($sfo);
-$elevsfosammen=array();
+$keyselev      = array_keys($elev);
+$keyssfo       = array_keys($sfo);
+$elevsfosammen = array();
 
 //$copyelev=$elev;
 //$copysfo=$sfo;
-foreach($keyselev as $e){
-		$skolestring=explode(" ",$e);
-		$foundSFO=false;
-	foreach($keyssfo as $s){
-			$sfostring=explode(" ",$s);
-			if($skolestring[0]==$sfostring[0]){
-				$foundSFO=true;
-				$copyelev=array_values($elev[$e]);
-				$copysfo=array_values($sfo[$s]);
-				$name=$skolestring[0] . ' ' . " Skole og SFO";
-				$elevsfosammen[$name]=array();
-				while(count($copyelev)>0 && count($copysfo)>0)
-				{
-					if(strtotime($copyelev[0][0])==strtotime($copysfo[0][0])){
-						array_push($elevsfosammen[$name],array($copyelev[0][0], $copyelev[0][1],'FRIDAG'));
-						array_shift($copyelev);
-						array_shift($copysfo);
-					}
-					else if(strtotime($copyelev[0][0])<strtotime($copysfo[0][0])){
-						array_push($elevsfosammen[$name],array($copyelev[0][0], $copyelev[0][1], 'SFODAG'));
-						array_shift($copyelev);
-					}
-					else{
-						array_push($elevsfosammen[$name],array($copysfo[0][0], $copysfo[0][1], 'SKOLEDAG, INGEN SFO'));
-						array_shift($copysfo);
-					}
-				}
-			}
-	}
-	if($foundSFO==false){
-			$elevsfosammen[$e]=array();
-			foreach($elev[$e] as $day){
-				array_push($elevsfosammen[$e],$day);
-			}
-	}
+foreach ($keyselev as $e) {
+    $skolestring = explode(" ", $e);
+    $foundSFO    = false;
+    foreach ($keyssfo as $s) {
+        $sfostring = explode(" ", $s);
+        if ($skolestring[0] == $sfostring[0]) {
+            $foundSFO             = true;
+            $copyelev             = array_values($elev[$e]);
+            $copysfo              = array_values($sfo[$s]);
+            $name                 = $skolestring[0] . ' ' . " Skole og SFO";
+            $elevsfosammen[$name] = array();
+            while (count($copyelev) > 0 && count($copysfo) > 0) {
+                if ((strtotime($copyelev[0][0]) == strtotime($copysfo[0][0])) && ($copyelev[0][2] == 0)) {
+                    array_push($elevsfosammen[$name], array(
+                        $copyelev[0][0],
+                        $copyelev[0][1],
+                        'E-L-S'
+                    )); //FRIDAG
+                    array_shift($copyelev);
+                    array_shift($copysfo);
+                } else if ((strtotime($copyelev[0][0]) == strtotime($copysfo[0][0])) && ($copyelev[0][2] == 1)) {
+                    array_push($elevsfosammen[$name], array(
+                        $copyelev[0][0],
+                        $copyelev[0][1],
+                        'E-F-S'
+                    )); //Lærerdag
+                    array_shift($copyelev);
+                    array_shift($copysfo);
+                } else if ((strtotime($copyelev[0][0]) < strtotime($copysfo[0][0])) && ($copyelev[0][2] == 0)) {
+                    array_push($elevsfosammen[$name], array(
+                        $copyelev[0][0],
+                        $copyelev[0][1],
+                        'E-L-F'
+                    )); //SFODAG
+                    array_shift($copyelev);
+                } else if ((strtotime($copyelev[0][0]) < strtotime($copysfo[0][0])) && ($copyelev[0][2] == 1)) {
+                    array_push($elevsfosammen[$name], array(
+                        $copyelev[0][0],
+                        $copyelev[0][1],
+                        'E-F-F'
+                    )); //SFODAG
+                    array_shift($copyelev);
+                } else {
+                    array_push($elevsfosammen[$name], array(
+                        $copysfo[0][0],
+                        $copysfo[0][1],
+                        'F-F-S'
+                    )); //SFOFRIDAG
+                    array_shift($copysfo);
+                }
+            }
+        }
+    }
+    if ($foundSFO == false) {
+        $elevsfosammen[$e] = array();
+        foreach ($elev[$e] as $day) {
+            if ($day[2] == 0) {
+                array_push($elevsfosammen[$e], array(
+                    $day[0],
+                    $day[1],
+                    'E-L-S'
+                )); //FRIDAG
+            } else {
+                array_push($elevsfosammen[$e], array(
+                    $day[0],
+                    $day[1],
+                    'F-L-S'
+                )); //Lærerdag
+            }
+            //array_push($elevsfosammen[$e],$day);
+        }
+    }
 }
 
-$res        = array(
+$res = array(
     /*"elev" => $elev,
     "lærer" => $laerer,
     "sfo" => $sfo,*/
-		"elevOgSfo" => $elevsfosammen
+    "alt" => $elevsfosammen
 );
-$jsonstring = json_encode($res,JSON_UNESCAPED_UNICODE);
+
+$Yngve = array();
+
+foreach ($res as $person => $skoler) {
+    foreach ($skoler as $skolenavn => $data) {
+        foreach ($data as $indexed => $singleData) {
+            $type = null;
+            if (isset($singleData[2])) {
+                $type = $singleData[2];
+            }
+
+            $Yngve[$person][$skolenavn][(int) ((substr($singleData[0], 0, 4)))][(int) (substr($singleData[0], 5, 2))][(int) (substr($singleData[0], 8, 2))] = array(
+                $singleData[1],
+                $type
+            );
+        }
+    }
+}
+
+
+$jsonstring = json_encode($Yngve, JSON_UNESCAPED_UNICODE);
 $mysqli->close();
 echo $jsonstring;
