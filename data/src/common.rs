@@ -1,7 +1,6 @@
 use std::path::PathBuf;
-use std::borrow::Cow;
-use std::collections::HashMap;
 use std::mem;
+use std::sync::Arc;
 
 
 macro_rules! log {($format:expr $(,$arg:expr)*) => {{
@@ -27,41 +26,41 @@ pub fn leak_string(mut s: String) -> &'static mut str {
 pub type Date = ::chrono::NaiveDate;
 
 #[derive(Clone,Copy)]
-pub struct SkoleDetaljer<'a> {
-	pub koordinater: &'a str,
-	pub adresse: &'a str,
-	pub nettside: &'a str,
+pub struct SkoleDetaljer {
+	pub koordinater: &'static str,
+	pub adresse: &'static str,
+	pub nettside: &'static str,
 	pub telefon: Option<[u8;8]>,
 }
 
-#[allow(non_camel_case_types)]
-#[derive(PartialEq,Eq, Debug)]
-pub enum SFO {// Strings are lowercase
-	vet_ikke,
-	er_for(String),
-	har_ikke,
-	har(String),
+pub struct SkoleRute {
+	pub har_sfo: bool,
+	pub har_laerer: bool,
+	pub gjelder_fra: Date,
+	pub gjelder_til: Date,
+	pub fri: Vec<Fri>,
+	pub fra_fil: Arc<PathBuf>,
 }
 
-pub struct Skole<'a> {
-	pub navn: &'a str,
-	pub har_sfo: bool,
-	pub har_laerer_fri: bool,
-	pub sist_oppdatert: Date,
-	pub data_til: Option<Date>,
-	pub kontakt: Option<SkoleDetaljer<'a>>,
-	pub fri: Vec<Fri>,
+pub struct Skole {
+	pub navn: &'static str,
+	pub om: Option<SkoleDetaljer>,
+	pub rute: Option<SkoleRute>,
 }
 
 pub struct Fri {
-    pub date: Date
+	pub date: Date,
 	pub pupils: bool,
 	pub teachers: Option<bool>,
 	pub afterschool: Option<bool>, 
-    pub comment: &'static str,
+	pub comment: &'static str,
 }
 
-pub struct ParsedFile {
-	pub path: PathBuf,
-	pub skoler: HashMap<String, Skole<'static>>,// navn med små bokstaver,
+pub fn is_sorted_by_key<E,  I: Iterator<Item=E>+Clone,  C: IntoIterator<Item=E, IntoIter=I>,
+                        T: PartialOrd, F: Fn(E)->T >
+(into: C, map: F) -> bool {
+	let iter = into.into_iter();
+	let (a,b) = (iter.clone(), iter);
+	let not = a.zip(b.skip(1)).any(|(e,ep1)| map(e) > map(ep1) );
+	!not
 }
