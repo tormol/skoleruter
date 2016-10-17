@@ -166,3 +166,14 @@ function filterDates(period){
   // perioden er dictionary av typen {start:dd/mm/yyyy, end:dd/mm/yyyy}
   //start er første dag og end er siste dag i perioden som er valgt
 }
+
+// SFO/ELEV/LÆRER
+function selectInfo(visningsType) {
+    if (visningsType == null) {
+        // print all types
+        console.log("ALL TYPES SELECTED")
+    } else {
+        //print the types in the list
+        console.log("These types selected: " + visningsType)
+    }
+}
