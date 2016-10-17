@@ -70,7 +70,9 @@ fn main() {
 	             .map(|(_,v)| v )
 	             .filter(|skole| skole.rute.is_some() )
 	             .collect::<Vec<_>>();
-	write::to_sql(all, last_updated);
+	let stdout = std::io::stdout();
+	let mut stdout = stdout.lock();
+	write::as_format("sql_old")(&mut stdout, all, last_updated);
 }
 
 fn args() -> (Vec<PathBuf>,bool) {
