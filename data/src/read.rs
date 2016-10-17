@@ -159,10 +159,10 @@ fn stavanger_ruter(content: String,  path: &Arc<PathBuf>)
 		}
 		if !row.afterschool {
 			rute.sfo.as_mut().unwrap().push(fri);
-		} 
+		}
 		if !row.teachers {
 			rute.laerere.as_mut().unwrap().push(fri);
-		} 
+		}
 		update_min_max(&mut rute.gjelder_fra, &mut rute.gjelder_til, row.date);
 	}
 
@@ -223,7 +223,7 @@ fn gjesdal_ruter(content: String,  path: &Arc<PathBuf>)
 			(None, Some(ref sfo)) if sfo.len() != 0
 			 => abort!("{}s sfo eksisterer bare av og til", row.school),
 			(None, ref mut sfo) => *sfo = None,
-		} 
+		}
 		update_min_max(&mut rute.gjelder_fra, &mut rute.gjelder_til, row.date);
 	}
 
