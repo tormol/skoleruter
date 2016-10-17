@@ -4,17 +4,18 @@ var month = new Date().getMonth() + 1;
 var day = new Date().getDate();
 var test;
 function printDays(dagsObjekt, start, end) {
+
+    var full = "";
+    var units = "<td></td>";
+
     $("#q").empty()
     $('#units').empty()
-    $('#units').append($("<td></td>")); //Appends an empty field for the corner
+    //$('#units').append($("<td></td>")); //Appends an empty field for the corner
     //console.log(start)
     var skoleNr = 1;
     $.each(dagsObjekt, function(skolenavn, SkoleObj) { //For hver skole
-      var row = $("<tr></tr>");
-      var navn = $("<td></td>").text(skolenavn);
-      //console.log((start == null) ? null : start.substr(3,2))
-      //  console.log((start == null) ? null : start.substr(6,4))
-      row.append(navn);
+
+      var row = "<tr><td>" + skolenavn + "</td>";
 
       addskolevalg(skolenavn);
       //$('#q').append('<tr><td>' + skolenavn + '</td></tr>')
@@ -26,26 +27,25 @@ function printDays(dagsObjekt, start, end) {
               if(dateInRange(Aar, Mnd, Dag, year, month, day, start, end)) {
               //console.log("triggered")
                 if(skoleNr == 1){
-                  var dato = $("<td></td>").text(Dag + "/" + Mnd + "/" + Aar.substring(2,4));
-                  if (MndObj[Dag] != undefined && MndObj[Dag] != "Ukjent") {
-                    dato.text(dato.text() + "\n" + MndObj[Dag].replace(" ", ""));
-                  }
-                  $('#units').append(dato);
+                  units += "<td class=topBar>" + getTopText(Dag, Mnd, Aar, MndObj[Dag]) + "</td>";
                 }
 
-                var element = $("<td></td>");
                 if (MndObj[Dag] != undefined) {
-                  element.addClass("no_school");
+                  row += "<td class=no_school></td>";
                 }
-                row.append(element);
+                else row += "<td></td>";
               }
             }
          // }
         });
       });
-      $('#q').append(row);
+      row += "</tr>";
+      full += row;
+      //$('#q').append(row);
       skoleNr++;
     });
+    $('#units').append(units);
+    document.getElementById("q").innerHTML = full;
 
     var table = $("#fixTable");
     table.tableHeadFixer({"left" : 1});
@@ -59,6 +59,31 @@ function printDays(dagsObjekt, start, end) {
     })
 
     test = dagsObjekt
+}
+
+function getTopText(dag, mnd, aar, bes){
+  var text = dag + "/" + mnd + "/" + aar.substring(2,4) + "\n";
+  if(bes != undefined && bes[0] != ",,,OK,,,," && bes[0] != "Ukjent"){
+   var temp = bes[0];
+   temp = temp.replace(" ", "");
+   if(temp == "Planleggingsdag") temp = "Plan.dag";
+   if(temp == "1.Nyttårsdag") temp =    "1.Ny.dag";
+   if(temp == "Vinterferie") temp =     "Vint.fer.";
+   if(temp == "Palmesøndag") temp =     "Pal.søn.";
+   if(temp == "Påskeferie") temp =      "Pås.fer.";
+   if(temp == "Skjærtorsdag") temp =    "Skjærtor.";
+   if(temp == "Langfredag") temp =      "Langfre.";
+   if(temp == "1.påskedag") temp =      "1.påske.";
+   if(temp == "2.påskedag") temp =      "2.påske.";
+   if(temp == "Off.Høytidsdag") temp =  "Off.Høy.";
+   if(temp == "Grunnlovsdag") temp =    "Gru.lov.";
+   if(temp == "KristiHimmelfartsdag") temp =  "Kri.Him.";
+   if(temp == "1.pinsedag") temp =      "1.pinse.";
+   if(temp == "2.pinsedag") temp =      "2.pinse.";
+   if(temp == "sommerferie") temp =     "som.fer.";
+   text += temp;
+ }
+  return text;
 }
 
 // Make the table fill the available space, while avoding scrolling of the whole pake.
