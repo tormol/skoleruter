@@ -1,0 +1,13 @@
+before you do any more, do TDD!
+some forgottten todos: remove/separate skole, (only they have sfo)
+skoler har inkonsistent captitalization,
+fårstå de koordinatene. ikke fjer planleggings-dag kommentarer, la lokal overstyre global,
+
+visning drømm:
+0 valgt: 3x4 måneder med farger for alle fri, alle skoler fri, noen planleggin, noen skole fri, ingen fri.
+skoleside 0-1 valgt: 3x4 måneder
+1 valgt: 3x4
+n valgt: gantt
+skoleside n valgt en gantt-stripe
+
+server: last ned skjema ukentlig, må kobles opp mot lasting av siden.

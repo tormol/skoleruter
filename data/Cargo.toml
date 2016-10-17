@@ -5,9 +5,9 @@ authors = ["Torbjørn Birch Moltu <t.b.moltu@lyse.net>"]
 
 [dependencies]
 chrono = "0.2.25"
-clap = "2.12"
-encoding_rs = "0.2.3"
+clap = "2.13"
+encoding_rs = "0.2.4"
 
 [[bin]]
 name = "finn_fri"
-path = "main.rs"
+path = "src/main.rs"
