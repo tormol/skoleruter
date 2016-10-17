@@ -7,7 +7,8 @@ use std::path::{Path,PathBuf};
 use std::str::FromStr;
 use std::collections::{HashMap,BTreeMap};
 use std::collections::btree_map::Entry as BTreeEntry;
-use std::sync::mpsc::channel;
+use std::sync::mpsc::{channel,Sender};
+use std::sync::Arc;
 use std::thread;
 extern crate clap;
 use clap::App;
@@ -31,36 +32,13 @@ fn main() {
 	let threads = paths.into_iter().map(|path| {
 		let sender = send_content.clone();
 		let path = PathBuf::from(path);
-		thread::spawn(move|| {
-			let mut content = read_file(&path);
-			for filetype in read::FILE_TYPES {
-				match filetype(content, &path) {
-					Ok(mut schools) => {
-						for school in schools.values_mut() {
-							if let Some(rute) = school.rute.as_mut() {
-								if remove_obvious {
-									remove_never_school(&mut rute.fri);
-								}
-								set_summer(&mut rute.fri, school.navn);
-								if !is_sorted_by_key(&rute.fri, |day| day.date ) {
-									rute.fri.sort_by_key(|day| day.date );
-								}
-							}
-						}
-						let _ = sender.send(schools);// No need to propagate panic in the main thread.
-						return;
-					},
-					Err(string) => content = string,
-				}
-			}
-			abort!("Forstår ikke hva {:?} er.", &path);
-		})
+		thread::spawn(move|| parse_thread(sender, path, remove_obvious) )
 	}).collect::<Vec<_>>();
 	drop(send_content);
 
-	let mut all = BTreeMap::new();
+	let mut all = BTreeMap::<String,Skole>::new();
 	for schools in receive_content.iter() {
-		merge_schools(&mut all, schools);
+		merge_files(&mut all, schools);
 	}
 	for t in threads {
 		t.join().unwrap();// catch panics
@@ -70,11 +48,12 @@ fn main() {
 	             .map(|(_,v)| v )
 	             .filter(|skole| skole.rute.is_some() )
 	             .collect::<Vec<_>>();
-	let output = output.unwrap_or("json_1".to_string());
+	let output = output.unwrap_or("json_skole_hvem".to_string());
 	let stdout = std::io::stdout();
 	let mut stdout = stdout.lock();
 	write::as_format(&output)(&mut stdout, all, last_updated);
 }
+
 
 fn args() -> (Vec<PathBuf>,Option<String>,bool) {
 	let matches = App::new("finn_fri")
@@ -93,6 +72,7 @@ fn args() -> (Vec<PathBuf>,Option<String>,bool) {
 	let paths = paths.map(|s| PathBuf::from(s) ).collect();
 	(paths,output,remove_obvious)
 }
+
 
 fn read_file(path: &Path) -> String {
 	let mut file = File::open(path).unwrap_or_else(|err|
@@ -113,8 +93,29 @@ fn read_file(path: &Path) -> String {
 	})
 }
 
+fn parse_thread(sender: Sender<HashMap<String,Skole>>,  path: PathBuf,  remove_obvious: bool) {
+	let mut content = read_file(&path);
+	let path = Arc::new(path);
+	for filetype in read::FILE_TYPES {
+		match filetype(content, &path) {
+			Ok(mut skoler) => {
+				if remove_obvious {
+					for fri in skoler.values_mut()
+					                 .filter_map(|skole| skole.rute.as_mut() )
+									 .flat_map(|rute| rute.iter_mut_fri() ) {
+						remove_never_school(fri);
+					}
+				}
+				let _ = sender.send(skoler);// No need to propagate panic in the main thread.
+				return;
+			},
+			Err(string) => content = string,
+		}
+	}
+	abort!("Forstår ikke hva {:?} er.", &path);
+}
 
-fn merge_schools(all: &mut BTreeMap<String,Skole>, add: HashMap<String,Skole>) {
+fn merge_files(all: &mut BTreeMap<String,Skole>, add: HashMap<String,Skole>) {
 	for (lowercase, add) in add {
 		match all.entry(lowercase.clone()) {
 			BTreeEntry::Vacant(ve) => {ve.insert(add);},
@@ -130,10 +131,24 @@ fn merge_schools(all: &mut BTreeMap<String,Skole>, add: HashMap<String,Skole>) {
 				}
 				if let Some(extend) = existing.rute.as_mut() {
 					if let Some(add) = add.rute {
-						extend.har_laerer |= add.har_laerer;
-						extend.har_sfo |= add.har_sfo;
-						extend.fri.extend(add.fri);
-				 		extend.fri.sort_by_key(|d| d.date );
+						fn merge_fri(extend: &mut Vec<Fri>,  add: Vec<Fri>) {
+							extend.extend(add);
+							if !is_sorted_by_key(&extend[..], |fri| fri.dato ) {
+				 				extend.sort_by_key(|fri| fri.dato );
+							}
+						}
+						fn merge_opt_fri(extend: &mut Option<Vec<Fri>>,  add: Option<Vec<Fri>>) {
+							if let Some(add) = add {
+								match *extend {
+									Some(ref mut extend) => merge_fri(extend, add),
+									None => *extend = Some(add),
+								}
+							}
+						}
+
+						merge_fri(&mut extend.elever, add.elever);
+						merge_opt_fri(&mut extend.laerere, add.laerere);
+						merge_opt_fri(&mut extend.sfo, add.sfo);
 						if extend.gjelder_til < add.gjelder_fra {
 							extend.gjelder_til = add.gjelder_til;
 						} else if extend.gjelder_fra > add.gjelder_til {
@@ -155,27 +170,13 @@ fn merge_schools(all: &mut BTreeMap<String,Skole>, add: HashMap<String,Skole>) {
 	}
 }
 
-/// Many days in the summer holiday has no comment.
-/// This function sets it to "Sommerferie".
-fn set_summer(out: &mut[Fri], school: &str) {
-	for day in out {
-		if day.comment.is_empty() {
-			let date = (day.date.month(), day.date.day());
-			if date >= (6,10) && date <= (8,24) {
-				day.comment = "Sommerferie";
-			} else {
-				log!("Fri uten kommentar: {} ved {}", day.date, school);
-			}
-		}
-	}
-}
 
 /// Remove weekends and July
 fn remove_never_school(out: &mut Vec<Fri>) {
-	out.retain(|day|
+	out.retain(|fri|
 		// weekend, not alle have "Lørdag" or "Søndag" as comment.
-		day.date.weekday().number_from_monday() <= 5
+		fri.dato.weekday().number_from_monday() <= 5
 		// July
-		&& (day.date.month() != 7 /*|| day.kommentar.is_empty()*/)
+		&& (fri.dato.month() != 7 /*|| fri.kommentar.is_empty()*/)
 	);
 }

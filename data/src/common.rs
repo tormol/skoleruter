@@ -34,12 +34,32 @@ pub struct SkoleDetaljer {
 }
 
 pub struct SkoleRute {
-	pub har_sfo: bool,
-	pub har_laerer: bool,
+	pub elever: Vec<Fri>,
+	pub laerere: Option<Vec<Fri>>,
+	pub sfo: Option<Vec<Fri>>, 
 	pub gjelder_fra: Date,
 	pub gjelder_til: Date,
-	pub fri: Vec<Fri>,
 	pub fra_fil: Arc<PathBuf>,
+}
+impl SkoleRute {
+	pub fn new(har_laerere: bool, fra_fil: &Arc<PathBuf>) -> Self {SkoleRute {
+		elever: Vec::new(),
+		laerere: if har_laerere {Some(Vec::new())} else {None},
+		sfo: Some(Vec::new()),
+		gjelder_fra: Date::from_ymd(3000,12,31),
+		gjelder_til: Date::from_ymd(1000,01,01),
+		fra_fil: fra_fil.clone(),
+	}}
+	pub fn iter_mut_fri(&mut self) -> ::std::vec::IntoIter<&mut Vec<Fri>> {
+		let mut v = vec![&mut self.elever];
+		if let Some(laerere) = self.laerere.as_mut() {
+			v.push(laerere);
+		}
+		if let Some(sfo) = self.sfo.as_mut() {
+			v.push(sfo);
+		}
+		v.into_iter()
+	}
 }
 
 pub struct Skole {
@@ -48,12 +68,10 @@ pub struct Skole {
 	pub rute: Option<SkoleRute>,
 }
 
+#[derive(Copy,Clone)]
 pub struct Fri {
-	pub date: Date,
-	pub pupils: bool,
-	pub teachers: Option<bool>,
-	pub afterschool: Option<bool>, 
-	pub comment: &'static str,
+	pub dato: Date,
+	pub kommentar: &'static str,
 }
 
 pub fn is_sorted_by_key<E,  I: Iterator<Item=E>+Clone,  C: IntoIterator<Item=E, IntoIter=I>,
