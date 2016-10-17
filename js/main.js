@@ -4,20 +4,20 @@
 
 
 $(function(){
-    var data = $.getJSON("php/data2.json", function (data) {
+    var data = $.getJSON("php/yngveformatcssklasser.json", function (data) {
       // var defaultView = createDailyView(data["elev"]) // put elev/sfo in second arg
 //        console.log(data)
         //console.log(defaultView);
-
+ console.log(data)
      //   printDays(defaultView);
         //console.log(weeklyView)
 
-        printDays(data['elev'], null, null);
+        printDays(data['alt'], null, null);
 
        // var testSchools =["Auglend skole", "Våland skole", "Hundvåg skole"]
 
 
-     //  selectSchools(testSchools)
+        //  selectSchools(testSchools)
 
 
     });

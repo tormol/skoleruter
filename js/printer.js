@@ -26,16 +26,19 @@ function printDays(dagsObjekt, start, end) {
               if(dateInRange(Aar, Mnd, Dag, year, month, day, start, end)) {
               //console.log("triggered")
                 if(skoleNr == 1){
+
                   var dato = $("<td></td>").text(Dag + "/" + Mnd + "/" + Aar.substring(2,4));
-                  if (MndObj[Dag] != undefined && MndObj[Dag] != "Ukjent") {
-                    dato.text(dato.text() + "\n" + MndObj[Dag].replace(" ", ""));
-                  }
+                  if (MndObj[Dag] != undefined) {
+                      if (MndObj[Dag][0] != "Ukjent") {
+                    dato.text(dato.text() + "\n" + MndObj[Dag][0].replace(" ", ""));
+                  }}
                   $('#units').append(dato);
                 }
 
                 var element = $("<td></td>");
                 if (MndObj[Dag] != undefined) {
-                  element.addClass("no_school");
+
+                  element.addClass(cssTypes(MndObj[Dag][1]));
                 }
                 row.append(element);
               }
@@ -168,12 +171,28 @@ function filterDates(period){
 }
 
 // SFO/ELEV/LÆRER
+var typeList = []
 function selectInfo(visningsType) {
-    if (visningsType == null) {
-        // print all types
-        console.log("ALL TYPES SELECTED")
+    typeList = visningsType;
+}
+function cssTypes(origColour) {
+    // takes in the last entry in each freedayobject, this entry contains a .css class format: E-L-S
+    // Where E : Elev, L : Lærer, S : SFO, F: : False/filler for format
+    // Takes a list over types wanted -> Written from selectInfo
+    // Returns a string argument, type css class with background colour
+    // IFF type is not in list, will force that entry to be F,
+    // if the entire list is empty/null will act as if all types are selected
+    // Adjusts the strings from FreedayObject to match typeList
+    var adjustedColour = ""
+    if (typeList == null) {
+        // act as if all types selected
+        return origColour
     } else {
-        //print the types in the list
-        console.log("These types selected: " + visningsType)
+         // Ekample filter, Lærer = FALSE
+        return setCharAt(origColour, 2, "F")
     }
+}
+function setCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
 }

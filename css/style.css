@@ -1,9 +1,9 @@
 body {
-    background-color: lightblue;
-}
+   background-color: lightblue;
+ }
 p {
-    font-family: verdana;
-    /*font-size: 20px;*/
+  font-family: verdana;
+  /*font-size: 20px;*/
 }
 
 body, body>* {
@@ -19,9 +19,9 @@ header {
   margin-top: 0;
 }
 .page-header {
-    margin: 0;
-    padding: 0.5em;
-    border: 0;
+  margin: 0;
+  padding: 0.5em;
+  border: 0;
 }
 
 nav.navbar {
@@ -41,10 +41,10 @@ thead td {
   padding: 0.25em 1em;
   background-color: #3e3e3e;
   color: white;
-/*even width:
-  max-width: 7.5em;
-  min-width: 7.5em;
-  overflow-x: hidden;*/
+  /*even width:
+    max-width: 7.5em;
+    min-width: 7.5em;
+    overflow-x: hidden;*/
 }
 #q td:first-child {
   padding-left: 0.5em;
@@ -57,7 +57,7 @@ thead td {
   border: 1px solid black;
   height: 50px;
   background-color: white;
-/*min-width: 1em;*/
+  /*min-width: 1em;*/
 }
 #q *.no_school {
   background-color: #166312;
@@ -65,7 +65,7 @@ thead td {
 
 
 footer {
-   margin-top: 1em;
+  margin-top: 1em;
 }
 footer>div.well {
   margin: 0 auto;
@@ -82,27 +82,27 @@ footer>div.well {
 */
 /* Bit counting... F-F-F might be removed*/
 /* Just testing colour scheme, not final version */
-.F-F-F {
+#q *.F-F-F {
   background-color: #fff8e7;
 }
-.F-F-S {
+#q *.F-F-S {
   background-color: #ff0010;
 }
-.F-L-F {
+#q *.F-L-F {
   background-color: #1eff00;
 }
-.F-L-S {
+#q *.F-L-S {
   background-color: #ffef00;
 }
-.E-F-F {
+#q *.E-F-F {
   background-color: #0700ff;
 }
-.E-F-S {
+#q *.E-F-S {
   background-color: #f900ff;
 }
-.E-L-F {
+#q *.E-L-F {
   background-color: #00fcff;
 }
-.E-L-S {
+#q *.E-L-S {
   background-color: #000000;
 }
