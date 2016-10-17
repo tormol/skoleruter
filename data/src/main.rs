@@ -95,6 +95,9 @@ fn read_file(path: &Path) -> String {
 
 fn parse_thread(sender: Sender<HashMap<String,Skole>>,  path: PathBuf,  remove_obvious: bool) {
 	let mut content = read_file(&path);
+	if content.is_empty() {
+		abort!("{:?} er tom", path);
+	}
 	let path = Arc::new(path);
 	for filetype in read::FILE_TYPES {
 		match filetype(content, &path) {
@@ -124,12 +127,16 @@ fn merge_files(all: &mut BTreeMap<String,Skole>, add: HashMap<String,Skole>) {
 
 				if existing.navn == lowercase {
 					existing.navn = add.navn;
+					// TODO make names deterministic
 				}
 				if add.om.is_some() {
 					abort_if!(existing.om.is_some(), "Flere filer har kontakt-informasjon for {}", &existing.navn);
 					existing.om = add.om;
 				}
-				if let Some(extend) = existing.rute.as_mut() {
+				if !existing.rute.is_some() {
+					// must be this order due to moves (and lexical lifetimes)
+					existing.rute = add.rute;
+				} else if let Some(extend) = existing.rute.as_mut() {
 					if let Some(add) = add.rute {
 						fn merge_fri(extend: &mut Vec<Fri>,  add: Vec<Fri>) {
 							extend.extend(add);

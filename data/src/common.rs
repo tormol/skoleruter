@@ -36,7 +36,7 @@ pub struct SkoleDetaljer {
 pub struct SkoleRute {
 	pub elever: Vec<Fri>,
 	pub laerere: Option<Vec<Fri>>,
-	pub sfo: Option<Vec<Fri>>, 
+	pub sfo: Option<Vec<Fri>>,
 	pub gjelder_fra: Date,
 	pub gjelder_til: Date,
 	pub fra_fil: Arc<PathBuf>,
