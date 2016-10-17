@@ -95,6 +95,9 @@ fn read_file(path: &Path) -> String {
 
 fn parse_thread(sender: Sender<HashMap<String,Skole>>,  path: PathBuf,  remove_obvious: bool) {
 	let mut content = read_file(&path);
+	if content.is_empty() {
+		abort!("{:?} er tom", path);
+	}
 	let path = Arc::new(path);
 	for filetype in read::FILE_TYPES {
 		match filetype(content, &path) {

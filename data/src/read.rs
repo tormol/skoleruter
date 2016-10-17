@@ -12,6 +12,13 @@ use common::*;
 pub type FileReader = fn(String,&Arc<PathBuf>) -> Result<HashMap<String,Skole>, String>;
 pub const FILE_TYPES: &'static[FileReader] = &[stavanger_ruter,gjesdal_ruter/*,stavanger_skoler*/];
 
+macro_rules! is_if_header{($content:expr, $f:expr) => (
+	if !$f($content.lines().next().unwrap()) {
+		return Err($content);
+	}
+)}
+
+
 fn ikke_fri(janei: &str, nullable: bool) -> Option<bool> {
 	match janei.trim() {
 		"Ja" | "ja" => Some(true),
@@ -103,14 +110,9 @@ fn to_school<I:Iterator<Item=(&'static str,SkoleRute)>>
 
 fn stavanger_ruter(content: String,  path: &Arc<PathBuf>)
 -> Result<HashMap<String,Skole>, String> {
-	match content.lines().next().map(|header| header.to_lowercase() ) {
-		None => abort!("{:?} er tom", path),
-		Some(header) => {
-			if header != "\u{feff}dato,skole,elevdag,laererdag,sfodag,kommentar" {
-				return Err(content);
-			}
-		},
-	}
+	is_if_header!(content, |header: &str| {
+		header.to_lowercase() =="\u{feff}dato,skole,elevdag,laererdag,sfodag,kommentar"
+	});
 	let content = leak_string(content);
 
 	struct Row {// true => there is school/work/afterschool
@@ -176,15 +178,9 @@ fn stavanger_ruter(content: String,  path: &Arc<PathBuf>)
 
 fn gjesdal_ruter(content: String,  path: &Arc<PathBuf>)
 -> Result<HashMap<String,Skole>, String> {
-	match content.lines().next().map(|header| header.to_lowercase() ) {
-		None => abort!("{:?} er tom", path),
-		Some(header) => {
-			if header != "dato,skole ,elevdag ,sfodag ,kommentar " {
-				log!("{}", header);
-				return Err(content);
-			}
-		},
-	}
+	is_if_header!(content, |header: &str| {
+		header.to_lowercase() == "dato,skole ,elevdag ,sfodag ,kommentar "
+	});
 	let content = leak_string(content);
 
 	struct Row {
