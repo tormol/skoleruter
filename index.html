@@ -3,64 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Skoleruter | main page</title>
-    <!-- TODO add more metadata? -->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/chosen.min.css">
-    <!-- Include needed files from CDN -->
-    <!-- Latest compiled and minified CSS
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    -->
+    <!-- TODO add more metadata? -->
 
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-    <!-- Latest compiled JavaScript
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    -->
-    <!-- Include Knockout -->
-    <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
-    <!-- Include Moments -->
-    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    
-    <!-- Include Date Range Picker -->
-    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
-    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+    <!-- Boostrap files -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <!-- Import Javascripts from local folder -->
+    <!-- Include Knockout -->
+    <!--<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>-->
+    <!-- Include Moments -->
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/chosen.min.css">
     <script src="js/getView.js"></script>
     <script src="js/printer.js"></script>
     <script src="js/tableHeadFixer.js"></script>
     <script src="js/main.js"></script>
     <script src="js/script.js"></script>
     <script src="js/chosen.jquery.min.js"></script>
-     <script src="js/transition.js"></script>
-      <script src="js/collapse.js"></script>
-    <!-- <script src="js/buttons.js"></script> -->
-
-
-    <!-- TODO remember to add metadata, yes -->
-
-    <!-- Boostrap files -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+    <script src="js/transition.js"></script>
+    <script src="js/collapse.js"></script>
 </head>
-    <body>
+<body>
 
 <header>
-  <div class="jumbotron text-center" style="color:white;margin:0;" >
+  <div class="page-header text-center">
     <h1>Skoleruter</h1>
     <p>Sammenlign fridager</p>
   </div>
+</header>
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -72,7 +56,8 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-     <a class="navbar-brand" href="index.html">SklRTR</a>
+      <!--Why have the name two places?-->
+      <!--<a class="navbar-brand" href="index.html">SklRTR</a>-->
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -81,52 +66,17 @@
         <form class="navbar-form navbar-left">
         <div class="form-group">
           <select class="chosen-select" id="skolevalg" data-placeholder="Velg skole..." multiple style="width:350px;">
-            <!--<option>Auglend skole</option>
-            <option>Austbø skole</option>
-            <option>Buøy skole</option>
-            <option>Byfjord skole</option>
-            <option>Eiganes skole</option>
-            <option>Gausel skole</option>
-            <option>Gautesete skole</option>
-            <option>Godeset skole</option>
-            <option>Gosen skole</option>
-            <option>Hafrsfjord skole</option>
-            <option>Hinna skole</option>
-            <option>Hundvåg skole</option>
-            <option>Jåtten skole</option>
-            <option>Johannes læringssenter</option>
-            <option>Kampen skole</option>
-            <option>Kannik skole</option>
-            <option>Kristianlyst skole</option>
-            <option>Kvaleberg skole</option>
-            <option>Kvernevik skole</option>
-            <option>Lassa skole</option>
-            <option>Lenden skole og ressurssenter</option>
-            <option>Lunde skole</option>
-            <option>Lundsvågen naturskole</option>
-            <option>Madlamark skole</option>
-            <option>Madlavoll skole</option>
-            <option>Nylund skole</option>
-            <option>Revheim skole</option>
-            <option>Roaldsøy skole</option>
-            <option>Skeie skole</option>
-            <option>Smiodden skole</option>
-            <option>St. Svithun skole</option>
-            <option>Storhaug skole</option>
-            <option>Sunde skole</option>
-            <option>Tasta skole</option>
-            <option>Tastarustå skole</option>
-            <option>Tastaveden skole</option>
-            <option>Teinå skole</option>
-            <option>Tjensvoll skole</option>
-            <option>Ullandhaug skole</option>
-            <option>Våland skole</option>
-            <option>Vardenes skole</option>
-            <option>Vassøy skole</option>
-            <option>Vaulen skole</option>
-            -->
           </select>
         </div>
+
+      <!-- Valgbar for type rolle --> 
+      <div class="form-group">
+        <select class="chosen-select2" id="infovalg" data-placeholder="Velg hva du vil se..." multiple style="width:350px;">
+          <option>Elev</option>
+          <option>SFO</option>
+          <option>Lærer</option>
+        </select>
+      </div>
 
         <div class="form-group">
             <div class='input-group date' id='datetimepicker1'>
@@ -135,32 +85,34 @@
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
             </div>
+        </div>
 
 
-
+        
       </form>
-      
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
-</header>
 
-</main>
-<!-- GANTT Table -->
 
-<div id=parent>
-  <div id=tableDiv>
-  <table id=fixTable>
-    <thead>
-      <tr id=units>
-      </tr>
-    </thead>
-    <tbody id=q>
 
-    </tbody>
-  </table>
+<main><!-- GANTT Table -->
+  <div id="tableDiv">
+    <table id="fixTable">
+      <thead>
+        <tr id="units">
+        </tr>
+      </thead>
+      <tbody id="q">
+      </tbody>
+    </table>
   </div>
-</div>
+<!--
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-16 table-responsive">
+-->
+</main>
 
 <!--
 <div class="container">
@@ -172,24 +124,19 @@
           </tr>
         </thead>
         <tbody id=q>
-
         </tbody>
       </table>
     </div>
   </div>
 -->
-</main>
-  <div class="row">
-    <div class="col-sm-16 well footer">
-      <footer>
-          <div class="contact">
-              <span class="strong">Kunde service:</span> |
-              +47 321 09 654 |
-              <a href="#">contact@noreply.com</a>
-          </div>
-      </footer>
-    </div>
+
+<footer>
+  <div class="well">
+    <span class="strong">Kunde service:</span>
+    | +47 321 09 654
+    | <a href="#">contact@noreply.com</a>
   </div>
-</div>
+</footer>
+
 </body>
 </html>
