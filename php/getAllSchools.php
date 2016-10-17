@@ -140,30 +140,30 @@ foreach ($keyselev as $e) {
     }
 }
 
-$res = array(
+//$res = array(
     /*"elev" => $elev,
     "lærer" => $laerer,
     "sfo" => $sfo,*/
-    "alt" => $elevsfosammen
-);
+    //"alt" => $elevsfosammen
+//);
 
 $Yngve = array();
 
-foreach ($res as $person => $skoler) {
-    foreach ($skoler as $skolenavn => $data) {
+//foreach ($res as $person => $skoler) {
+    foreach ($elevsfosammen as $skolenavn => $data) {
         foreach ($data as $indexed => $singleData) {
             $type = null;
             if (isset($singleData[2])) {
                 $type = $singleData[2];
             }
 
-            $Yngve[$person][$skolenavn][(int) ((substr($singleData[0], 0, 4)))][(int) (substr($singleData[0], 5, 2))][(int) (substr($singleData[0], 8, 2))] = array(
+            $Yngve[$skolenavn][(int) ((substr($singleData[0], 0, 4)))][(int) (substr($singleData[0], 5, 2))][(int) (substr($singleData[0], 8, 2))] = array(
                 $singleData[1],
                 $type
             );
         }
     }
-}
+//}
 
 
 $jsonstring = json_encode($Yngve, JSON_UNESCAPED_UNICODE);
