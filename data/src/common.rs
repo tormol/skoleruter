@@ -27,7 +27,7 @@ pub type Date = ::chrono::NaiveDate;
 
 #[derive(Clone,Copy)]
 pub struct SkoleDetaljer {
-	pub koordinater: &'static str,
+	pub posisjon: [&'static str;2],
 	pub adresse: &'static str,
 	pub nettside: &'static str,
 	pub telefon: Option<[u8;8]>,
@@ -63,4 +63,13 @@ pub fn is_sorted_by_key<E,  I: Iterator<Item=E>+Clone,  C: IntoIterator<Item=E, 
 	let (a,b) = (iter.clone(), iter);
 	let not = a.zip(b.skip(1)).any(|(e,ep1)| map(e) > map(ep1) );
 	!not
+}
+
+pub fn foreach_mark_last<E,  I: Iterator<Item=E>,  C: IntoIterator<Item=E, IntoIter=I>,  F: FnMut(bool,E)>
+(into: C, mut f: F) {
+	let mut iter = into.into_iter().peekable();
+	while let Some(e) = iter.next() {
+		let is_last = !iter.peek().is_some();
+		f(is_last, e);
+	}
 }

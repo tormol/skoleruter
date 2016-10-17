@@ -24,7 +24,7 @@ mod write;
 
 
 fn main() {
-	let (paths,remove_obvious) = args();
+	let (paths,output,remove_obvious) = args();
 	let last_updated = Date::from_str("2020-02-02").unwrap();
 
 	let (send_content,receive_content) = channel::<HashMap<String,Skole>>();
@@ -70,25 +70,28 @@ fn main() {
 	             .map(|(_,v)| v )
 	             .filter(|skole| skole.rute.is_some() )
 	             .collect::<Vec<_>>();
+	let output = output.unwrap_or("json_1".to_string());
 	let stdout = std::io::stdout();
 	let mut stdout = stdout.lock();
-	write::as_format("sql_old")(&mut stdout, all, last_updated);
+	write::as_format(&output)(&mut stdout, all, last_updated);
 }
 
-fn args() -> (Vec<PathBuf>,bool) {
+fn args() -> (Vec<PathBuf>,Option<String>,bool) {
 	let matches = App::new("finn_fri")
 	                  .version("0.1")
 	                  .author("Gruppe 5")
 	                  .about("konverterer skoleruter og skole-info til SQL")
 	                  .args_from_usage("--remove-obvious `Ikke nevn fridager i Juli eller helger`
+	                                    --output=[format] `Velg format`
 	                                    <file.csv>... 'kan enten være en skolerute eller skole-info, tolkes ut i fra'")
 	                  .get_matches();
 	let remove_obvious = matches.is_present("remove-obvious");
+	let output = matches.value_of("output").map(|s| s.to_string() );
 	let paths = matches.values_of_os("file.csv").unwrap_or_else(||
 		abort!("Ingen filer")
 	);
 	let paths = paths.map(|s| PathBuf::from(s) ).collect();
-	(paths,remove_obvious)
+	(paths,output,remove_obvious)
 }
 
 fn read_file(path: &Path) -> String {
