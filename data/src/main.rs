@@ -132,7 +132,10 @@ fn merge_files(all: &mut BTreeMap<String,Skole>, add: HashMap<String,Skole>) {
 					abort_if!(existing.om.is_some(), "Flere filer har kontakt-informasjon for {}", &existing.navn);
 					existing.om = add.om;
 				}
-				if let Some(extend) = existing.rute.as_mut() {
+				if !existing.rute.is_some() {
+					// must be this order due to moves (and lexical lifetimes)
+					existing.rute = add.rute;
+				} else if let Some(extend) = existing.rute.as_mut() {
 					if let Some(add) = add.rute {
 						fn merge_fri(extend: &mut Vec<Fri>,  add: Vec<Fri>) {
 							extend.extend(add);
