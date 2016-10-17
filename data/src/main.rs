@@ -127,6 +127,7 @@ fn merge_files(all: &mut BTreeMap<String,Skole>, add: HashMap<String,Skole>) {
 
 				if existing.navn == lowercase {
 					existing.navn = add.navn;
+					// TODO make names deterministic
 				}
 				if add.om.is_some() {
 					abort_if!(existing.om.is_some(), "Flere filer har kontakt-informasjon for {}", &existing.navn);

@@ -10,7 +10,7 @@ use common::*;
 /// Map key is lowercase school name
 /// Err and first parameter is file content
 pub type FileReader = fn(String,&Arc<PathBuf>) -> Result<HashMap<String,Skole>, String>;
-pub const FILE_TYPES: &'static[FileReader] = &[stavanger_ruter,gjesdal_ruter/*,stavanger_skoler*/];
+pub const FILE_TYPES: &'static[FileReader] = &[stavanger_ruter,gjesdal_ruter,stavanger_skoler];
 
 macro_rules! is_if_header{($content:expr, $f:expr) => (
 	if !$f($content.lines().next().unwrap()) {
@@ -228,4 +228,39 @@ fn gjesdal_ruter(content: String,  path: &Arc<PathBuf>)
 	}
 
 	return Ok(to_school(schools.into_iter()));
+}
+
+
+fn stavanger_skoler(content: String,  path: &Arc<PathBuf>)
+-> Result<HashMap<String,Skole>, String> {
+	is_if_header!(content, |header: &str| {
+		let header = header.to_lowercase();
+		let field = header.split(',').collect::<Vec<_>>();
+		// 0=Nord, 1=øst, 2=Latitude, 3=Longitude, 4=ID, 5=OBJTYPE, 6=KOMM, 7=BYGGTYP_NBR, 8=INFORMASJON,
+		// 9=Skolenavn, 10=ADRESSE, 11=Hjemmeside, 12=ELEVER, 13=KAPASITET
+		field.len() >= 11
+		&&  field[2] == "latitude"  &&  field[3] == "longitude"
+		&&  field[9] == "skolenavn"  &&  field[10] == "adresse"  &&  field[11] == "hjemmeside"
+	});
+	let content = leak_string(content);
+
+	let om = content.lines().enumerate()
+	                .skip(1).filter(|&(_,line)| !line.is_empty() )
+	                .map(|(n, line)| (n+1, line.split(',').collect::<Vec<_>>()) )
+	                .inspect(|&(linenr, ref field)| {
+	                         abort_if!(field.len() < 10, "{:?}:{}: Ugyldig csv", path, linenr);
+	                 })
+	                .map(|(_, field)| Skole {
+	                     navn: field[9].trim(),
+	                     om: Some( SkoleDetaljer {
+	                         posisjon: [field[2].trim(), field[3].trim()],
+	                         adresse: field[10].trim(),
+	                         nettside: field[11].trim(),
+	                         telefon: None
+	                     }),
+	                     rute: None,
+	                 })
+	                .map(|skole| (skole.navn.to_lowercase(), skole) );
+
+	return Ok(om.collect());
 }
