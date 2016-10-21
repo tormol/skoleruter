@@ -38,9 +38,11 @@ $(function(){
 
 //funksjon for å hente ut valgte skoler
 function getinfovalg(evt, params){
-    var infovalg = [];
-    infovalg = $('.chosen-select2').val()
-    //console.log(skolevalg);
+    var valg = [];
+    var choices = ["Elev", "SFO", "Lærer"];
+    valg = $('.chosen-select2').val()
+    var infovalg = choices.filter(function(obj) { if(valg) {return valg.indexOf(obj) == -1; } else {return choices}});
+    //console.log(infovalg);
     selectInfo(infovalg);
     }
 
