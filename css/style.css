@@ -71,38 +71,3 @@ footer>div.well {
   margin: 0 auto;
   display: table;
 }
-/* Farger for det forskjellige
-  Elev: E
-  Lærer: L
-  SFO: S
-  false: F
-
-  format:
-  E-L-S
-*/
-/* Bit counting... F-F-F might be removed*/
-/* Just testing colour scheme, not final version */
-.F-F-F {
-  background-color: #fff8e7;
-}
-.F-F-S {
-  background-color: #ff0010;
-}
-.F-L-F {
-  background-color: #1eff00;
-}
-.F-L-S {
-  background-color: #ffef00;
-}
-.E-F-F {
-  background-color: #0700ff;
-}
-.E-F-S {
-  background-color: #f900ff;
-}
-.E-L-F {
-  background-color: #00fcff;
-}
-.E-L-S {
-  background-color: #000000;
-}
