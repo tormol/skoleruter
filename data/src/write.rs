@@ -31,15 +31,15 @@ fn json_skole_hvem(dst: &mut Write,  skoler: Vec<Skole>,  sist_oppdatert: Date) 
 		}
 		w!(dst, "{}\n", if siste {""} else {","})
 	}
-	w!(dst, "[\n");
-	w!(dst, "\"sist_oppdatert\": \"{}\"\n", sist_oppdatert);
-	w!(dst, "\"verjon\": [4,0]\n");
+	w!(dst, "{{\n");
+	w!(dst, "\"sist_oppdatert\": \"{}\",\n", sist_oppdatert);
+	w!(dst, "\"verjon\": [4,0],\n");
 	w!(dst, "\"skoler\": {{\n");
 	foreach_mark_last(skoler, |siste, skole| {
 		w!(dst, "\t{:?}: {{\n", skole.navn);
 		match skole.om.and_then(|om| om.telefon ) {
-			Some(tlf) => w!(dst, "\t\t\"tlf\": = {:?},\n", str::from_utf8(&tlf[..]).unwrap()),
-			None      => w!(dst, "\t\t\"tlf\": = null,\n"),
+			Some(tlf) => w!(dst, "\t\t\"tlf\": {:?},\n", str::from_utf8(&tlf[..]).unwrap()),
+			None      => w!(dst, "\t\t\"tlf\": null,\n"),
 		}
 		if let Some(om) = skole.om {
 			w!(dst, "\t\t\"adresse\" : {:?},\n", om.adresse);
@@ -58,7 +58,7 @@ fn json_skole_hvem(dst: &mut Write,  skoler: Vec<Skole>,  sist_oppdatert: Date) 
 		w_fri(dst, rute.laerere, false);
 		w!(dst, "\t\t\"sfo\": ");
 		w_fri(dst, rute.sfo, true);
-		w!(dst, "\t}}}}{}\n", if siste {""} else {","} );
+		w!(dst, "\t}}{}\n", if siste {""} else {","} );
 	});
 	w!(dst, "}}}}\n");
 }
