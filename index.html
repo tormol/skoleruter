@@ -63,6 +63,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <form class="navbar-form navbar-left">
         <div class="form-group">
+          <label for="skolevalg" class="sr-only">Velg skole(r)</label>
           <select class="chosen-select" id="skolevalg" data-placeholder="Velg skole..." multiple style="width:350px;">
           </select>
         </div>
@@ -79,15 +80,16 @@
         </div>
 
         <div class="form-group">
+          <label for="date_range" class="sr-only">Begrens tidsperiode</label>
           <div class='input-group date' id='datetimepicker1'>
-            <input type='text' name="daterange" class="form-control" />
+            <input type='text' name="daterange" class="form-control" id="date_range" />
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
             </span>
           </div>
         </div>
 
-        <div class="form-group sr-hidden" id="legend">
+        <div class="form-group" id="legend" aria-hidden="true">
           <div class="F-F-F"></div>
           <div class="E-L-S"></div>
           <div class="E-L-F"></div>
