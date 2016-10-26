@@ -4,7 +4,7 @@
 
 var activeSchools = null; // this is requred by prints(), it also needs to  be saved between multiple print() calls
 var dateRange = null; // used by printRow
-var typeList = null; // used by printRow TODO Add default value
+var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
 function printT() {
 
@@ -179,14 +179,7 @@ function filterDates(period){
     printT()
     // selectSchools(activeSchools);
 }
-function selectInfo(visningsType) {
-    typeList = visningsType;
 
-
-    printT()
-    //printDays(test, startRange, endRange);
-    //  selectSchools();
-}
 function cssTypes(origColour) {
     // takes in the last entry in each freedayobject, this entry contains a .css class format: E-L-S
     // Where E : Elev, L : Lærer, S : SFO, F: : False/filler for format
@@ -196,27 +189,15 @@ function cssTypes(origColour) {
     // if the entire list is empty/null will act as if all types are selected
     // Adjusts the strings from FreedayObject to match typeList
 
-    if (typeList == null) {
-        // act as if all types selected
+    if (origColour == "F-F-F" || origColour == "E-L-S")
+        return origColour;
 
-
-    } else {
-        $.each(typeList, function(index, type) {
-
-            switch(type) {
-                case "SFO":
-                    origColour =setCharAt(origColour, 4, "F")
-                    break;
-                case "Elev":
-                    origColour = setCharAt(origColour, 0, "F")
-                    break;
-                case "Lærer":
-                    origColour = setCharAt(origColour, 2, "F")
-                    break;
-
-            }
-        });
-    }
+    if (types.elev === false)
+        origColour = setCharAt(origColour, 0, "E");
+    if (types.laerer === false)
+        origColour = setCharAt(origColour, 2, "L")
+    if (types.sfo === false)
+        origColour = setCharAt(origColour, 4, "S");
     return origColour
 }
 function setCharAt(str,index,chr) {

@@ -31,20 +31,22 @@ function getskolevalg2(evt, params){
 });
 
 $(function(){
-    $('.chosen-select2').on('change', function(evt, params) {
-        getinfovalg(evt, params);
+    types.elev = $("#vis_elev").is(":checked");
+    types.sfo = $("#vis_sfo").is(":checked");
+    types.laerer = $("#vis_laerer").is(":checked");
+    $('#vis_elev').on('change', function() {
+        types.elev = !types.elev;
+        printT();
+    });
+    $('#vis_sfo').on('change', function() {
+        types.sfo = !types.sfo;
+        printT();
+    });
+    $('#vis_laerer').on('change', function() {
+        types.laerer = !types.laerer;
+        printT();
     });
 });
-
-//funksjon for å hente ut valgte skoler
-function getinfovalg(evt, params){
-    var valg = [];
-    var choices = ["Elev", "SFO", "Lærer"];
-    valg = $('.chosen-select2').val()
-    var infovalg = choices.filter(function(obj) { if(valg) {return valg.indexOf(obj) == -1; } else {return choices}});
-    //console.log(infovalg);
-    selectInfo(infovalg);
-    }
 
 $(function() {
     $('input[name="daterange"]').daterangepicker({
