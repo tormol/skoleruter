@@ -79,3 +79,8 @@ footer>div.well {
   margin: 0 auto;
   display: table;
 }
+td a {
+  display: block;
+  height:100%;
+  width:100%;
+}
