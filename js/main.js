@@ -2,7 +2,6 @@ $(function(){
   addColours();
   aquireJSON();
 });
-// todo Delete this line later <- Just a test for VS 2015 git integration
 
 /* Dersom man ønsker å endre på hva som skjer etter at dataene er lastet
    inn, plasseres det her */
