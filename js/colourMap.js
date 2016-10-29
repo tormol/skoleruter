@@ -20,8 +20,7 @@ function addColours() {
         // Screen readers don't see colours, so we need to have text for those.
         // We use text-ident to hide the text for others.
         // Since there is no link or input this should work well. 
-        createClass("*." + type, "background-color: " + display.colour + " !important;"
-                               + "text-indent: 10000px");
+        createClass("*." + type, "background-color: " + display.colour + " !important;");
         $("."+type).text(display.text);
     })
 }

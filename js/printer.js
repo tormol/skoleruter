@@ -34,7 +34,7 @@ function prints(data) {
                         if(First) units += getTopText(Dag, Mnd, Aar, MndObj[Dag]);
                         //Legger til dagen
                         if (MndObj[Dag] == undefined) row += "<td></td>";
-                        else row += "<td class=" + cssTypes(MndObj[Dag][1]) + "></td>";
+                        else row += "<td class=" + cssTypes(MndObj[Dag][1]) + ">" + generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
                     }
                 }
             });
@@ -56,8 +56,28 @@ function prints(data) {
     $(window).resize(function() {
       setHeight(parent);
     })
+    // initilize all tooltips 
+    $('[data-toggle="tooltip"]').tooltip()
+  
 }
+function generateTooltip(str, opts) {
+    // str: description, opts: CSS logic format
+    if (opts == "E-L-S") opts = "alle"; // if logic says all 
+        
+    else {
+        //using CSS Logic to generate a string of who the str affects
+        temp = ""
+        if (opts.substr(0, 1) != 'F') temp += "Elev";
+        if (temp != "" && opts.substr(2, 1) != 'F') temp += ", "
+        if (opts.substr(2, 1) != 'F') temp += "Lærer";
+        if (temp != "" && opts.substr(4, 1) != 'F') temp += ", "
+        if (opts.substr(4, 1) != 'F') temp += "SFO";
+        opts = temp;
+    }
 
+  // Generate a tooltip with str and opts
+    return '<a href="#" data-toggle="tooltip" title="' + str + ' for ' + opts + '"></a>'
+}
 function getTopText(dag, mnd, aar, bes){
   var text = dag + "/" + mnd + "/" + aar.substring(2,4) + "\n";
   if(bes != undefined && bes[0] != ",,,OK,,,," && bes[0] != "Ukjent"){
@@ -179,8 +199,11 @@ function filterDates(period){
     printT()
     // selectSchools(activeSchools);
 }
-function selectInfo(visningsType) {
-    typeList = visningsType;
+function selectInfo(visningsType) {  
+    typeList = visningsType
+    if (typeList != null && typeList.length == 3) { // IF nothing selected
+        typeList = [] // make empty
+    }
 
 
     printT()
@@ -196,11 +219,7 @@ function cssTypes(origColour) {
     // if the entire list is empty/null will act as if all types are selected
     // Adjusts the strings from FreedayObject to match typeList
 
-    if (typeList == null) {
-        // act as if all types selected
 
-
-    } else {
         $.each(typeList, function(index, type) {
 
             switch(type) {
@@ -216,7 +235,7 @@ function cssTypes(origColour) {
 
             }
         });
-    }
+    
     return origColour
 }
 function setCharAt(str,index,chr) {
