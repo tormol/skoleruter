@@ -8,3 +8,4 @@ chosenfiles/
 *.DS_Store
 *~
 /Web.config
+/.gitattributes
