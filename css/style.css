@@ -84,34 +84,3 @@ td a {
   height:100%;
   width:100%;
 }
-
-.framed {
-    border: 1px solid #E9E9E9;
-    padding: 5px;
-    margin-bottom: 10px;
-    position: relative;
-    height: auto;
-    overflow: hidden;
-    font-size: 0.8em;
-}
-.prop_left {
-    width: 200px;
-    float: left;
-}
-.place {
-    position: absolute;
-    left: 5px;
-    bottom: 8px;
-    width: 200px;  /* width of the image */
-    z-index: 1;
-    background-color: #E9E9E9;
-    opacity: 0.7;
-    text-align: center;
-}
-.prop_right {
-    float: none; /* just to make it clear */
-    padding-left: 10px;
-    width: auto;
-    overflow: hidden;
-    height: auto;
-}
