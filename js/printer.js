@@ -48,7 +48,10 @@ function prints(data) {
     $('#q').append(full);
 
     var table = $("#fixTable");
-    table.tableHeadFixer({"left" : 1});
+    table.tableHeadFixer({
+        'left': 1,
+        'top': 1
+    });
     var parent = table.parent();
     parent.focus();
     // This cannot be done at $(document).ready() because the menu changes size.
@@ -88,7 +91,7 @@ function printInit() {
      * Must delete previous entries for redraw, or will just add to table */
     $("#q").empty()
     $('#units').empty()
-    $('#units').append($("<td></td>")); //Appends an empty field for the corner
+    $('#units').append($("<td></td>")); //Appends an empty cell for the corner
 }
 
 function chosenAddSkoleValg(skolenavn){
@@ -115,7 +118,7 @@ function dateInRange(Aar, Mnd, Dag){
             return true
         }
 
-    }   else {
+    } else {
 
         var fDate,lDate,cDate;
         // CHANGING TO RETARDED AMERICAN TIME UNITs
@@ -128,15 +131,30 @@ function dateInRange(Aar, Mnd, Dag){
     }
     return false
 }
-// Make the table fill the available space, while avoding scrolling of the whole pake.
+
+// Make the table fill the available height, while avoding scrolling of the whole page.
+// If tat leaves too little space for content, allow more and more parts to scroll out of view.
 function setHeight(div) {
-    var total = window.innerHeight;//$(window).height() gives different value before resize
+    var total_height = window.innerHeight;//$(window).height() gives different value before resize
     var above = div.offset().top;
-    var below = $("footer").outerHeight(true);
-    var available = total - above - below;
-    div.height(available);
+    var below = $('footer').outerHeight(true);
+    var row_height = $('#units').outerHeight(true);
+    var available = total_height - above - below;
+    if (available / row_height - 1 >= 5) {
+        // header, nav, thead & footer is effectively fixed
+        div.height(available);
+    } else if (total_height / row_height - 1 >= 2) {
+        // header, nav & footer scroll out, thead is absolute
+        div.height(total_height);
+    } else {
+        // everything scrolls
+        div.css('height', '');// removes it
+    }
+    // TODO handle width too: unsetting width on div would make other elements scroll away,
+    // so need to alter fixTable settings.
     //console.log("total: "+total+", above: "+above+", below: "+below+", available: "+available);
 }
+
 function selectSchools(ActiveSchools) {
     activeSchools = ActiveSchools
     // if reference list is empty, try to fetch a new one
