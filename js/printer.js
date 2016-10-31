@@ -6,11 +6,12 @@ var activeSchools = null; // this is requred by prints(), it also needs to  be s
 var dateRange = null; // used by printRow
 var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
-function printT() {
 
+function printT() {
     prints(SkoleObject)
     selectSchools(activeSchools);
 }
+
 function prints(data) {
     if (SkoleObject == null) SkoleObject = data;
 
@@ -19,7 +20,7 @@ function prints(data) {
 
     var full = "", units = "";
     var First = true;
-    
+
     $.each(SkoleObject, function(skolenavn, SkoleObj) { // itterer gjennom alle skolene
 
         chosenAddSkoleValg(skolenavn); // Legger skolenavnet til dropdown lista over skoler
@@ -52,13 +53,7 @@ function prints(data) {
         'left': 1,
         'top': 1
     });
-    var parent = table.parent();
-    parent.focus();
-    // This cannot be done at $(document).ready() because the menu changes size.
-    setHeight(parent);
-    $(window).resize(function() {
-      setHeight(parent);
-    })
+    table.parent().focus();
 }
 
 function getTopText(dag, mnd, aar, bes){
@@ -154,6 +149,15 @@ function setHeight(div) {
     // so need to alter fixTable settings.
     //console.log("total: "+total+", above: "+above+", below: "+below+", available: "+available);
 }
+$(document).ready(function(){
+    // The menu shrinks after this, but the footer stays at the bottom.
+    // When done in prints() the window would get a scrollbar when a school is selected.
+    var parent = $('#tableDiv');
+    setHeight(parent);
+    $(window).resize(function() {
+      setHeight(parent);
+    });
+})
 
 function selectSchools(ActiveSchools) {
     activeSchools = ActiveSchools
