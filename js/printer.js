@@ -4,13 +4,14 @@
 
 var activeSchools = null; // this is requred by prints(), it also needs to  be saved between multiple print() calls
 var dateRange = null; // used by printRow
-var typeList = null; // used by printRow TODO Add default value
+var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
-function printT() {
 
+function printT() {
     prints(SkoleObject)
     selectSchools(activeSchools);
 }
+
 function prints(data) {
     if (SkoleObject == null) SkoleObject = data;
 
@@ -19,7 +20,7 @@ function prints(data) {
 
     var full = "", units = "";
     var First = true;
-    
+
     $.each(SkoleObject, function(skolenavn, SkoleObj) { // itterer gjennom alle skolene
 
         chosenAddSkoleValg(skolenavn); // Legger skolenavnet til dropdown lista over skoler
@@ -48,17 +49,13 @@ function prints(data) {
     $('#q').append(full);
 
     var table = $("#fixTable");
-    table.tableHeadFixer({"left" : 1});
-    var parent = table.parent();
-    parent.focus();
-    // This cannot be done at $(document).ready() because the menu changes size.
-    setHeight(parent);
-    $(window).resize(function() {
-      setHeight(parent);
-    })
+    table.tableHeadFixer({
+        'left': 1,
+        'top': 1
+    });
+    table.parent().focus();
     // initilize all tooltips 
     $('[data-toggle="tooltip"]').tooltip()
-  
 }
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
@@ -108,7 +105,7 @@ function printInit() {
      * Must delete previous entries for redraw, or will just add to table */
     $("#q").empty()
     $('#units').empty()
-    $('#units').append($("<td></td>")); //Appends an empty field for the corner
+    $('#units').append($("<td></td>")); //Appends an empty cell for the corner
 }
 
 function chosenAddSkoleValg(skolenavn){
@@ -135,7 +132,7 @@ function dateInRange(Aar, Mnd, Dag){
             return true
         }
 
-    }   else {
+    } else {
 
         var fDate,lDate,cDate;
         // CHANGING TO RETARDED AMERICAN TIME UNITs
@@ -148,15 +145,39 @@ function dateInRange(Aar, Mnd, Dag){
     }
     return false
 }
-// Make the table fill the available space, while avoding scrolling of the whole pake.
+
+// Make the table fill the available height, while avoding scrolling of the whole page.
+// If tat leaves too little space for content, allow more and more parts to scroll out of view.
 function setHeight(div) {
-    var total = window.innerHeight;//$(window).height() gives different value before resize
+    var total_height = window.innerHeight;//$(window).height() gives different value before resize
     var above = div.offset().top;
-    var below = $("footer").outerHeight(true);
-    var available = total - above - below;
-    div.height(available);
+    var below = $('footer').outerHeight(true);
+    var row_height = $('#units').outerHeight(true);
+    var available = total_height - above - below;
+    if (available / row_height - 1 >= 5) {
+        // header, nav, thead & footer is effectively fixed
+        div.height(available);
+    } else if (total_height / row_height - 1 >= 2) {
+        // header, nav & footer scroll out, thead is absolute
+        div.height(total_height);
+    } else {
+        // everything scrolls
+        div.css('height', '');// removes it
+    }
+    // TODO handle width too: unsetting width on div would make other elements scroll away,
+    // so need to alter fixTable settings.
     //console.log("total: "+total+", above: "+above+", below: "+below+", available: "+available);
 }
+$(document).ready(function(){
+    // The menu shrinks after this, but the footer stays at the bottom.
+    // When done in prints() the window would get a scrollbar when a school is selected.
+    var parent = $('#tableDiv');
+    setHeight(parent);
+    $(window).resize(function() {
+      setHeight(parent);
+    });
+})
+
 function selectSchools(ActiveSchools) {
     activeSchools = ActiveSchools
     // if reference list is empty, try to fetch a new one
@@ -199,17 +220,7 @@ function filterDates(period){
     printT()
     // selectSchools(activeSchools);
 }
-function selectInfo(visningsType) {  
-    typeList = visningsType
-    if (typeList != null && typeList.length == 3) { // IF nothing selected
-        typeList = [] // make empty
-    }
 
-
-    printT()
-    //printDays(test, startRange, endRange);
-    //  selectSchools();
-}
 function cssTypes(origColour) {
     // takes in the last entry in each freedayobject, this entry contains a .css class format: E-L-S
     // Where E : Elev, L : Lærer, S : SFO, F: : False/filler for format
@@ -219,23 +230,15 @@ function cssTypes(origColour) {
     // if the entire list is empty/null will act as if all types are selected
     // Adjusts the strings from FreedayObject to match typeList
 
+    if (origColour == "F-F-F" || origColour == "E-L-S")
+        return origColour;
 
-        $.each(typeList, function(index, type) {
-
-            switch(type) {
-                case "SFO":
-                    origColour =setCharAt(origColour, 4, "F")
-                    break;
-                case "Elev":
-                    origColour = setCharAt(origColour, 0, "F")
-                    break;
-                case "Lærer":
-                    origColour = setCharAt(origColour, 2, "F")
-                    break;
-
-            }
-        });
-    
+    if (types.elev === false)
+        origColour = setCharAt(origColour, 0, "E");
+    if (types.laerer === false)
+        origColour = setCharAt(origColour, 2, "L")
+    if (types.sfo === false)
+        origColour = setCharAt(origColour, 4, "S");
     return origColour
 }
 function setCharAt(str,index,chr) {
