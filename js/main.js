@@ -17,10 +17,10 @@ function afterGet(data){
    er ferdig lest. Siden dette i noen tilfeller tar mer enn 1 gjennomkjøring,
    kan det hende at den returnerer NULL */
 function aquireJSON(){
-  var JsonPath = "../php/yngveformatcssklasser.json";
+  var JsonPath = "php/yngveformatcssklasser.json";
 
   // Henter versjons-nummeret til JSON filen
-  $.get('../php/JsonVersjon.txt', function(ver) {
+  $.get('php/JsonVersjon.txt', function(ver) {
     /* Dersom nettleseren ikke støtter localStorage, er det ikke nødvendig å sjekke
        om variabler er lagret */
       if (typeof(Storage) == "undefined"){
