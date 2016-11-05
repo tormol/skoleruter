@@ -7,5 +7,5 @@ chosenfiles/
 [Tt]humbs.db
 *.DS_Store
 *~
-/Web.config
+
 /.gitattributes
