@@ -10,6 +10,7 @@ var SkoleObject = null;
 function printT() {
     prints(SkoleObject)
     selectSchools(activeSchools);
+
 }
 
 function prints(data) {
@@ -56,6 +57,7 @@ function prints(data) {
     table.parent().focus();
     // initilize all tooltips 
     $('[data-toggle="tooltip"]').tooltip()
+    selectSchools(activeSchools);
 }
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
@@ -109,7 +111,8 @@ function printInit() {
 }
 
 function chosenAddSkoleValg(skolenavn){
-    var valg = $("<option></option>").text(skolenavn);
+    var valg = "<option value=" + skolenavn + ">" + skolenavn + "</option>"
+
     $("#skolevalg").append(valg);
     $("#skolevalg").trigger("chosen:updated");
 }
@@ -179,6 +182,7 @@ $(document).ready(function(){
 })
 
 function selectSchools(ActiveSchools) {
+    
     activeSchools = ActiveSchools
     // if reference list is empty, try to fetch a new one
     var listref = generateReferences()
@@ -196,6 +200,8 @@ function selectSchools(ActiveSchools) {
             $(refs).hide();
         }
     })
+    // This gets triggered on any changes -> Will change url so it contains linkable data;
+    doHashURL()
 }
 function generateReferences() {
 
