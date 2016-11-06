@@ -10,7 +10,7 @@ function doHashURL() {
     window.location.hash = JSON.stringify(hashObject)
 }
 function existHash() {
-    if (window.location.hash) return true;
+    if (window.location.hash) return true; // reason this is own func is cause there might be other situations to be added later
     return false;
 }
 
