@@ -14,7 +14,7 @@ function printT() {
 
 function prints(data) {
     if (SkoleObject == null) SkoleObject = data;
-
+    //console.log(data);
     /* Main printer controller */
     printInit();
 
@@ -28,7 +28,12 @@ function prints(data) {
 
         $.each(SkoleObj, function(Aar, AarObj) { // For hvert år:
             $.each(AarObj, function(Mnd, MndObj) { // For hver måned:
-                for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ // Går gjennom alle dagene i en måned
+                
+                //TODO Create a selection criteria to select which method to use. Vise bare fridager eller alle dager
+                //TODO Fjern lørdag og søndag i fridagsvisning? 
+                
+                //for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ // Går gjennom alle dagene i en måned
+                $.each(MndObj, function(Dag, DayObj){
                     //Sjekker om datoen er valid
                     if(dateInRange(Aar, Mnd, Dag)) {
                         //Legger til den rette enheten
@@ -38,7 +43,7 @@ function prints(data) {
                         else row += "<td class=" + cssTypes(MndObj[Dag][1]) + ">" + generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
                     }
                 }
-            });
+                )});
         });
         // legger til rekken
         row += "</tr>";
