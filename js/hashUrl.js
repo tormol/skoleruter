@@ -1,4 +1,6 @@
-﻿function doHashURL() {
+﻿
+
+function doHashURL() {
     hashObject = {}
   
     hashObject[0] = activeSchools;
@@ -14,15 +16,33 @@ function existHash() {
 
 
 function useHashURL() {
+    //this has to happen before print, as print depends on it.. (otherwise double draw)
 
-    var hashSchools = ["Byfjord Skole og SFO"];
+    var hashObject = JSON.parse(window.location.hash.substring(1))
 
-    console.log("TRIGGERED")
-    selectSchools(hashSchools);
-    test = fetchFirstWord(hashSchools)
-    $("#skolevalg").val(hashSchools[0].split(' ')[0])
+    // sets active schools from hash
+    fetchFirstWord(hashObject[0])
+
+    activeSchools = hashObject[0]
+    //sets dateRange
+    dateRange = hashObject[1]
+   // console.log(dateRange)
+    //sets types from hash
+    types = hashObject[2]
+    $("#vis_elev").prop('checked', hashObject[2].elev);
+    $("#vis_sfo").prop('checked', hashObject[2].sfo);
+    //printT();
+}
+function useHashURLChosen() {
+    // This has to happen after print has run, as the chosenList is dependent on it.
+
+    var hashObject = JSON.parse(window.location.hash.substring(1))
+    // updates Chosen for schools
+    fetchFirstWord(hashObject[0])
+    $("#skolevalg").val(hashObject[0])
     $("#skolevalg").trigger("chosen:updated");
 
+  
 
 }
 function fetchFirstWord(someStringArray) {

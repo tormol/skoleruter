@@ -1,6 +1,10 @@
-$(function(){
+$(function () {
+    if (existHash()) { // if this is not true, use local storage for user choices
+        useHashURL()
+    }
   addColours();
   aquireJSON();
+  
 
 });
 
@@ -8,8 +12,8 @@ $(function(){
    inn, plasseres det her */
 function afterGet(data){
     prints(data);
-    if (existHash()) {
-        useHashURL()
+    if (existHash()) { // if this is not true, use local storage for user choices
+        useHashURLChosen()
     }
 }
 

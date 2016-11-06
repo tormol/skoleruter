@@ -2,14 +2,14 @@
 
 // Pool of Global Variables, anything here needs to be commented and reasoned for
 
-var activeSchools = null; // this is requred by prints(), it also needs to  be saved between multiple print() calls
-var dateRange = null; // used by printRow
+var activeSchools // this is requred by prints(), it also needs to  be saved between multiple print() calls
+var dateRange; // used by printRow
 var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
 
 function printT() {
     prints(SkoleObject)
-    selectSchools(activeSchools);
+
 
 }
 
@@ -58,6 +58,7 @@ function prints(data) {
     // initilize all tooltips 
     $('[data-toggle="tooltip"]').tooltip()
     selectSchools(activeSchools);
+   
 }
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
@@ -182,6 +183,7 @@ $(document).ready(function(){
 })
 
 function selectSchools(ActiveSchools) {
+    console.log(ActiveSchools)
     
     activeSchools = ActiveSchools
     // if reference list is empty, try to fetch a new one
@@ -189,7 +191,8 @@ function selectSchools(ActiveSchools) {
 
 
     //iterate through the reference list
-    $.each(listref, function(skoler, refs) {
+    $.each(listref, function (skoler, refs) {
+       // console.log(skoler)
         //check if selected school is in display list,
         // if no schools is in display list, show all schools
         if (($.inArray(skoler, activeSchools)) != -1 || activeSchools == null) {
@@ -201,7 +204,7 @@ function selectSchools(ActiveSchools) {
         }
     })
     // This gets triggered on any changes -> Will change url so it contains linkable data;
-    doHashURL()
+   doHashURL()
 }
 function generateReferences() {
 
@@ -211,7 +214,9 @@ function generateReferences() {
     // loops through each reference to fetch schoolname of that references
     $.each(references, function(index, objects) {
         // store each reference in listref with schoolname as index
-        listref[objects.firstChild.textContent] = objects;
+        sN = objects.firstChild.textContent.split(" ")[0]
+       // console.log(sN + "dsad")
+        listref[sN] = objects;
     })
     return listref;
 }
