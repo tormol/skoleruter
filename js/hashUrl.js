@@ -25,10 +25,10 @@ function useHashURL() {
 
     activeSchools = hashObject[0]
     //sets dateRange
-    dateRange = hashObject[1]
+    dateRange = hashObject[1] //the calender will auto set it to DateRange aswell if it != null.
    // console.log(dateRange)
     //sets types from hash
-    types = hashObject[2]
+    types = hashObject[2] // this is for the table generation, the two below is for visual
     $("#vis_elev").prop('checked', hashObject[2].elev);
     $("#vis_sfo").prop('checked', hashObject[2].sfo);
     //printT();
