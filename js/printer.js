@@ -1,5 +1,5 @@
 /* An attempt to make Printer a lot more readable and structured */
-
+//t
 // Pool of Global Variables, anything here needs to be commented and reasoned for
 
 var activeSchools = null; // this is requred by prints(), it also needs to  be saved between multiple print() calls
