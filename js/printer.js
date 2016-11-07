@@ -65,9 +65,9 @@ function generateTooltip(str, opts) {
         //using CSS Logic to generate a string of who the str affects
         temp = ""
         if (opts.substr(0, 1) != 'F') temp += "Elev";
-        if (temp != "" && opts.substr(2, 1) != 'F') temp += ", "
-        if (opts.substr(2, 1) != 'F') temp += "Lærer";
-        if (temp != "" && opts.substr(4, 1) != 'F') temp += ", "
+      //  if (temp != "" && opts.substr(2, 1) != 'F') temp += ", "
+     //   if (opts.substr(2, 1) != 'F') temp += "Lærer"; - FJærne Lærer
+        if (temp != "" && opts.substr(4, 1) != 'F') temp += " og "
         if (opts.substr(4, 1) != 'F') temp += "SFO";
         opts = temp;
     }
@@ -235,8 +235,9 @@ function cssTypes(origColour) {
 
     if (types.elev === false)
         origColour = setCharAt(origColour, 0, "E");
-    if (types.laerer === false)
+    /*if (types.laerer === false)
         origColour = setCharAt(origColour, 2, "L")
+        */ // fjærne lærer
     if (types.sfo === false)
         origColour = setCharAt(origColour, 4, "S");
     return origColour
