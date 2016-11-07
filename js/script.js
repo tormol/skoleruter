@@ -87,13 +87,20 @@ $(function() {
             ],
             "firstDay": 1
         },
-        "startDate": "01/10/2016",
-        "endDate": "01/11/2016",
+        "startDate": getDate()["start"],
+        "endDate": getDate()["end"],
         "minDate": "01/08/2016"
     }, function(start, end, label) {
         var period ={start:start.format('DD/MM/YYYY'),end:end.format('DD/MM/YYYY')};
         filterDates(period)
         //console.log(period);
-        console.log("New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY') + ' (predefined range: ' + label + ')");
+       // console.log("New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY') + ' (predefined range: ' + label + ')");
     }); 
 });
+function getDate() {
+    if (dateRange != null) {
+        
+        return dateRange
+    }
+    return {"start": 01/10/2016, "end": 01/11/2016}
+}
