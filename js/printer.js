@@ -55,15 +55,15 @@ function prints(data) {
         'top': 1
     });
     table.parent().focus();
-    // initilize all tooltips 
+    // initilize all tooltips
     $('[data-toggle="tooltip"]').tooltip()
     selectSchools(activeSchools);
-   
+
 }
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
-    if (opts == "E-L-S") opts = "alle"; // if logic says all 
-        
+    if (opts == "E-L-S") opts = "alle"; // if logic says all
+
     else {
         //using CSS Logic to generate a string of who the str affects
         temp = ""
@@ -183,8 +183,6 @@ $(document).ready(function(){
 })
 
 function selectSchools(ActiveSchools) {
-    console.log(ActiveSchools)
-    
     activeSchools = ActiveSchools
     // if reference list is empty, try to fetch a new one
     var listref = generateReferences()
