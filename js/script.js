@@ -31,20 +31,22 @@ function getskolevalg2(evt, params){
 });
 
 $(function(){
-    $('.chosen-select2').on('change', function(evt, params) {
-        getinfovalg(evt, params);
+    types.elev = $("#vis_elev").is(":checked");
+    types.sfo = $("#vis_sfo").is(":checked");
+    types.laerer = $("#vis_laerer").is(":checked");
+    $('#vis_elev').on('change', function() {
+        types.elev = !types.elev;
+        printT();
+    });
+    $('#vis_sfo').on('change', function() {
+        types.sfo = !types.sfo;
+        printT();
+    });
+    $('#vis_laerer').on('change', function() {
+        types.laerer = !types.laerer;
+        printT();
     });
 });
-
-//funksjon for å hente ut valgte skoler
-function getinfovalg(evt, params){
-    var valg = [];
-    var choices = ["Elev", "SFO", "Lærer"];
-    valg = $('.chosen-select2').val()
-    var infovalg = choices.filter(function(obj) { if(valg) {return valg.indexOf(obj) == -1; } else {return choices}});
-    //console.log(infovalg);
-    selectInfo(infovalg);
-    }
 
 $(function() {
     $('input[name="daterange"]').daterangepicker({
@@ -85,13 +87,20 @@ $(function() {
             ],
             "firstDay": 1
         },
-        "startDate": "01/10/2016",
-        "endDate": "01/11/2016",
+        "startDate": getDate()["start"],
+        "endDate": getDate()["end"],
         "minDate": "01/08/2016"
     }, function(start, end, label) {
         var period ={start:start.format('DD/MM/YYYY'),end:end.format('DD/MM/YYYY')};
         filterDates(period)
         //console.log(period);
-        console.log("New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY') + ' (predefined range: ' + label + ')");
+       // console.log("New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY') + ' (predefined range: ' + label + ')");
     }); 
 });
+function getDate() {
+    if (dateRange != null) {
+        
+        return dateRange
+    }
+    return {"start": 01/10/2016, "end": 01/11/2016}
+}

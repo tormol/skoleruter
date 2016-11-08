@@ -1,12 +1,20 @@
-$(function(){
+$(function () {
+    if (existHash()) { // if this is not true, use local storage for user choices
+        useHashURL()
+    }
   addColours();
   aquireJSON();
+  
+
 });
 
 /* Dersom man ønsker å endre på hva som skjer etter at dataene er lastet
    inn, plasseres det her */
 function afterGet(data){
-  prints(data);
+    prints(data);
+    if (existHash()) { // if this is not true, use local storage for user choices
+        useHashURLChosen()
+    }
 }
 
 /* Denne funksjonen bruker localStorage til å lagre og hente JSON filen

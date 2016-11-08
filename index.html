@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Skoleruter | main page</title>
-    <!-- This is Test-->
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- TODO add more metadata? -->
 
@@ -37,6 +37,7 @@
     <script src="js/chosen.jquery.min.js"></script>
     <script src="js/transition.js"></script>
     <script src="js/collapse.js"></script>
+    <script src="js/hashUrl.js"></script>
 </head>
 <body>
 
@@ -63,35 +64,37 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <form class="navbar-form navbar-left">
         <div class="form-group">
+          <label for="skolevalg" class="sr-only">Velg skole(r)</label>
           <select class="chosen-select" id="skolevalg" data-placeholder="Velg skole..." multiple style="width:350px;">
           </select>
         </div>
 
         <!-- Valgbar for type rolle -->
         <div class="form-group">
-          <select class="chosen-select2" id="infovalg" data-placeholder="Velg hva du vil se..." multiple style="width:350px;">
-            <option>Elev</option>
-            <option>SFO</option>
-            <option>Lærer</option>
-          </select>
+          Filter: 
+          <input  id="vis_elev" type="checkbox" checked="checked" />
+          <label for="vis_elev">Skolefri</label>
+          <input  id="vis_sfo" type="checkbox" checked="checked" />
+          <label for="vis_sfo">SFO stengt</label>
         </div>
 
         <div class="form-group">
+          <label for="date_range" class="sr-only">Begrens tidsperiode</label>
           <div class='input-group date' id='datetimepicker1'>
-            <input type='text' name="daterange" class="form-control" />
+            <input type='text' name="daterange" class="form-control" id="date_range" />
             <span class="input-group-addon">
               <span class="glyphicon glyphicon-calendar"></span>
             </span>
           </div>
         </div>
 
-        <div class="form-group sr-hidden" id="legend">
+        <div class="form-group" id="legend" aria-hidden="true">
           <div class="F-F-F"></div>
           <div class="E-L-S"></div>
-          <div class="E-L-F"></div>
+        <!--   <div class="E-L-F"></div>-->
           <div class="F-F-S"></div>
           <div class="E-F-F"></div>
-          <div class="E-F-S"></div>
+         <!-- <div class="E-F-S"></div>-->
         </div>
       </form>
     </div><!-- /.navbar-collapse -->
@@ -115,7 +118,7 @@
 
 
 <footer>
-  <div class="well">
+  <div id="footer-box">
     <span class="strong">Kunde service:</span>
     | +47 321 09 654
     | <a href="#">contact@noreply.com</a>

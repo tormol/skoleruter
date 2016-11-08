@@ -1,21 +1,18 @@
 /* An attempt to make Printer a lot more readable and structured */
-
+//t
 // Pool of Global Variables, anything here needs to be commented and reasoned for
 
-var activeSchools = null; // this is requred by prints(), it also needs to  be saved between multiple print() calls
-var dateRange = null; // used by printRow
-var typeList = null; // used by printRow TODO Add default value
+var activeSchools // this is requred by prints(), it also needs to  be saved between multiple print() calls
+var dateRange; // used by printRow
+var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
 
-var skolerinfo = importJsonWithPictures(); //Hente info fra json
-var modals="";
-var number=1;
-
 function printT() {
-
     prints(SkoleObject)
-    selectSchools(activeSchools);
+
+
 }
+
 function prints(data) {
     if (SkoleObject == null) SkoleObject = data;
 
@@ -26,12 +23,9 @@ function prints(data) {
     var First = true;
 
     $.each(SkoleObject, function(skolenavn, SkoleObj) { // itterer gjennom alle skolene
-        modalnavn="modal"+number.toString();
-        number++;
-        modals+= addModalForSchool(skolenavn,modalnavn,skolerinfo);
 
         chosenAddSkoleValg(skolenavn); // Legger skolenavnet til dropdown lista over skoler
-        var row = "<tr><td data-toggle=\"modal\" data-target=\"#"+modalnavn+"\">" + skolenavn + "</td>";
+        var row = "<tr><td>" + skolenavn + "</td>";
 
         $.each(SkoleObj, function(Aar, AarObj) { // For hvert år:
             $.each(AarObj, function(Mnd, MndObj) { // For hver måned:
@@ -55,32 +49,28 @@ function prints(data) {
     $('#units').append(units);
     $('#q').append(full);
 
-    document.body.innerHTML+=modals;
-
     var table = $("#fixTable");
-    table.tableHeadFixer({"left" : 1});
-    var parent = table.parent();
-    parent.focus();
-    // This cannot be done at $(document).ready() because the menu changes size.
-    setHeight(parent);
-    $(window).resize(function() {
-      setHeight(parent);
-    })
-    // initilize all tooltips
+    table.tableHeadFixer({
+        'left': 1,
+        'top': 1
+    });
+    table.parent().focus();
+    // initilize all tooltips 
     $('[data-toggle="tooltip"]').tooltip()
-
+    selectSchools(activeSchools);
+   
 }
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
-    if (opts == "E-L-S") opts = "alle"; // if logic says all
-
+    if (opts == "E-L-S") opts = "alle"; // if logic says all 
+        
     else {
         //using CSS Logic to generate a string of who the str affects
         temp = ""
         if (opts.substr(0, 1) != 'F') temp += "Elev";
-        if (temp != "" && opts.substr(2, 1) != 'F') temp += ", "
-        if (opts.substr(2, 1) != 'F') temp += "Lærer";
-        if (temp != "" && opts.substr(4, 1) != 'F') temp += ", "
+      //  if (temp != "" && opts.substr(2, 1) != 'F') temp += ", "
+     //   if (opts.substr(2, 1) != 'F') temp += "Lærer"; - FJærne Lærer
+        if (temp != "" && opts.substr(4, 1) != 'F') temp += " og "
         if (opts.substr(4, 1) != 'F') temp += "SFO";
         opts = temp;
     }
@@ -118,11 +108,12 @@ function printInit() {
      * Must delete previous entries for redraw, or will just add to table */
     $("#q").empty()
     $('#units').empty()
-    $('#units').append($("<td></td>")); //Appends an empty field for the corner
+    $('#units').append($("<td></td>")); //Appends an empty cell for the corner
 }
 
 function chosenAddSkoleValg(skolenavn){
-    var valg = $("<option></option>").text(skolenavn);
+    var valg = "<option value=" + skolenavn + ">" + skolenavn + "</option>"
+
     $("#skolevalg").append(valg);
     $("#skolevalg").trigger("chosen:updated");
 }
@@ -145,7 +136,7 @@ function dateInRange(Aar, Mnd, Dag){
             return true
         }
 
-    }   else {
+    } else {
 
         var fDate,lDate,cDate;
         // CHANGING TO RETARDED AMERICAN TIME UNITs
@@ -158,23 +149,50 @@ function dateInRange(Aar, Mnd, Dag){
     }
     return false
 }
-// Make the table fill the available space, while avoding scrolling of the whole pake.
+
+// Make the table fill the available height, while avoding scrolling of the whole page.
+// If tat leaves too little space for content, allow more and more parts to scroll out of view.
 function setHeight(div) {
-    var total = window.innerHeight;//$(window).height() gives different value before resize
+    var total_height = window.innerHeight;//$(window).height() gives different value before resize
     var above = div.offset().top;
-    var below = $("footer").outerHeight(true);
-    var available = total - above - below;
-    div.height(available);
+    var below = $('footer').outerHeight(true);
+    var row_height = $('#units').outerHeight(true);
+    var available = total_height - above - below;
+    if (available / row_height - 1 >= 5) {
+        // header, nav, thead & footer is effectively fixed
+        div.height(available);
+    } else if (total_height / row_height - 1 >= 2) {
+        // header, nav & footer scroll out, thead is absolute
+        div.height(total_height);
+    } else {
+        // everything scrolls
+        div.css('height', '');// removes it
+    }
+    // TODO handle width too: unsetting width on div would make other elements scroll away,
+    // so need to alter fixTable settings.
     //console.log("total: "+total+", above: "+above+", below: "+below+", available: "+available);
 }
+$(document).ready(function(){
+    // The menu shrinks after this, but the footer stays at the bottom.
+    // When done in prints() the window would get a scrollbar when a school is selected.
+    var parent = $('#tableDiv');
+    setHeight(parent);
+    $(window).resize(function() {
+      setHeight(parent);
+    });
+})
+
 function selectSchools(ActiveSchools) {
+    console.log(ActiveSchools)
+    
     activeSchools = ActiveSchools
     // if reference list is empty, try to fetch a new one
     var listref = generateReferences()
 
 
     //iterate through the reference list
-    $.each(listref, function(skoler, refs) {
+    $.each(listref, function (skoler, refs) {
+       // console.log(skoler)
         //check if selected school is in display list,
         // if no schools is in display list, show all schools
         if (($.inArray(skoler, activeSchools)) != -1 || activeSchools == null) {
@@ -185,6 +203,8 @@ function selectSchools(ActiveSchools) {
             $(refs).hide();
         }
     })
+    // This gets triggered on any changes -> Will change url so it contains linkable data;
+   doHashURL()
 }
 function generateReferences() {
 
@@ -194,7 +214,9 @@ function generateReferences() {
     // loops through each reference to fetch schoolname of that references
     $.each(references, function(index, objects) {
         // store each reference in listref with schoolname as index
-        listref[objects.firstChild.textContent] = objects;
+        sN = objects.firstChild.textContent.split(" ")[0]
+       // console.log(sN + "dsad")
+        listref[sN] = objects;
     })
     return listref;
 }
@@ -209,17 +231,7 @@ function filterDates(period){
     printT()
     // selectSchools(activeSchools);
 }
-function selectInfo(visningsType) {
-    typeList = visningsType
-    if (typeList != null && typeList.length == 3) { // IF nothing selected
-        typeList = [] // make empty
-    }
 
-
-    printT()
-    //printDays(test, startRange, endRange);
-    //  selectSchools();
-}
 function cssTypes(origColour) {
     // takes in the last entry in each freedayobject, this entry contains a .css class format: E-L-S
     // Where E : Elev, L : Lærer, S : SFO, F: : False/filler for format
@@ -229,77 +241,19 @@ function cssTypes(origColour) {
     // if the entire list is empty/null will act as if all types are selected
     // Adjusts the strings from FreedayObject to match typeList
 
+    if (origColour == "F-F-F" || origColour == "E-L-S")
+        return origColour;
 
-        $.each(typeList, function(index, type) {
-
-            switch(type) {
-                case "SFO":
-                    origColour =setCharAt(origColour, 4, "F")
-                    break;
-                case "Elev":
-                    origColour = setCharAt(origColour, 0, "F")
-                    break;
-                case "Lærer":
-                    origColour = setCharAt(origColour, 2, "F")
-                    break;
-
-            }
-        });
-
+    if (types.elev === false)
+        origColour = setCharAt(origColour, 0, "E");
+    /*if (types.laerer === false)
+        origColour = setCharAt(origColour, 2, "L")
+        */ // fjærne lærer
+    if (types.sfo === false)
+        origColour = setCharAt(origColour, 4, "S");
     return origColour
 }
 function setCharAt(str,index,chr) {
     if(index > str.length-1) return str;
     return str.substr(0,index) + chr + str.substr(index+1);
-}
-function addModalForSchool(skolenavn,modalnavn,skoler){//Legg til modal for en skole
-  var link="";
-  var adresse="";
-  var tlf="";
-  var hjemmeside="";
-  var snavn = skolenavn.split(" ");
-  for(var i = 0; i < skoler.length; i++) {
-    if (skoler[i]["navn"] == snavn[0]) {
-        link=skoler[i]["bilde"];
-        adresse=skoler[i]["adresse"];
-        tlf=skoler[i]["tlf"];
-        hjemmeside=skoler[i]["nettside"];
-        break;
-    }
-  }
-
-  var temp= "<div class=\"modal fade\" id=\""+modalnavn+"\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\"><div class=\"modal-dialog\" role=\"document\"><div class=\"modal-content\"><div class=\"modal-header\">"+
-            "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\"\>&times;</span></button><h4 class=\"modal-title\" id=\"myModalLabel\">Informasjon om skole</h4></div><div class=\"modal-body\"><div class=\"framed\"><div class=\"prop_left\">"+
-            "<img src=\""+link+"\" alt=\""+skolenavn+"\" width=\"200px\"/><div class=\"place\">"+skolenavn+"</div></div><div class=\"prop_right\"><h3>"+skolenavn+"</h3><p>Telefonnummer: "+tlf+"</p></div></div><h1>Informasjon</h1><div class=\"framed\">"+
-            "Hjemmeside: <a href=\""+hjemmeside+"\"target=\"_blank\">"+hjemmeside+"</a><br>Adresse: "+adresse+"</div></div>"+
-            "<div class=\"modal-footer\"><form class=\"prop_left\" action=\"\">Meld deg på epostvarsling:<br>Email:<input type=\"text\" name=\"email\" value=\"\"> <input type=\"submit\" value=\"Send\"></form> <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button></div></div></div></div>";
-  return temp;
-}
-function importJsonWithPictures(){ //Importer json med skoleinfo
-  var schoollist =new Array();
-  $.ajaxSetup({
-    async: false
-});
-  $.getJSON( "data/infoomskoleraleksander.json", function( data ) {
-    var link = "";
-    var fileending="";
-    var now=0;
-    $.each( data, function( key, val ) {
-      if(key=="nettside"){
-        link=val;
-      }
-      else if(key=="fil"){
-        fileending=val;
-      }
-      else{
-        $.each( val, function( key, val ) {
-            var navn =key.split(" ");
-            var temps= {navn:navn[0],adresse:val["adresse"],nettside:val["hjemmeside"],posisjon:null,bilde:link+val["bilde"]+fileending,tlf:val["tlf"]};
-            schoollist.push(temps);
-          })
-        }
-    });
-});
-return schoollist;
-//skolerliste= schoollist;
 }
