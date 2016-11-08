@@ -1,6 +1,7 @@
 <?php
 //Written by Aleksander Vevle
 //Work in Progress
+//Will simplify 
 $mysqli = mysqli_connect("localhost", "root", "", "skoleruter");
 mysqli_set_charset($mysqli, "utf8"); //Set charset
 if ($mysqli->connect_error) {
@@ -82,7 +83,7 @@ foreach ($keyselev as $e) {
                     array_push($elevsfosammen[$name], array(
                         $copyelev[0][0],
                         $copyelev[0][1],
-                        'E-L-S'
+                        'E-S'//'E-L-S'
                     )); //FRIDAG
                     array_shift($copyelev);
                     array_shift($copysfo);
@@ -90,7 +91,7 @@ foreach ($keyselev as $e) {
                     array_push($elevsfosammen[$name], array(
                         $copyelev[0][0],
                         $copyelev[0][1],
-                        'E-F-S'
+                        'E-S'//'E-F-S'
                     )); //Lærerdag
                     array_shift($copyelev);
                     array_shift($copysfo);
@@ -98,21 +99,21 @@ foreach ($keyselev as $e) {
                     array_push($elevsfosammen[$name], array(
                         $copyelev[0][0],
                         $copyelev[0][1],
-                        'E-L-F'
+                        'E-F'//'E-L-F'
                     )); //SFODAG
                     array_shift($copyelev);
                 } else if ((strtotime($copyelev[0][0]) < strtotime($copysfo[0][0])) && ($copyelev[0][2] == 1)) {
                     array_push($elevsfosammen[$name], array(
                         $copyelev[0][0],
                         $copyelev[0][1],
-                        'E-F-F'
+                        'E-F'//'E-F-F'
                     )); //SFODAG
                     array_shift($copyelev);
                 } else {
                     array_push($elevsfosammen[$name], array(
                         $copysfo[0][0],
                         $copysfo[0][1],
-                        'F-F-S'
+                        'F-S'//'F-F-S'
                     )); //SFOFRIDAG
                     array_shift($copysfo);
                 }
@@ -126,13 +127,13 @@ foreach ($keyselev as $e) {
                 array_push($elevsfosammen[$e], array(
                     $day[0],
                     $day[1],
-                    'E-L-S'
+                    'E-S'//'E-L-S'
                 )); //FRIDAG
             } else {
                 array_push($elevsfosammen[$e], array(
                     $day[0],
                     $day[1],
-                    'F-L-S'
+                    'F-S'//'F-L-S'
                 )); //Lærerdag
             }
             //array_push($elevsfosammen[$e],$day);
