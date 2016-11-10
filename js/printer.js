@@ -6,17 +6,7 @@ var activeSchools = null; // this is requred by prints(), it also needs to  be s
 var dateRange = null; // used by printRow
 var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
-
-function addDays(Dag, Mnd, Aar, MndObj){
-    //Sjekker om datoen er valid
-    if(dateInRange(Aar, Mnd, Dag)) {
-        //Legger til den rette enheten
-        if(First) units += getTopText(Dag, Mnd, Aar, MndObj[Dag]);
-        //Legger til dagen
-        if (MndObj[Dag] == undefined) row += "<td></td>";
-        else row += "<td class=" + cssTypes(MndObj[Dag][1]) + ">" + generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
-    }
-}
+var fridag = false; // controls if all days or only fridag should be shown
 
 function printT() {
     prints(SkoleObject)
@@ -25,13 +15,13 @@ function printT() {
 
 function prints(data) {
     if (SkoleObject == null) SkoleObject = data;
-    //console.log(data);
+
     /* Main printer controller */
     printInit();
 
     var full = "", units = "";
     var First = true;
-    var fridag = true;
+
 
     $.each(SkoleObject, function(skolenavn, SkoleObj) { // itterer gjennom alle skolene
 
@@ -41,16 +31,33 @@ function prints(data) {
         $.each(SkoleObj, function(Aar, AarObj) { // For hvert år:
             $.each(AarObj, function(Mnd, MndObj) { // For hver måned:
                 
-                //TODO Create a selection criteria to select which method to use. Vise bare fridager eller alle dager
-                //TODO Fjern lørdag og søndag i fridagsvisning? 
-                // if(fridag){
-
-                // }
-                // //for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ // Går gjennom alle dagene i en måned
-                $.each(MndObj, function(Dag, DagObj){
-                    addDays(Dag, Mnd, Aar, MndObj);
+                if(fridag){   
+                for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ // Går gjennom alle dagene i en måned              
+                        if(dateInRange(Aar, Mnd, Dag)) {
+                        //Legger til den rette enheten
+                        if(First) units += getTopText(Dag, Mnd, Aar, MndObj[Dag]);
+                        //Legger til dagen
+                        if (MndObj[Dag] == undefined) {
+                            row += "<td></td>";
+                        }
+                        else row += "<td class=" + cssTypes(MndObj[Dag][1]) + ">" + generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
+                        }
+                    }
                 }
-                )});
+                
+                else{
+                $.each(MndObj, function(Dag, DagObj){
+                    if(MndObj[Dag][0] !== 'Lørdag' && MndObj[Dag][0] !== 'Søndag'){
+                        if(dateInRange(Aar, Mnd, Dag)) {
+                        //Legger til den rette enheten
+                        if(First) units += getTopText(Dag, Mnd, Aar, MndObj[Dag]);
+                            //Legger til dagen
+                            row += "<td class=" + cssTypes(MndObj[Dag][1]) + ">" + generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
+                        }
+                    }
+                }
+                )};
+        });
         });
         // legger til rekken    
         row += "</tr>";
