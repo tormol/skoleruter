@@ -6,7 +6,7 @@ var activeSchools = null; // this is requred by prints(), it also needs to  be s
 var dateRange = null; // used by printRow
 var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
-var fridag = false; // controls if all days or only fridag should be shown
+var fridag = true; // controls if all days or only fridag should be shown
 
 function printT() {
     prints(SkoleObject)
