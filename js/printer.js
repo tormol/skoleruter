@@ -7,6 +7,17 @@ var dateRange = null; // used by printRow
 var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
 
+function addDays(Dag, Mnd, Aar, MndObj){
+    //Sjekker om datoen er valid
+    if(dateInRange(Aar, Mnd, Dag)) {
+        //Legger til den rette enheten
+        if(First) units += getTopText(Dag, Mnd, Aar, MndObj[Dag]);
+        //Legger til dagen
+        if (MndObj[Dag] == undefined) row += "<td></td>";
+        else row += "<td class=" + cssTypes(MndObj[Dag][1]) + ">" + generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
+    }
+}
+
 function printT() {
     prints(SkoleObject)
     selectSchools(activeSchools);
@@ -20,6 +31,7 @@ function prints(data) {
 
     var full = "", units = "";
     var First = true;
+    var fridag = true;
 
     $.each(SkoleObject, function(skolenavn, SkoleObj) { // itterer gjennom alle skolene
 
@@ -31,21 +43,16 @@ function prints(data) {
                 
                 //TODO Create a selection criteria to select which method to use. Vise bare fridager eller alle dager
                 //TODO Fjern lørdag og søndag i fridagsvisning? 
-                
-                //for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ // Går gjennom alle dagene i en måned
-                $.each(MndObj, function(Dag, DayObj){
-                    //Sjekker om datoen er valid
-                    if(dateInRange(Aar, Mnd, Dag)) {
-                        //Legger til den rette enheten
-                        if(First) units += getTopText(Dag, Mnd, Aar, MndObj[Dag]);
-                        //Legger til dagen
-                        if (MndObj[Dag] == undefined) row += "<td></td>";
-                        else row += "<td class=" + cssTypes(MndObj[Dag][1]) + ">" + generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
-                    }
+                // if(fridag){
+
+                // }
+                // //for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ // Går gjennom alle dagene i en måned
+                $.each(MndObj, function(Dag, DagObj){
+                    addDays(Dag, Mnd, Aar, MndObj);
                 }
                 )});
         });
-        // legger til rekken
+        // legger til rekken    
         row += "</tr>";
         full += row;
         if(First) First = false;
@@ -62,6 +69,9 @@ function prints(data) {
     // initilize all tooltips 
     $('[data-toggle="tooltip"]').tooltip()
 }
+
+
+
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
     if (opts == "E-L-S") opts = "alle"; // if logic says all 
