@@ -6,7 +6,7 @@ var activeSchools // this is requred by prints(), it also needs to  be saved bet
 var dateRange; // used by printRow
 var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
-var skolerinfo = importJsonWithPictures();
+
 
 function printT() {
     prints(SkoleObject)
@@ -19,7 +19,7 @@ function prints(data) {
 
     /* Main printer controller */
     printInit();
-
+    var skolerinfo = importJsonWithPictures();
     var full = "", units = "";
     var First = true;
     var modals="";
@@ -55,8 +55,7 @@ function prints(data) {
     });
     $('#units').append(units);
     $('#q').append(full);
-
-    document.body.innerHTML+=modals;
+    $('#tableDiv').append(modals); // Legge til infosider om skoler
 
     var table = $("#fixTable");
     table.tableHeadFixer({
