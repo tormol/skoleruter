@@ -10,8 +10,6 @@ var fridag = true; // controls if all days or only fridag should be shown
 
 function printT() {
     prints(SkoleObject)
-
-
 }
 
 function prints(data) {

@@ -104,3 +104,11 @@ function getDate() {
     }
     return {"start": 01/10/2016, "end": 01/11/2016}
 }
+
+$(function(){
+    fridag = $("#fridag_valg").is(":checked");
+    $('#fridag_valg').on('change', function() {
+        fridag = !fridag;
+        printT();
+    });
+});
