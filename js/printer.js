@@ -7,6 +7,7 @@ var dateRange; // used by printRow
 var types = {elev:true, sfo:true}; // changed by checkboxes and read by cssTypes///
 var SkoleObject = null;
 
+
 function printT() {
     prints(SkoleObject)
 
@@ -18,14 +19,20 @@ function prints(data) {
 
     /* Main printer controller */
     printInit();
-
+    var skolerinfo = importJsonWithPictures();
     var full = "", units = "";
     var First = true;
+    var modals="";
+    var number=1;
 
     $.each(SkoleObject, function(skolenavn, SkoleObj) { // itterer gjennom alle skolene
 
         chosenAddSkoleValg(skolenavn); // Legger skolenavnet til dropdown lista over skoler
-        var row = "<tr><td>" + skolenavn + "</td>";
+        modalnavn="modal"+number.toString();
+        number++;
+        modals+= addModalForSchool(skolenavn,modalnavn,skolerinfo);
+        //var row = "<tr><td>" + skolenavn + "</td>";
+        var row = "<tr><td class=\"modalstyling\" data-toggle=\"modal\" data-target=\"#"+modalnavn+"\">" + skolenavn + "</td>";
 
         $.each(SkoleObj, function(Aar, AarObj) { // For hvert år:
             $.each(AarObj, function(Mnd, MndObj) { // For hver måned:
@@ -48,6 +55,7 @@ function prints(data) {
     });
     $('#units').append(units);
     $('#q').append(full);
+    $('#tableDiv').append(modals); // Legge til infosider om skoler
 
     var table = $("#fixTable");
     table.tableHeadFixer({
@@ -55,15 +63,15 @@ function prints(data) {
         'top': 1
     });
     table.parent().focus();
-    // initilize all tooltips 
+    // initilize all tooltips
     $('[data-toggle="tooltip"]').tooltip()
     selectSchools(activeSchools);
-   
+
 }
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
-    if (opts == "E-L-S") opts = "alle"; // if logic says all 
-        
+    if (opts == "E-L-S") opts = "alle"; // if logic says all
+
     else {
         //using CSS Logic to generate a string of who the str affects
         temp = ""
@@ -184,7 +192,7 @@ $(document).ready(function(){
 
 function selectSchools(ActiveSchools) {
     console.log(ActiveSchools)
-    
+
     activeSchools = ActiveSchools
     // if reference list is empty, try to fetch a new one
     var listref = generateReferences()
@@ -256,4 +264,67 @@ function cssTypes(origColour) {
 function setCharAt(str,index,chr) {
     if(index > str.length-1) return str;
     return str.substr(0,index) + chr + str.substr(index+1);
+}
+
+function addModalForSchool(skolenavn,modalnavn,skoler){
+  var link="";
+  var adresse="";
+  var tlf="";
+  var hjemmeside="";
+  //console.log(skoler.length);
+  var snavn = skolenavn.split(" ");
+  //console.log(snavn);
+  for(var i = 0; i < skoler.length; i++) {
+    //console.log(i);
+    //console.log(skoler[i]["navn"]);
+
+    if (skoler[i]["navn"] == snavn[0]) {
+        link=skoler[i]["bilde"];
+        adresse=skoler[i]["adresse"];
+        tlf=skoler[i]["tlf"];
+        hjemmeside=skoler[i]["nettside"];
+        break;
+    }
+  }
+
+  var temp= "<div class=\"modal fade\" id=\""+modalnavn+"\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\"><div class=\"modal-dialog\" role=\"document\"><div class=\"modal-content\"><div class=\"modal-header\">"+
+        "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\"\>&times;</span></button><h4 class=\"modal-title\" id=\"myModalLabel\">Informasjon om skole</h4></div><div class=\"modal-body\"><div class=\"framed\"><div class=\"prop_left\">"+
+            "<img src=\""+link+"\" alt=\""+skolenavn+"\" width=\"200px\"/><div class=\"place\">"+skolenavn+"</div></div><div class=\"prop_right\"><h3>"+skolenavn+"</h3><p>Telefonnummer: "+tlf+"</p></div></div><h1>Informasjon</h1><div class=\"framed\">"+
+        "Hjemmeside: <a href=\""+hjemmeside+"\"target=\"_blank\">"+hjemmeside+"</a><br>Adresse: "+adresse+"</div></div>"+
+      "<div class=\"modal-footer\"><form class=\"prop_left\" action=\"\">Meld deg på epostvarsling:<br>Email:<input type=\"text\" name=\"email\" value=\"\"> <input type=\"submit\" value=\"Submit\"></form> <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button></div></div></div></div>";
+return temp;
+}
+
+function importJsonWithPictures(){
+  var schoollist =new Array();
+  $.ajaxSetup({
+    async: false
+});
+  $.getJSON( "data/infoomskoleraleksander.json", function( data ) {
+    //console.log( "JSON Data: " + data);
+    var link = "";
+    var fileending="";
+    var now=0;
+    $.each( data, function( key, val ) {
+      if(key=="nettside"){
+        link=val;
+      }
+      else if(key=="fil"){
+        fileending=val;
+      }
+      else{
+        $.each( val, function( key, val ) {
+          var navn =key.split(" ");
+          //console.log(val["tlf"]);
+          var temps= {navn:navn[0],adresse:val["adresse"],nettside:val["hjemmeside"],posisjon:null,bilde:link+val["bilde"]+fileending,tlf:val["tlf"]};
+            schoollist.push(temps);
+          })
+        }
+    });
+    //});
+    //console.log(schoollist.length);
+return schoollist;
+});
+return schoollist;
+//skolerliste= schoollist;
 }
