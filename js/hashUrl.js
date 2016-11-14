@@ -14,11 +14,15 @@ function existHash() {
     return false;
 }
 
-
+function decodeHash() {
+    var URIEncoded = window.location.hash.substring(1);
+    var json = decodeURIComponent(URIEncoded);
+    return JSON.parse(json);
+}
 function useHashURL() {
     //this has to happen before print, as print depends on it.. (otherwise double draw)
 
-    var hashObject = JSON.parse(window.location.hash.substring(1))
+    var hashObject = decodeHash()
 
     // sets active schools from hash
     fetchFirstWord(hashObject[0])
@@ -36,7 +40,7 @@ function useHashURL() {
 function useHashURLChosen() {
     // This has to happen after print has run, as the chosenList is dependent on it.
 
-    var hashObject = JSON.parse(window.location.hash.substring(1))
+    var hashObject = decodeHash()
     // updates Chosen for schools
     fetchFirstWord(hashObject[0])
     $("#skolevalg").val(hashObject[0])
