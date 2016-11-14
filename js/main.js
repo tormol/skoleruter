@@ -1,20 +1,20 @@
 $(function () {
     if (existHash()) { // if this is not true, use local storage for user choices
-        useHashURL()
+        useHashURL();
+        canStoreChanges = settingsIsHash();
     }
+    else loadSettings();
   addColours();
   aquireJSON();
-  
-
+  console.log("Can edit: " + canStoreChanges);
 });
 
 /* Dersom man ønsker å endre på hva som skjer etter at dataene er lastet
    inn, plasseres det her */
 function afterGet(data){
     prints(data);
-    if (existHash()) { // if this is not true, use local storage for user choices
-        useHashURLChosen()
-    }
+    if (existHash()) useHashURLChosen();
+    else postLoadSettings();
 }
 
 /* Denne funksjonen bruker localStorage til å lagre og hente JSON filen
@@ -37,20 +37,18 @@ function aquireJSON(){
       }
       /* Dersom versjons-nummeret ikke er satt, eller det har blitt endret siden forrige gang,
          hentes json filen på nytt og versjon og json-data lagres */
-      if(localStorage.getItem("Version") == null || localStorage.getItem("Version") != ver){
-          console.log("New version");
+      var JSONData = loadJSON();
+      if(getVersion() == null || getVersion() != ver || JSONData == null){
         $.getJSON(JsonPath, function (data) {
-          localStorage.setItem("Version", ver);
-          localStorage.setItem("Data", JSON.stringify(data));
+          setVersion(ver);
+          saveJSON(data);
           afterGet(data);
         });
       }
       /* Dersom versjons-nummeret er rett, og dataen ikke har blitt slettet siden forrige
          gang, så hentes JSON filen i fra lokal disk, i stedenfor å hentes fra server */
-      else if (localStorage.getItem("Data") != null) {
-        console.log("Same version: " + ver);
-        var data = JSON.parse(localStorage.getItem('Data'));
-        afterGet(data);
+      else{
+        afterGet(JSONData);
       }
   }, 'text');
 }

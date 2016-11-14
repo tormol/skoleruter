@@ -6,11 +6,10 @@ var activeSchools // this is requred by prints(), it also needs to  be saved bet
 var dateRange; // used by printRow
 var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
 var SkoleObject = null;
+var fridag = true; // controls if all days or only fridag should be shown
 
 function printT() {
     prints(SkoleObject)
-
-
 }
 
 function prints(data) {
@@ -22,6 +21,7 @@ function prints(data) {
     var full = "", units = "";
     var First = true;
 
+
     $.each(SkoleObject, function(skolenavn, SkoleObj) { // itterer gjennom alle skolene
 
         chosenAddSkoleValg(skolenavn); // Legger skolenavnet til dropdown lista over skoler
@@ -29,19 +29,36 @@ function prints(data) {
 
         $.each(SkoleObj, function(Aar, AarObj) { // For hvert år:
             $.each(AarObj, function(Mnd, MndObj) { // For hver måned:
-                for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ // Går gjennom alle dagene i en måned
-                    //Sjekker om datoen er valid
-                    if(dateInRange(Aar, Mnd, Dag)) {
+                
+                if(fridag){   
+                for(var Dag = 1; Dag <= daysInMonth(Mnd, Aar); Dag++){ // Går gjennom alle dagene i en måned              
+                        if(dateInRange(Aar, Mnd, Dag)) {
                         //Legger til den rette enheten
                         if(First) units += getTopText(Dag, Mnd, Aar, MndObj[Dag]);
                         //Legger til dagen
-                        if (MndObj[Dag] == undefined) row += "<td></td>";
+                        if (MndObj[Dag] == undefined) {
+                            row += "<td></td>";
+                        }
                         else row += "<td class=" + cssTypes(MndObj[Dag][1]) + ">" + generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
+                        }
                     }
                 }
-            });
+                
+                else{
+                $.each(MndObj, function(Dag, DagObj){
+                    if(MndObj[Dag][0] !== 'Lørdag' && MndObj[Dag][0] !== 'Søndag'){
+                        if(dateInRange(Aar, Mnd, Dag)) {
+                        //Legger til den rette enheten
+                        if(First) units += getTopText(Dag, Mnd, Aar, MndObj[Dag]);
+                            //Legger til dagen
+                            row += "<td class=" + cssTypes(MndObj[Dag][1]) + ">" + generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
+                        }
+                    }
+                }
+                )};
         });
-        // legger til rekken
+        });
+        // legger til rekken    
         row += "</tr>";
         full += row;
         if(First) First = false;
@@ -55,15 +72,18 @@ function prints(data) {
         'top': 1
     });
     table.parent().focus();
-    // initilize all tooltips 
+    // initilize all tooltips
     $('[data-toggle="tooltip"]').tooltip()
     selectSchools(activeSchools);
-   
+
 }
+
+
+
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
-    if (opts == "E-L-S") opts = "alle"; // if logic says all 
-        
+    if (opts == "E-L-S") opts = "alle"; // if logic says all
+
     else {
         //using CSS Logic to generate a string of who the str affects
         temp = ""
@@ -183,8 +203,6 @@ $(document).ready(function(){
 })
 
 function selectSchools(ActiveSchools) {
-    console.log(ActiveSchools)
-    
     activeSchools = ActiveSchools
     // if reference list is empty, try to fetch a new one
     var listref = generateReferences()
