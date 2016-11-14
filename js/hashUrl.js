@@ -33,6 +33,7 @@ function useHashURL() {
    // console.log(dateRange)
     //sets types from hash
     types = hashObject[2] // this is for the table generation, the two below is for visual
+    console.log(hashObject[2])
     $("#vis_elev").prop('checked', hashObject[2].elev);
     $("#vis_sfo").prop('checked', hashObject[2].sfo);
     //printT();

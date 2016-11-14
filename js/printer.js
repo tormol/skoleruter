@@ -4,7 +4,7 @@
 
 var activeSchools // this is requred by prints(), it also needs to  be saved between multiple print() calls
 var dateRange; // used by printRow
-var types = {elev:true,laerer:true,sfo:true}; // changed by checkboxes and read by cssTypes
+var types = {elev:true, sfo:true}; // changed by checkboxes and read by cssTypes///
 var SkoleObject = null;
 
 function printT() {
