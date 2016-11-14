@@ -32,7 +32,7 @@ function prints(data) {
         number++;
         modals+= addModalForSchool(skolenavn,modalnavn,skolerinfo);
         //var row = "<tr><td>" + skolenavn + "</td>";
-        var row = "<tr><td data-toggle=\"modal\" data-target=\"#"+modalnavn+"\">" + skolenavn + "</td>";
+        var row = "<tr><td class=\"modalstyling\" data-toggle=\"modal\" data-target=\"#"+modalnavn+"\">" + skolenavn + "</td>";
 
         $.each(SkoleObj, function(Aar, AarObj) { // For hvert år:
             $.each(AarObj, function(Mnd, MndObj) { // For hver måned:

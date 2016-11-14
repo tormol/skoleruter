@@ -143,3 +143,6 @@ td a {
     overflow: hidden;
     height: auto;
 }
+.modalstyling:hover {
+text-decoration: underline;
+}
