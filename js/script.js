@@ -33,7 +33,7 @@ function getskolevalg2(evt, params){
 $(function(){
     types.elev = $("#vis_elev").is(":checked");
     types.sfo = $("#vis_sfo").is(":checked");
-    types.laerer = $("#vis_laerer").is(":checked");
+  //  types.laerer = $("#vis_laerer").is(":checked");
     $('#vis_elev').on('change', function() {
         types.elev = !types.elev;
         printT();
@@ -41,11 +41,12 @@ $(function(){
     $('#vis_sfo').on('change', function() {
         types.sfo = !types.sfo;
         printT();
-    });
+    });/*
     $('#vis_laerer').on('change', function() {
         types.laerer = !types.laerer;
         printT();
     });
+    */
 });
 
 $(function() {
