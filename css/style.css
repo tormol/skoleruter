@@ -43,6 +43,7 @@ nav.navbar {
 
 #fixTable {
   width: 1800px !important;
+   max-width: 1em;
 }
 
 thead td {
@@ -70,6 +71,7 @@ thead td {
   height: 50px;
   background-color: white;
 /*min-width: 1em;*/
+
 }
 #q *.no_school {
   background-color: #166312;
