@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Skoleruter | main page</title>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- TODO add more metadata? -->
 
@@ -71,11 +71,11 @@
 
         <!-- Valgbar for type rolle -->
         <div class="form-group">
-          Filter: 
+        <!--Filter:-->
           <input  id="vis_elev" type="checkbox" checked="checked" />
-          <label for="vis_elev">Skolefri</label>
+        <label for="vis_elev">SFO stengt</label>
           <input  id="vis_sfo" type="checkbox" checked="checked" />
-          <label for="vis_sfo">SFO stengt</label>
+          <label for="vis_sfo">Skolefri</label>
         </div>
 
         <div class="form-group">
@@ -95,6 +95,10 @@
           <div class="F-F-S"></div>
           <div class="E-F-F"></div>
          <!-- <div class="E-F-S"></div>-->
+        </div>
+        <div class="form-group">
+          <input  id="fridag_valg" type="checkbox" checked="checked" />
+          <label for="fridag_valg">Vis alle dager</label>
         </div>
       </form>
     </div><!-- /.navbar-collapse -->

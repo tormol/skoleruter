@@ -24,7 +24,7 @@ function getskolevalg2(evt, params){
     });
     selectSchools(skolevalg);
     }
-    
+
 
     $(function(){
     $(".chosen-select2").chosen();
@@ -96,12 +96,20 @@ $(function() {
         filterDates(period)
         //console.log(period);
        // console.log("New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY') + ' (predefined range: ' + label + ')");
-    }); 
+    });
 });
 function getDate() {
     if (dateRange != null) {
-        
+
         return dateRange
     }
     return {"start": 01/10/2016, "end": 01/11/2016}
 }
+
+$(function(){
+    fridag = $("#fridag_valg").is(":checked");
+    $('#fridag_valg').on('change', function() {
+        fridag = !fridag;
+        printT();
+    });
+});
