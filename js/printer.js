@@ -4,7 +4,7 @@
 
 var activeSchools // this is requred by prints(), it also needs to  be saved between multiple print() calls
 var dateRange; // used by printRow
-var types = {elev:true, sfo:true}; // changed by checkboxes and read by cssTypes///
+var types = {elev:true, sfo:true, vanlige:true}; // changed by checkboxes and read by cssTypes///
 var SkoleObject = null;
 
 
@@ -66,7 +66,8 @@ function prints(data) {
     // initilize all tooltips
     $('[data-toggle="tooltip"]').tooltip()
     selectSchools(activeSchools);
-
+    if (types.vanlige === false)
+        hideNormalDays();
 }
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
@@ -211,6 +212,10 @@ function selectSchools(ActiveSchools) {
             $(refs).hide();
         }
     })
+    if (types.vanlige === false) {
+        unhideNormalDays();
+        hideNormalDays();
+    }
     // This gets triggered on any changes -> Will change url so it contains linkable data;
    doHashURL()
 }
@@ -327,4 +332,43 @@ return schoollist;
 });
 return schoollist;
 //skolerliste= schoollist;
+}
+
+// Hide weekdays where all selected chools are white, or all black if weekend.
+// Doesn't access any global variables, but reads and modifies the html
+function hideNormalDays() {
+    var hide = [false];
+    var rows = [];
+    $("#q tr:visible").each(function(y,row) {
+        var classes = [];
+        $(row).children().each(function(x,cell) {
+            classes.push(cell.className);
+        });
+        rows.push(classes);
+    });
+    for (var x=1; x<rows[0].length; x++)
+        hide.push(true);
+    for (var y=0; y<rows.length; y++)
+        for (var x=1; x<rows[y].length; x++)
+            if (rows[y][x] !== 'F-F-F'  &&  rows[y][x] !== '')
+                hide[x] = false;
+    $('#units *').each(function(x,cell) {
+        if (x === 0)// only the corner is th, but I hope that gets fixed.
+            return;
+        var desc = $(cell).text().split('\n')[1];
+        if (desc === 'Lørdag' || desc === "Søndag") {
+            hide[x] = true;
+        }
+    });
+    for (var x=1; x<hide.length; x++)
+    if (hide[x] === true) {
+        $('#fixTable th:nth-child('+(1+x)+')').hide();
+        $('#fixTable td:nth-child('+(1+x)+')').hide();
+    }
+}
+
+// Doesn't access any global variables, but reads and modifies the html
+function unhideNormalDays()  {
+    $('#units *').show();
+    $("#q tr>*").show();
 }

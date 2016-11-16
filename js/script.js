@@ -34,6 +34,7 @@ $(function(){
     types.elev = $("#vis_elev").is(":checked");
     types.sfo = $("#vis_sfo").is(":checked");
   //  types.laerer = $("#vis_laerer").is(":checked");
+    types.vanlige = $("#vis_vanlige").is(":checked");
     $('#vis_elev').on('change', function() {
         types.elev = !types.elev;
         printT();
@@ -47,6 +48,14 @@ $(function(){
         printT();
     });
     */
+    $('#vis_vanlige').on('change', function() {
+        types.vanlige = !types.vanlige;
+        if (types.vanlige === true)
+            unhideNormalDays();
+        else
+            hideNormalDays();
+        doHashURL();
+    });
 });
 
 $(function() {
