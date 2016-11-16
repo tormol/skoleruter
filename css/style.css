@@ -3,26 +3,26 @@ p {
     /*font-size: 20px;*/
 }
 
-body {
-    background-color: lightblue;
-}
-
-body, body>* {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    background: url("../img/banner.jpg") no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-    margin-top: 0;
-}
-header>div {
-    margin: 0;
-    padding: 0.5em;
-    text-align: center;
+@media screen {
+    body {
+        background-color: lightblue;
+    }
+    body, body>* {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        background: url("../img/banner.jpg") no-repeat center center fixed;
+        background-size: cover;
+        color: white;
+        margin-top: 0;
+    }
+    header>div {
+        margin: 0;
+        padding: 0.5em;
+        text-align: center;
+    }
 }
 
 nav {
@@ -42,9 +42,11 @@ nav.navbar {
 }
 
 
-#fixTable {
-    width: 1800px !important;
-    max-width: 1em;
+@media screen {
+    #fixTable {
+        width: 1800px !important;
+        max-width: 1em;
+    }
 }
 
 thead td {
@@ -82,31 +84,33 @@ thead td {
 
 
 /*push footer to bottom*/
-html {
-    height: 100%;
-}
-body {
-    min-height: 100%;
-    position: relative;
-}
-body:after {
-    content: '';
-    display: block;
-    height: 4.2em;
-}
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding: 0 1em;
-}
-#footer-box {
-    margin: 1em auto 0 auto;
-    display: table;
-    max-width: 100%;
-    padding: 1em 1.3em;
-    border: 0.1em solid #dcdcdc;
-    border-bottom-width: 0;
+@media screen {
+    html {
+        height: 100%;
+    }
+    body {
+        min-height: 100%;
+        position: relative;
+    }
+    body:after {
+        content: '';
+        display: block;
+        height: 4.2em;
+    }
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 0 1em;
+    }
+    #footer-box {
+        margin: 1em auto 0 auto;
+        display: table;
+        max-width: 100%;
+        padding: 1em 1.3em;
+        border: 0.1em solid #dcdcdc;
+        border-bottom-width: 0;
+    }
 }
 
 /* non-positioning styling of footer */
@@ -152,4 +156,16 @@ footer {
 }
 .modalstyling:hover {
     text-decoration: underline;
+}
+
+@media print {
+    @page {
+        size: landscape; /* Doesn't work in firefox */
+    }
+    header, nav, footer {
+        display: none;
+    }
+    main {
+      zoom: 50%;
+    }
 }
