@@ -337,38 +337,44 @@ return schoollist;
 // Hide weekdays where all selected chools are white, or all black if weekend.
 // Doesn't access any global variables, but reads and modifies the html
 function hideNormalDays() {
-    var hide = [false];
-    var rows = [];
-    $("#q tr:visible").each(function(y,row) {
-        var classes = [];
-        $(row).children().each(function(x,cell) {
-            classes.push(cell.className);
-        });
-        rows.push(classes);
-    });
-    for (var x=1; x<rows[0].length; x++)
-        hide.push(true);
-    for (var y=0; y<rows.length; y++)
-        for (var x=1; x<rows[y].length; x++)
-            if (rows[y][x] !== 'F-F-F'  &&  rows[y][x] !== '')
-                hide[x] = false;
-    $('#units *').each(function(x,cell) {
-        if (x === 0)// only the corner is th, but I hope that gets fixed.
-            return;
+    var weekend = [];
+    var hide = [];
+    // Find weekends and initialize hide
+    // .slice(1) to skip first collumn
+    $('#units').children().slice(1).each(function(x,cell) {
         var desc = $(cell).text().split('\n')[1];
-        if (desc === 'Lørdag' || desc === "Søndag") {
-            hide[x] = true;
-        }
+        weekend.push(desc === 'Lørdag' || desc === "Søndag");
+        hide.push(true);
     });
-    for (var x=1; x<hide.length; x++)
-    if (hide[x] === true) {
-        $('#fixTable th:nth-child('+(1+x)+')').hide();
-        $('#fixTable td:nth-child('+(1+x)+')').hide();
-    }
+
+    // mark noteworthy days
+    $("#q tr:visible").each(function(y,row) {
+        $(row).children().slice(1).each(function(x,cell) {
+            if (hide[x] === true)
+                switch (cell.className) {
+                    case 'F-F-F': case 'F-L-F': case '':
+                        hide[x] = !weekend[x]; break;
+                    case 'E-L-S': case 'E-F-S':
+                        hide[x] = weekend[x]; break;
+                    default:
+                        hide[x] = false;
+                }
+        });
+    });
+
+    // hide them
+    var hide_if = function(x,cell) {
+        if (hide[x])
+            $(cell).hide();
+    };
+    $('#units').children().slice(1).each(hide_if);
+    $("#q tr:visible").each(function(y,row) {
+        $(row).children().slice(1).each(hide_if);
+    });
 }
 
 // Doesn't access any global variables, but reads and modifies the html
 function unhideNormalDays()  {
-    $('#units *').show();
-    $("#q tr>*").show();
+    $('#units > *').show();
+    $("#q > tr > *").show();// tr:visited makes it slower
 }
