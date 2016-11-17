@@ -36,6 +36,7 @@ function useHashURL() {
     console.log(hashObject[2])
     $("#vis_elev").prop('checked', hashObject[2].elev);
     $("#vis_sfo").prop('checked', hashObject[2].sfo);
+    $("#vis_vanlige").prop('checked', hashObject[2].vanlige);
     //printT();
 }
 function useHashURLChosen() {
