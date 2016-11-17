@@ -2,6 +2,15 @@ p {
     font-family: verdana;
     /*font-size: 20px;*/
 }
+a.nbtooltip, a.nbtooltip:active, a.nbtooltip:visited, a.nbtooltip:hover {
+    /* non-bootstrap tooltip */
+    color: inherit;
+    text-decoration: underline dashed;
+    cursor: default;/* not pointer */
+}
+a.nbtooltip:hover {
+    text-decoration: none;
+}
 
 @media screen {
     body {

@@ -4,7 +4,7 @@
 
 var activeSchools // this is requred by prints(), it also needs to  be saved between multiple print() calls
 var dateRange; // used by printRow
-var types = {elev:true, sfo:true}; // changed by checkboxes and read by cssTypes///
+var types = {elev:true, sfo:true, vanlige:true}; // changed by checkboxes and read by cssTypes///
 var SkoleObject = null;
 
 
@@ -62,7 +62,8 @@ function prints(data) {
     // initilize all tooltips
     $('[data-toggle="tooltip"]').tooltip()
     selectSchools(activeSchools);
-
+    if (types.vanlige === false)
+        hideNormalDays();
 }
 function generateTooltip(str, opts) {
     // str: description, opts: CSS logic format
@@ -207,6 +208,10 @@ function selectSchools(ActiveSchools) {
             $(refs).hide();
         }
     })
+    if (types.vanlige === false) {
+        unhideNormalDays();
+        hideNormalDays();
+    }
     // This gets triggered on any changes -> Will change url so it contains linkable data;
    doHashURL()
 }
@@ -325,4 +330,49 @@ function afterJsonImport(schoollist){
       number++;
     });
     $('#tableDiv').append(modals); // Legge til infosider om skoler
+}
+
+// Hide weekdays where all selected chools are white, or all black if weekend.
+// Doesn't access any global variables, but reads and modifies the html
+function hideNormalDays() {
+    var weekend = [];
+    var hide = [];
+    // Find weekends and initialize hide
+    // .slice(1) to skip first collumn
+    $('#units').children().slice(1).each(function(x,cell) {
+        var desc = $(cell).text().split('\n')[1];
+        weekend.push(desc === 'Lørdag' || desc === "Søndag");
+        hide.push(true);
+    });
+
+    // mark noteworthy days
+    $("#q tr:visible").each(function(y,row) {
+        $(row).children().slice(1).each(function(x,cell) {
+            if (hide[x] === true)
+                switch (cell.className) {
+                    case 'F-F-F': case 'F-L-F': case '':
+                        hide[x] = !weekend[x]; break;
+                    case 'E-L-S': case 'E-F-S':
+                        hide[x] = weekend[x]; break;
+                    default:
+                        hide[x] = false;
+                }
+        });
+    });
+
+    // hide them
+    var hide_if = function(x,cell) {
+        if (hide[x])
+            $(cell).hide();
+    };
+    $('#units').children().slice(1).each(hide_if);
+    $("#q tr:visible").each(function(y,row) {
+        $(row).children().slice(1).each(hide_if);
+    });
+}
+
+// Doesn't access any global variables, but reads and modifies the html
+function unhideNormalDays()  {
+    $('#units > *').show();
+    $("#q > tr > *").show();// tr:visited makes it slower
 }
