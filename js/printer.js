@@ -19,19 +19,16 @@ function prints(data) {
 
     /* Main printer controller */
     printInit();
-    var skolerinfo = importJsonWithPictures();
+    importJsonWithPictures();
     var full = "", units = "";
     var First = true;
-    var modals="";
     var number=1;
 
     $.each(SkoleObject, function(skolenavn, SkoleObj) { // itterer gjennom alle skolene
 
         chosenAddSkoleValg(skolenavn); // Legger skolenavnet til dropdown lista over skoler
-        modalnavn="modal"+number.toString();
+        var modalnavn="modal"+number.toString();
         number++;
-        modals+= addModalForSchool(skolenavn,modalnavn,skolerinfo);
-        //var row = "<tr><td>" + skolenavn + "</td>";
         var row = "<tr><td class=\"modalstyling\" data-toggle=\"modal\" data-target=\"#"+modalnavn+"\">" + skolenavn + "</td>";
 
         $.each(SkoleObj, function(Aar, AarObj) { // For hvert år:
@@ -55,7 +52,6 @@ function prints(data) {
     });
     $('#units').append(units);
     $('#q').append(full);
-    $('#tableDiv').append(modals); // Legge til infosider om skoler
 
     var table = $("#fixTable");
     table.tableHeadFixer({
@@ -291,17 +287,13 @@ function addModalForSchool(skolenavn,modalnavn,skoler){
         "<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\"\>&times;</span></button><h4 class=\"modal-title\" id=\"myModalLabel\">Informasjon om skole</h4></div><div class=\"modal-body\"><div class=\"framed\"><div class=\"prop_left\">"+
             "<img src=\""+link+"\" alt=\""+skolenavn+"\" width=\"200px\"/><div class=\"place\">"+skolenavn+"</div></div><div class=\"prop_right\"><h3>"+skolenavn+"</h3><p>Telefonnummer: "+tlf+"</p></div></div><h1>Informasjon</h1><div class=\"framed\">"+
         "Hjemmeside: <a href=\""+hjemmeside+"\"target=\"_blank\">"+hjemmeside+"</a><br>Adresse: "+adresse+"</div></div>"+
-      "<div class=\"modal-footer\"><form class=\"prop_left\" action=\"\">Meld deg på epostvarsling:<br>Email:<input type=\"text\" name=\"email\" value=\"\"> <input type=\"submit\" value=\"Submit\"></form> <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button></div></div></div></div>";
-return temp;
+      "<div class=\"modal-footer\"> <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Lukk</button></div></div></div></div>";
+  return temp;
 }
 
 function importJsonWithPictures(){
   var schoollist =new Array();
-  $.ajaxSetup({
-    async: false
-});
   $.getJSON( "data/infoomskoleraleksander.json", function( data ) {
-    //console.log( "JSON Data: " + data);
     var link = "";
     var fileending="";
     var now=0;
@@ -321,10 +313,16 @@ function importJsonWithPictures(){
           })
         }
     });
-    //});
-    //console.log(schoollist.length);
-return schoollist;
+afterJsonImport(schoollist);
 });
-return schoollist;
-//skolerliste= schoollist;
+}
+function afterJsonImport(schoollist){
+    var number=1;
+    var modals="";
+    $.each(SkoleObject, function(skolenavn, SkoleObj) {
+      var modalnavn="modal"+number.toString();
+      modals+= addModalForSchool(skolenavn,modalnavn,schoollist);
+      number++;
+    });
+    $('#tableDiv').append(modals); // Legge til infosider om skoler
 }
