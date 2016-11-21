@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Skoleruter | main page</title>
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- TODO add more metadata? -->
 
@@ -29,7 +29,6 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/chosen.min.css">
     <script src="js/getView.js"></script>
-    <script src="js/printer.js"></script>
     <script src="js/tableHeadFixer.js"></script>
     <script src="js/main.js"></script>
     <script src="js/colourMap.js"></script>
@@ -37,7 +36,10 @@
     <script src="js/chosen.jquery.min.js"></script>
     <script src="js/transition.js"></script>
     <script src="js/collapse.js"></script>
-    <script src="js/hashUrl.js"></script>
+    
+    <script src="js/printerObject.js"></script>
+    <script src="js/StorageManager.js"></script>
+    <script src="js/ChosenHandlers.js"></script>
 </head>
 <body>
 
@@ -71,7 +73,7 @@
 
         <!-- Valgbar for type rolle -->
         <div class="form-group">
-          Filter: 
+          Filter:
           <input  id="vis_elev" type="checkbox" checked="checked" />
           <label for="vis_elev">Skolefri</label>
           <input  id="vis_sfo" type="checkbox" checked="checked" />
