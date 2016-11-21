@@ -24,24 +24,24 @@ function getskolevalg2(evt, params){
     });
     selectSchools(skolevalg);
     }
-    
+
 
     $(function(){
     $(".chosen-select2").chosen();
 });
 
 $(function(){
-    types.elev = $("#vis_elev").is(":checked");
-    types.sfo = $("#vis_sfo").is(":checked");
+    GlobalPrinter.types.elev = $("#vis_elev").is(":checked");
+    GlobalPrinter.types.sfo = $("#vis_sfo").is(":checked");
   //  types.laerer = $("#vis_laerer").is(":checked");
-    types.vanlige = $("#vis_vanlige").is(":checked");
+    GlobalPrinter.types.vanlige = $("#vis_vanlige").is(":checked");
     $('#vis_elev').on('change', function() {
-        types.elev = !types.elev;
-        printT();
+        GlobalPrinter.types.elev = !GlobalPrinter.types.elev;
+        GlobalPrinter.print();
     });
     $('#vis_sfo').on('change', function() {
-        types.sfo = !types.sfo;
-        printT();
+        GlobalPrinter.types.sfo = !GlobalPrinter.types.sfo;
+        GlobalPrinter.print();
     });/*
     $('#vis_laerer').on('change', function() {
         types.laerer = !types.laerer;
@@ -49,12 +49,12 @@ $(function(){
     });
     */
     $('#vis_vanlige').on('change', function() {
-        types.vanlige = !types.vanlige;
-        if (types.vanlige === true)
-            unhideNormalDays();
+        GlobalPrinter.types.vanlige = !GlobalPrinter.types.vanlige;
+        if (GlobalPrinter.types.vanlige === true)
+            GlobalPrinter.unhideNormalDays();
         else
-            hideNormalDays();
-        doHashURL();
+            GlobalPrinter.hideNormalDays();
+        GlobalStorage.updateSettings();
     });
 });
 
@@ -105,12 +105,12 @@ $(function() {
         filterDates(period)
         //console.log(period);
        // console.log("New date range selected: ' + start.format('DD/MM/YYYY') + ' to ' + end.format('DD/MM/YYYY') + ' (predefined range: ' + label + ')");
-    }); 
+    });
 });
 function getDate() {
-    if (dateRange != null) {
-        
-        return dateRange
+    if (GlobalPrinter.dateRange != null) {
+
+        return GlobalPrinter.dateRange
     }
     return {"start": 01/10/2016, "end": 01/11/2016}
 }
