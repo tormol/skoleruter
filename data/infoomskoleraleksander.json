@@ -4,7 +4,7 @@
 	"skoler": {
 		"Eiganes skole": {
 			"tlf": "51842800",
-			"adresse": "Duesvei 35",
+			"adresse": "Duesvei 35, 4023 Stavanger",
 			"hjemmeside": "http://www.minskole.no/eiganes",
 			"latitude:": "58.964696",
 			"longitude:": "5.707375",
@@ -12,7 +12,7 @@
 		},
 		"Byfjord skole": {
 			"tlf": "51506550",
-			"adresse": "Soltunveien 28",
+			"adresse": "Soltunveien 28, 4026 Stavanger",
 			"hjemmeside": "http://www.minskole.no/byfjord",
 			"latitude:": "58.980302",
 			"longitude:": "5.702956",
@@ -20,7 +20,7 @@
 		},
 		"Godeset skole": {
 			"tlf": "51912860",
-			"adresse": "Folkvangveien 50",
+			"adresse": "Folkvangveien 50, 4034 Stavanger",
 			"hjemmeside": "http://www.minskole.no/godeset",
 			"latitude:": "58.900337",
 			"longitude:": "5.714215",
@@ -28,7 +28,7 @@
 		},
 		"Hafrsfjord skole": {
 			"tlf": "51912110",
-			"adresse": "Madlasandnes",
+			"adresse": "Madlasandnes, 4045 Hafrsfjord",
 			"hjemmeside": "https://www.minskole.no/hafrsfjord",
 			"latitude:": "58.940129",
 			"longitude:": "5.648528",
@@ -36,7 +36,7 @@
 		},
 		"Hundvåg skole": {
 			"tlf": "51598800",
-			"adresse": "Hundvågveien 75",
+			"adresse": "Hundvågveien 75, 4085 Hundvåg",
 			"hjemmeside": "https://www.minskole.no/hundvaag",
 			"latitude:": "58.996488",
 			"longitude:": "5.732501",
@@ -44,7 +44,7 @@
 		},
 		"Kampen skole": {
 			"tlf": "51511050",
-			"adresse": "Kampensgata 33",
+			"adresse": "Kampensgata 33, 4024 Stavanger",
 			"hjemmeside": "https://www.minskole.no/kampen",
 			"latitude:": "58.972132",
 			"longitude:": "5.716442",
@@ -52,7 +52,7 @@
 		},
 		"Kvaleberg skole": {
 			"tlf": "51886900",
-			"adresse": "Hillevågsveien 82",
+			"adresse": "Hillevågsveien 82, 4016 Stavanger",
 			"hjemmeside": "http://www.minskole.no/kvaleberg",
 			"latitude:": "58.944487",
 			"longitude:": "5.745595",
@@ -60,7 +60,7 @@
 		},
 		"Kvernevik skole": {
 			"tlf": "51599360",
-			"adresse": "Heiloveien 11",
+			"adresse": "Heiloveien 11, 4049 Hafrsfjord",
 			"hjemmeside": "http://www.minskole.no/kvernevik",
 			"latitude:": "58.966325",
 			"longitude:": "5.604738",
@@ -68,7 +68,7 @@
 		},
 		"Lassa skole": {
 			"tlf": "51508302",
-			"adresse": "Rektor Berntsens gate 9",
+			"adresse": "Rektor Berntsens gate 9, 4022 Stavanger",
 			"hjemmeside": "http://www.minskole.no/lassa",
 			"latitude:": "58.957328",
 			"longitude:": "5.694603",
@@ -76,7 +76,7 @@
 		},
 		"Madlamark skole": {
 			"tlf": "51596300",
-			"adresse": "Rappveien 17",
+			"adresse": "Rappveien 17, 4041 Stavanger",
 			"hjemmeside": "http://www.minskole.no/madlamark",
 			"latitude:": "58.949703",
 			"longitude:": "5.678294",
@@ -84,7 +84,7 @@
 		},
 		"Madlavoll skole": {
 			"tlf": "51599600",
-			"adresse": "Jernalderveien 47",
+			"adresse": "Jernalderveien 47, 4041 Hafrsfjord",
 			"hjemmeside": "https://www.minskole.no/madlavoll",
 			"latitude:": "58.942698",
 			"longitude:": "5.690870",
@@ -92,7 +92,7 @@
 		},
 		"Nylund skole": {
 			"tlf": "51917200",
-			"adresse": "Nylundsgata 1",
+			"adresse": "Nylundsgata 1, 4014 Stavanger",
 			"hjemmeside": "http://www.minskole.no/nylund",
 			"latitude:": "58.964777",
 			"longitude:": "5.751061",
@@ -100,7 +100,7 @@
 		},
 		"Roaldsøy skole": {
 			"tlf": "51913950",
-			"adresse": "Nordvikveien 23A",
+			"adresse": "Nordvikveien 23A, 4085 Hundvåg",
 			"hjemmeside": "http://www.minskole.no/roaldsoy",
 			"latitude:": "58.993310",
 			"longitude:": "5.763836",
@@ -108,7 +108,7 @@
 		},
 		"Storhaug skole": {
 			"tlf": "51841350",
-			"adresse": "Sandeidgata 25",
+			"adresse": "Sandeidgata 25, 4012 Stavanger",
 			"hjemmeside": "http://www.minskole.no/storhaug",
 			"latitude:": "58.966167",
 			"longitude:": "5.741133",
@@ -116,7 +116,7 @@
 		},
 		"Sunde skole": {
 			"tlf": "51914402",
-			"adresse": "Sundeveien 10",
+			"adresse": "Sundeveien 10, 4049 Hafrsfjord",
 			"hjemmeside": "http://www.minskole.no/sunde",
 			"latitude:": "58.961695",
 			"longitude:": "5.620735",
@@ -124,7 +124,7 @@
 		},
 		"Tasta skole": {
 			"tlf": "51839800",
-			"adresse": "Randabergveien 165",
+			"adresse": "Randabergveien 165, 4027 Stavanger",
 			"hjemmeside": "http://www.minskole.no/tasta",
 			"latitude:": "58.983763",
 			"longitude:": "5.679844",
@@ -132,7 +132,7 @@
 		},
 		"Tjensvoll skole": {
 			"tlf": "51839100",
-			"adresse": "Tjensvollveien 54",
+			"adresse": "Tjensvollveien 54, 4021 Stavanger",
 			"hjemmeside": "http://www.minskole.no/tjensvoll",
 			"latitude:": "58.951250",
 			"longitude:": "5.704012",
@@ -140,7 +140,7 @@
 		},
 		"Vardenes skole": {
 			"tlf": "51912930",
-			"adresse": "Gamle Dusavikveien 4",
+			"adresse": "Gamle Dusavikveien 4, 4029 Stavanger",
 			"hjemmeside": "http://www.minskole.no/vardenes",
 			"latitude:": "58.973756",
 			"longitude:": "5.723932",
@@ -148,7 +148,7 @@
 		},
 		"Vaulen skole": {
 			"tlf": "51812850",
-			"adresse": "Augelandsbakken 27",
+			"adresse": "Augelandsbakken 27, 4018 Stavanger",
 			"hjemmeside": "http://www.minskole.no/vaulen",
 			"latitude:": "58.931107",
 			"longitude:": "5.732774",
@@ -156,7 +156,7 @@
 		},
 		"Våland skole": {
 			"tlf": "51538600",
-			"adresse": "Schives gate 21",
+			"adresse": "Schives gate 21, 4010 Stavanger",
 			"hjemmeside": "http://www.minskole.no/vaaland",
 			"latitude:": "58.962164",
 			"longitude:": "5.732761",
@@ -164,7 +164,7 @@
 		},
 		"Gausel skole": {
 			"tlf": "51814320",
-			"adresse": "Gauselbakken 103",
+			"adresse": "Gauselbakken 103, 4032 Stavanger",
 			"hjemmeside": "http://www.minskole.no/gausel",
 			"latitude:": "58.898492",
 			"longitude:": "5.734005",
@@ -172,7 +172,7 @@
 		},
 		"Skeie skole": {
 			"tlf": "51912030",
-			"adresse": "Terje vigens vei 1",
+			"adresse": "Terje vigens vei 1, 4085 Hundvåg",
 			"hjemmeside": "http://www.minskole.no/skeie",
 			"latitude:": "59.002382",
 			"longitude:": "5.726685",
@@ -180,14 +180,14 @@
 		},
 		"Revheim skole": {
 			"tlf": "51858130",
-			"adresse": "Revheimsveien 128",
+			"adresse": "Revheimsveien 128, 4043 Hafrsfjord",
 			"hjemmeside": "http://www.minskole.no/revheim",
 			"latitude:": "58.952239",
 			"longitude:": "5.642161"
 		},
 		"Auglend skole": {
 			"tlf": "51905600",
-			"adresse": "Hjalmar Johansens gate 32",
+			"adresse": "Hjalmar Johansens gate 32, 4019 Stavanger",
 			"hjemmeside": "http://www.minskole.no/auglend",
 			"latitude:": "58.946483",
 			"longitude:": "5.726794",
@@ -195,7 +195,7 @@
 		},
 		"Jåtten skole": {
 			"tlf": "51823230",
-			"adresse": "Ordfører Askelandsgate 11",
+			"adresse": "Ordfører Askelandsgate 11, 4020 Stavanger",
 			"hjemmeside": "http://www.minskole.no/jaatten",
 			"latitude:": "58.915223",
 			"longitude:": "5.724265",
@@ -203,7 +203,7 @@
 		},
 		"Austbø skole": {
 			"tlf": "51856330",
-			"adresse": "Austbøsvingene 50",
+			"adresse": "Austbøsvingene 50, 4085 Hundvåg",
 			"hjemmeside": "http://www.minskole.no/austbo",
 			"latitude:": "58.995224",
 			"longitude:": "5.735939",
@@ -211,7 +211,7 @@
 		},
 		"Gosen skole": {
 			"tlf": "51599300",
-			"adresse": "Sophus Bugges gate 13",
+			"adresse": "Sophus Bugges gate 13, 4041 Stavanger",
 			"hjemmeside": "http://www.minskole.no/gosen",
 			"latitude:": "58.940468",
 			"longitude:": "5.684139",
@@ -219,7 +219,7 @@
 		},
 		"Hinna skole": {
 			"tlf": "51886999",
-			"adresse": "Ordfører Tveteraasgate 11",
+			"adresse": "Ordfører Tveteraasgate 11, 4020 Stavanger",
 			"hjemmeside": "http://www.minskole.no/hinna",
 			"latitude:": "58.917831",
 			"longitude:": "5.722232",
@@ -227,7 +227,7 @@
 		},
 		"Kannik skole": {
 			"tlf": "51517250",
-			"adresse": "St. Svituns gate 40",
+			"adresse": "St. Svituns gate 40, 4009 Stavanger",
 			"hjemmeside": "http://www.minskole.no/kannik",
 			"latitude:": "58.964407",
 			"longitude:": "5.722864",
@@ -235,7 +235,7 @@
 		},
 		"Kristianslyst skole": {
 			"tlf": "51913030",
-			"adresse": "Skolevollen 17",
+			"adresse": "Skolevollen 17, 4017 Stavanger",
 			"hjemmeside": "http://www.minskole.no/kristianslyst",
 			"latitude:": "58.937474",
 			"longitude:": "5.735075",
@@ -243,7 +243,7 @@
 		},
 		"Smiodden skole": {
 			"tlf": "51934400",
-			"adresse": "Alkeveien 19",
+			"adresse": "Alkeveien 19, 4049 Hafrsfjord",
 			"hjemmeside": "http://www.minskole.no/smiodden",
 			"latitude:": "58.968396",
 			"longitude:": "5.607635",
@@ -251,7 +251,7 @@
 		},
 		"St. Svithun skole": {
 			"tlf": "51505150",
-			"adresse": "Vikedalsveien 11",
+			"adresse": "Vikedalsveien 11, 4012 Stavanger",
 			"hjemmeside": "http://www.minskole.no/svithun",
 			"latitude:": "58.964691",
 			"longitude:": "5.740410",
@@ -259,7 +259,7 @@
 		},
 		"Tastaveden skole": {
 			"tlf": "51910100",
-			"adresse": "Soltunveien 30",
+			"adresse": "Soltunveien 30, 4026 Stavanger",
 			"hjemmeside": "http://www.minskole.no/tastaveden",
 			"latitude:": "58.979680",
 			"longitude:": "5.701133",
@@ -267,7 +267,7 @@
 		},
 		"Ullandhaug skole": {
 			"tlf": "51820230",
-			"adresse": "Hjalmar Johansens gate 13",
+			"adresse": "Hjalmar Johansens gate 13, 4019 Stavanger",
 			"hjemmeside": "http://www.minskole.no/ullandhaug",
 			"latitude:": "58.950132",
 			"longitude:": "5.723977",
@@ -275,7 +275,7 @@
 		},
 		"Buøy skole": {
 			"tlf": "51913770",
-			"adresse": "Skipsbyggergata 19A",
+			"adresse": "Skipsbyggergata 19A, 4077 Hundvåg",
 			"hjemmeside": "https://www.minskole.no/buoy",
 			"latitude:": "58.985646",
 			"longitude:": "5.734782",
@@ -283,7 +283,7 @@
 		},
 		"Gautesete skole": {
 			"tlf": "51810333",
-			"adresse": "Heddeveien 143",
+			"adresse": "Heddeveien 143, 4034 Stavanger",
 			"hjemmeside": "http://www.minskole.no/gautesete",
 			"latitude:": "58.899177",
 			"longitude:": "5.723171",
@@ -291,7 +291,7 @@
 		},
 		"Lunde skole": {
 			"tlf": "51933300",
-			"adresse": "Lerkeskogen 1",
+			"adresse": "Lerkeskogen 1, 4085 Stavanger",
 			"hjemmeside": "http://www.minskole.no/lunde",
 			"latitude:": "59.001910",
 			"longitude:": "5.740156",
@@ -299,7 +299,7 @@
 		},
 		"Tastarustå skole": {
 			"tlf": "51839290",
-			"adresse": "Gjerdeveien 32",
+			"adresse": "Gjerdeveien 32, 4027 Stavanger",
 			"hjemmeside": "http://www.minskole.no/tastarustaa",
 			"latitude:": "58.986345",
 			"longitude:": "5.691965",
@@ -307,7 +307,7 @@
 		},
 		"Teinå skole": {
 			"tlf": "51839600",
-			"adresse": "Eldfiskbakken 11",
+			"adresse": "Eldfiskbakken 11, 4028 Stavanger",
 			"hjemmeside": "http://www.minskole.no/teinaa",
 			"latitude:": "58.990000",
 			"longitude:": "5.682240",
@@ -315,15 +315,15 @@
 		},
 		"Lundsvågen Naturskole": {
 			"tlf": "51507481",
-			"adresse": "Kisteneset 31",
-			"hjemmeside": "",
+			"adresse": "Kisteneset 31, 4085 Hundvåg",
+			"hjemmeside": "http://www.minskole.no/lenden/seksjon/457",
 			"latitude:": "59.004233",
 			"longitude:": "5.755628",
 			"bilde":""
 		},
 		"Johannes Læringssenter": {
 			"tlf": "51506600",
-			"adresse": "Haugesundsgata 27",
+			"adresse": "Haugesundsgata 27, 4014 Stavanger",
 			"hjemmeside": "http://www.velkommentiljohannes.no/",
 			"latitude:": "58.967258",
 			"longitude:": "5.755176",
@@ -331,71 +331,63 @@
 		},
 		"Stavanger kulturskole": {
 			"tlf": "51508840",
-			"adresse": "Sandvigå 5",
+			"adresse": "Sandvigå 5, 4007 Stavanger",
 			"hjemmeside": "http://www.stavangerkulturskole.no/",
 			"latitude:": "58.975839",
 			"longitude:": "5.722325",
 			"bilde":""
 		},
-		"Lenden skole og ressurssenter  Skoleteamet": {
-			"tlf": "51914150",
-			"adresse": "Søre Ramsvigvei 55",
-			"hjemmeside": "http://www.minskole.no/lenden",
-			"latitude:": "58.958610",
-			"longitude:": "5.762014",
-			"bilde":"49"
-		},
 		"Lenden skole og Ressurssenter": {
 			"tlf": "51914150",
-			"adresse": "Bratteberggata 18",
+			"adresse": "Bratteberggata 18, 4013 Stavanger",
 			"hjemmeside": "http://www.minskole.no/lenden",
 			"latitude:": "58.969773",
 			"longitude:": "5.746894",
 			"bilde":"49"
 		},
 		"Bærland skole": {
-			"tlf": "51 61 46 00 ",
-			"adresse": "Barliveien 5 4330 ÅLGÅRD",
+			"tlf": "51614600 ",
+			"adresse": "Barliveien 5, 4330 Ålgård",
 			"hjemmeside": "http://www.minskole.no/baerland",
 			"latitude:": "5.8282693179285",
 			"longitude:": "58.7760260825423",
 			"bilde":"422"
 		},
 		"Dirdal skole": {
-			"tlf": "51 61 48 25 ",
-			"adresse": "Krovegen 270 4333 OLTEDAL",
+			"tlf": "51614825 ",
+			"adresse": "Krovegen 270, 4333 Oltedal",
 			"hjemmeside": "http://www.minskole.no/dirdal",
 			"latitude:": "6.21809288086638",
 			"longitude:": "58.8156972959712",
 			"bilde":"391"
 		},
 		"Gjesdal ungdomsskole": {
-			"tlf": "51 61 52 40 ",
-			"adresse": "Solåsveien 33 4330 ÅLGÅRD",
+			"tlf": "51615240 ",
+			"adresse": "Solåsveien 33, 4330 Ålgård",
 			"hjemmeside": "http://www.minskole.no/gjesdal",
 			"latitude:": "5.86719216489615",
 			"longitude:": "58.7687898828773",
 			"bilde":"538"
 		},
 		"Oltedal skole": {
-			"tlf": "51 61 48 00 ",
-			"adresse": "Bygdaveien 56 4333 OLTEDAL",
+			"tlf": "51614800 ",
+			"adresse": "Bygdaveien 56, 4333 Oltedal",
 			"hjemmeside": "http://www.minskule.no/oltedal",
 			"latitude:": "6.03481329190357",
 			"longitude:": "58.8263879951438",
 			"bilde":"347"
 		},
 		"Solås skole": {
-			"tlf": "51 61 15 30 ",
-			"adresse": "Åfaret 4 4330 ÅLGÅRD",
+			"tlf": "51611530 ",
+			"adresse": "Åfaret 4, 4330 Ålgård",
 			"hjemmeside": "http://www.minskole.no/solaas",
 			"latitude:": "5.86421713083804",
 			"longitude:": "58.7733032634902",
 			"bilde":"448"
 		},
 		"Ålgård skole": {
-			"tlf": "51 61 46 70 ",
-			"adresse": "Rettedalen 13 4330 ÅLGÅRD",
+			"tlf": "51614670 ",
+			"adresse": "Rettedalen 13, 4330 Ålgård",
 			"hjemmeside": "http://www.minskole.no/algard",
 			"latitude:": "5.85747247976096",
 			"longitude:": "58.7646436644626",
