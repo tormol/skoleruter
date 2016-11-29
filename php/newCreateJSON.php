@@ -182,7 +182,8 @@ function saveJSONFile($jsonfile, $wantedfiledir, $filename)
 }
 
 $urlstavanger   = 'http://open.stavanger.kommune.no/dataset/86d3fe44-111e-4d82-be5a-67a9dbfbfcbb/resource/32d52130-ce7c-4282-9d37-3c68c7cdba92/download/skolerute-2016-17.csv';
-$stavangerarray = csvToArray(downloadFile($urlstavanger));
+$stavangerstring = downloadFile($urlstavanger);
+$stavangerarray = csvToArray($stavangerstring);
 
 $urlgjesdal    = 'http://open.stavanger.kommune.no/dataset/c1a060b6-350c-433d-ac78-964ae8b0a9e3/resource/667ed24a-d3a0-4210-9086-f1d336429081/download/skolerute-gjesdal-kommune2.csv';
 $gjesdalstring = downloadFile($urlgjesdal);
@@ -195,6 +196,5 @@ $mergedarray       = mergeArrays(array(
 $cleanedarray      = cleanArray($mergedarray);
 $arraywantedformat = arrayToWantedFormat($cleanedarray);
 $jsonfile          = arrayToJSON($arraywantedformat);
-print_r($jsonfile);
 saveJSONFile($jsonfile, '../data/', 'newdata.json');
 ?>
