@@ -1,0 +1,6 @@
+dato,skole,elevdag,laererdag,sfodag,kommentar
+2016-08-01,Auglend skole,Nei,Nei,Ja,
+2016-08-02,Auglend skole,Nei,Nei,Ja,
+2016-08-03,Auglend skole,Nei,Nei,Ja,
+2016-08-04,Auglend skole,Nei,Nei,Ja,
+2016-08-05,Auglend skole,Nei,Nei,Ja,

@@ -1,0 +1,1 @@
+{"Auglend skole":{"2016":{"8":{"1":["Ukjent","E-F"],"2":["Ukjent","E-F"],"3":["Ukjent","E-F"],"4":["Ukjent","E-F"],"5":["Ukjent","E-F"]}}}}
