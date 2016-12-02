@@ -21,6 +21,11 @@ a.nbtooltip:hover {
         margin: 0;
         padding: 0;
     }
+    .hideForDesktop {
+        visibility: collapse;
+        height: 0;
+        width: 0;
+    }
     header {
         max-height: 20%;
         background: url("../img/banner.jpg") no-repeat center center fixed;
@@ -38,6 +43,9 @@ a.nbtooltip:hover {
 @media screen and (max-width: 768px) {/* CSS CODE FOR Mobile*/
     body {
         background-color: orange;
+    }
+    .hideForDesktop {
+        margin-left: 1em;
     }
     body, body>* {
         width: 100%;
@@ -66,6 +74,8 @@ nav.navbar {
     float: left;
     margin-left: 0.7em;
     padding: 0.3em 0.4em;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
     min-width: 1em;
     text-indent: inherit;
     color: #000;
