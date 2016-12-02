@@ -1,56 +1,49 @@
-$(function () {
-    if (existHash()) { // if this is not true, use local storage for user choices
-        useHashURL()
-    }
-  addColours();
-  aquireJSON();
-  
+//Defines global printer and printer
+var GlobalPrinter;
+var GlobalStorage;
 
+$(function () {
+    GlobalPrinter = new Printer();
+    GlobalStorage = new StorageManager();
+
+    /* Menu shrinks after this, but footer stays at the bottom. */
+    var parent = $('#tableDiv');
+    setHeight(parent);
+    $(window).resize(function() { setHeight(parent); });
+
+    GlobalStorage.loadSettings();
+    addColours();
+    GlobalStorage.getJSON();
 });
 
 /* Dersom man ønsker å endre på hva som skjer etter at dataene er lastet
    inn, plasseres det her */
 function afterGet(data){
-    prints(data);
-    if (existHash()) { // if this is not true, use local storage for user choices
-        useHashURLChosen()
-    }
+  GlobalPrinter.SkoleObject = data;
+  GlobalPrinter.print();
+
+  GlobalStorage.postLoadSettings();
+    //prints(data);
+    //if (existHash()) useHashURLChosen();
+    //else postLoadSettings();
 }
 
-/* Denne funksjonen bruker localStorage til å lagre og hente JSON filen
-   som inneholder all den dataen som vises i skoleruten. Derretter kaller
-   den afterGet(). Grunnen til at den må kalle en anne funkson etterpå, og
-   ikke returnere en verdi, er fordi $.get() og $.getJSON() er asynkrone
-   funksjoner. Den vil altså ikke returnere noe som helst før JSON filen
-   er ferdig lest. Siden dette i noen tilfeller tar mer enn 1 gjennomkjøring,
-   kan det hende at den returnerer NULL */
-function aquireJSON(){
-  var JsonPath = "php/yngveformatcssklasser.json";
-
-  // Henter versjons-nummeret til JSON filen
-  $.get('php/JsonVersjon.txt', function(ver) {
-    /* Dersom nettleseren ikke støtter localStorage, er det ikke nødvendig å sjekke
-       om variabler er lagret */
-      if (typeof(Storage) == "undefined"){
-        $.getJSON(JsonPath, function (data) { afterGet(data); });
-        return;
-      }
-      /* Dersom versjons-nummeret ikke er satt, eller det har blitt endret siden forrige gang,
-         hentes json filen på nytt og versjon og json-data lagres */
-      if(localStorage.getItem("Version") == null || localStorage.getItem("Version") != ver){
-          console.log("New version");
-        $.getJSON(JsonPath, function (data) {
-          localStorage.setItem("Version", ver);
-          localStorage.setItem("Data", JSON.stringify(data));
-          afterGet(data);
-        });
-      }
-      /* Dersom versjons-nummeret er rett, og dataen ikke har blitt slettet siden forrige
-         gang, så hentes JSON filen i fra lokal disk, i stedenfor å hentes fra server */
-      else if (localStorage.getItem("Data") != null) {
-        console.log("Same version: " + ver);
-        var data = JSON.parse(localStorage.getItem('Data'));
-        afterGet(data);
-      }
-  }, 'text');
+// Make the table fill the available height, while avoding scrolling of the whole page.
+// If tat leaves too little space for content, allow more and more parts to scroll out of view.
+function setHeight(div) {
+    var total_height = window.innerHeight;//$(window).height() gives different value before resize
+    var above = div.offset().top;
+    var below = $('footer').outerHeight(true);
+    var row_height = $('#units').outerHeight(true);
+    var available = total_height - above - below;
+    if (available / row_height - 1 >= 5) {
+        // header, nav, thead & footer is effectively fixed
+        div.height(available);
+    } else if (total_height / row_height - 1 >= 2) {
+        // header, nav & footer scroll out, thead is absolute
+        div.height(total_height);
+    } else {
+        // everything scrolls
+        div.css('height', '');// removes it
+    }
 }
