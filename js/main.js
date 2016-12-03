@@ -2,6 +2,10 @@
 var GlobalPrinter;
 var GlobalStorage;
 
+$(function (){
+  $("#modalname").modal('show');
+})
+
 $(function () {
     GlobalPrinter = new Printer();
     GlobalStorage = new StorageManager();
