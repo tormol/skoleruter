@@ -12,7 +12,7 @@ var Printer = function () {
    of type 'new Printer(data)'. By prototyping, we can avoid
    those messy global variables! */
 Printer.prototype.print = function() {
-  /* Main printer controller */
+    /* Main printer controller */
   this.printInit();
   this.importJsonWithPictures(this);
   var full = "", units = "";
@@ -64,6 +64,7 @@ Printer.prototype.print = function() {
   //selectSchools(activeSchools);
   if (printer.types.vanlige === false) printer.hideNormalDays();
   selectSchools(GlobalPrinter.activeSchools);
+  $("#loader").hide();
 };
 
 /* Initilize the table for printing,
