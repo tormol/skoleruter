@@ -14,7 +14,7 @@ var Printer = function () {
 Printer.prototype.print = function() {
     /* Main printer controller */
   this.printInit();
-  this.importJsonWithPictures(this);
+  this.importInfoJSON(this);
   var full = "", units = "";
   var First = true;
   var number = 1;
@@ -212,8 +212,8 @@ Printer.prototype.unhideNormalDays = function()  {
     $("#q > tr > *").show();// tr:visited makes it slower
 }
 
-
-Printer.prototype.importJsonWithPictures = function(printer) {
+// Imports schoolinfo and calls afterimport function
+Printer.prototype.importInfoJSON = function(printer) {
   var schoollist = new Array();
   $.getJSON("data/infoomskoler.json", function( data ) {
     var link = "", fileending= "";
@@ -233,6 +233,7 @@ Printer.prototype.importJsonWithPictures = function(printer) {
   });
 }
 
+//Create modal for each school and appends to html
 Printer.prototype.afterJsonImport = function(printer, schoollist) {
     var number=1;
     var modals="";
@@ -244,6 +245,7 @@ Printer.prototype.afterJsonImport = function(printer, schoollist) {
     $('#tableDiv').append(modals); // Legge til infosider om skoler
 }
 
+//Creates the modal html-code
 Printer.prototype.addModalForSchool = function(skolenavn,modalnavn,skoler) {
   var link="", adresse="", tlf="", hjemmeside="";
   var snavn = skolenavn.split(" ");

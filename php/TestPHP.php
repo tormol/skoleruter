@@ -1,7 +1,8 @@
 <?php
 //Writen by Aleksander Vevle
 
-//The following are tests for the functions in newCreateJSON.php
+//The following are tests for the functions in functionsforgeneratingjson.php
+//Writing to file test may not pass because of permissons on server
 include 'functionsforgeneratingjson.php';
 
 function TESTdownloadFile()

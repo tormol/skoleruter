@@ -1,7 +1,6 @@
 <?php
 header('Content-type: text/plain; charset=UTF-8');
 //Written by Aleksander Vevle
-//This will be the final php after testing
 
 // Global values for fieldpositions in both csvfiles after laererfield is removed
 $datefield    = 0;
