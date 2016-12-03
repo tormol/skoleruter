@@ -210,16 +210,20 @@ thead td {
     }
 }
 #loader {
+    position:absolute;
+    width:100px;
+    height:100px;
+    left:50%;
+    top:50%;
+    margin-left:-50px;
+    margin-top:12em;
 
-    margin-left: 47%;
-    margin-right: 50%;
-    margin-bottom: 2em;
+
     border: 1em solid #f3f3f3; /* Light grey */
-    border-top: 1em solid #3498db; /* Blue */
-    border-bottom: 1em solid #3498db; /* Blue */
+    border-top: 1em solid #a9a9a9; /* Blue */
+    border-bottom: 1em solid #a9a9a9; /* Blue */
     border-radius: 50%;
-    width: 10em;
-    height: 10em;
+
     animation: spin 2s linear infinite;
 }
 
