@@ -214,7 +214,7 @@ Printer.prototype.unhideNormalDays = function()  {
 
 Printer.prototype.importJsonWithPictures = function(printer) {
   var schoollist = new Array();
-  $.getJSON("data/infoomskoleraleksander.json", function( data ) {
+  $.getJSON("data/infoomskoler.json", function( data ) {
     var link = "", fileending= "";
     var now = 0;
     $.each(data, function(key, val) {
