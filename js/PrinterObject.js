@@ -40,7 +40,7 @@ Printer.prototype.print = function() {
                       if(First) units += printer.getTopText(Dag, Mnd, Aar, MndObj[Dag]);
                       //Legger til dagen
                       if (MndObj[Dag] == undefined) row += "<td></td>";
-                      else row += "<td class=" + printer.cssTypes(MndObj[Dag][1]) + ">" + printer.generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
+                      else row += "<td class=" + printer.cssTypes(MndObj[Dag][0], MndObj[Dag][1]) + ">" + printer.generateTooltip(MndObj[Dag][0], MndObj[Dag][1]) + "</td>";
                   }
               }
           });
@@ -137,10 +137,12 @@ Printer.prototype.getTopText = function(dag, mnd, aar, bes){
    IFF type is not in list, will force that entry to be F,
    if the entire list is empty/null will act as if all types are selected
    Adjusts the strings from FreedayObject to match typeList */
-Printer.prototype.cssTypes = function(origColour) {
-    if (origColour == "F-F-F" || origColour == "E-L-S") return origColour;
-    if (this.types.elev === false) origColour = this.setCharAt(origColour, 0, "E");
-    if (this.types.sfo === false) origColour = this.setCharAt(origColour, 4, "S");
+Printer.prototype.cssTypes = function (desc, origColour) {
+
+    // TODO force "søndag " and "Lørdag " too? Or fix at PHP end?
+    if (origColour == "F-F" || desc == "Søndag" || desc == "Lørdag") return origColour;
+    if (this.types.elev === false) origColour = this.setCharAt(origColour, 0, "F");
+    if (this.types.sfo === false) origColour = this.setCharAt(origColour, 2, "F");
     return origColour
 }
 Printer.prototype.setCharAt = function(str,index,chr) {
@@ -150,13 +152,17 @@ Printer.prototype.setCharAt = function(str,index,chr) {
 
 Printer.prototype.generateTooltip = function(str, opts) {
     // str: description, opts: CSS logic format
-    if (opts == "E-L-S") opts = "alle"; // if logic says all
+
+    if (opts == "E-S") opts = "alle"; // if logic says all
     else {
+
         //using CSS Logic to generate a string of who the str affects
         temp = "";
+
         if (opts.substr(0, 1) != 'F') temp += "Elev";
-        if (temp != "" && opts.substr(4, 1) != 'F') temp += " og "
-        if (opts.substr(4, 1) != 'F') temp += "SFO";
+        if (temp != "" && opts.substr(2, 1) != 'F') temp += " og "
+
+        if (opts.substr(2, 1) != 'F') temp += "SFO";
         opts = temp;
     }
   // Generate a tooltip with str and opts
@@ -181,9 +187,9 @@ Printer.prototype.hideNormalDays = function() {
         $(row).children().slice(1).each(function(x,cell) {
             if (hide[x] === true)
                 switch (cell.className) {
-                    case 'F-F-F': case 'F-L-F': case '':
+                    case 'F-F': case '':
                         hide[x] = !weekend[x]; break;
-                    case 'E-L-S': case 'E-F-S':
+                    case 'E-S':
                         hide[x] = weekend[x]; break;
                     default:
                         hide[x] = false;

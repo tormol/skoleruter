@@ -8,12 +8,12 @@ var StorageManager = function () {
    waiting loop in main that wait for value to change isn't a
    possibility either, as most browsers are single threaded */
 StorageManager.prototype.getJSON = function() {
-  var JsonPath = "php/yngveformatcssklasser.json";
+  var JsonPath = "data/newdata.json";
 
   var manager = this;
   // Henter versjons-nummeret til JSON filen
   // Henter versjons-nummeret til JSON filen
-  $.get('php/JsonVersjon.txt', function(ver) {
+  $.get('data/dataversion.txt', function(ver) {
     /* Dersom nettleseren ikke støtter localStorage, er det ikke nødvendig å sjekke
        om variabler er lagret */
       if (typeof(Storage) == "undefined"){

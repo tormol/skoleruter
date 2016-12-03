@@ -97,24 +97,25 @@ function cleanArray($array)
        $grunn = "";
        if (count($arrayrow) == 5) {
            $reason = $arrayrow[$commentfield];
+           $reason = rtrim($reason);
            if ($reason == "") {
                $reason = "Ukjent";
            }
        }
        // The following are logic for adding cssclasses to the array for use in the table in the webinterface
-       if ($arrayrow[$studentfield] == 'Nei' && $arrayrow[$sfofield] == 'Nei') {
+       if ($arrayrow[$studentfield] == 'Nei' && rtrim($arrayrow[$sfofield]) == 'Nei') {
            array_push($newarray[ucfirst($arrayrow[$namefield])], array(
                $arrayrow[$datefield],
                $reason,
                'E-S'
            )); //FRIDAG FOR ALLE
-       } else if ($arrayrow[$studentfield] == 'Nei' && $arrayrow[$sfofield] == 'Ja') {
+       } else if ($arrayrow[$studentfield] == 'Nei' && rtrim($arrayrow[$sfofield]) == 'Ja') {
            array_push($newarray[ucfirst($arrayrow[$namefield])], array(
                $arrayrow[$datefield],
                $reason,
                'E-F'
            )); //FRIDAG FOR ELEV
-       } else if ($arrayrow[$studentfield] == 'Ja' && $arrayrow[$sfofield] == 'Nei') {
+       } else if ($arrayrow[$studentfield] == 'Ja' && rtrim($arrayrow[$sfofield]) == 'Nei') {
            array_push($newarray[ucfirst($arrayrow[$namefield])], array(
                $arrayrow[$datefield],
                $reason,
@@ -179,5 +180,12 @@ function saveJSONFile($jsonfile, $wantedfiledir, $filename)
    $fp = fopen($wantedfiledir . $filename, 'w');
    fwrite($fp, $jsonfile);
    fclose($fp);
+   updateVersion();
 }
+function updateVersion(){
+  $prevver = intval(file_get_contents("../data/dataversion.txt"));
+  $newver = $prevver+1;
+  file_put_contents("../data/dataversion.txt",$newver);
+}
+
 ?>
