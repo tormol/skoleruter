@@ -64,7 +64,8 @@ Printer.prototype.print = function() {
   //selectSchools(activeSchools);
   if (printer.types.vanlige === false) printer.hideNormalDays();
   selectSchools(GlobalPrinter.activeSchools);
-  $("#loader").hide();
+  //$("#loader").hide();
+  $("#modalname").modal('hide');
 };
 
 /* Initilize the table for printing,

@@ -37,23 +37,37 @@ $(function(){
     GlobalPrinter.types.vanlige = $("#vis_vanlige").is(":checked");
     $('#vis_elev').on('change', function () {
 
-            $.ajax({
-                url:loaderShow(),
-                success:function(){
-                    GlobalPrinter.types.elev = !GlobalPrinter.types.elev;
-                    GlobalPrinter.print();
-                }
-            })
-    
-    });
-    $('#vis_sfo').on('change', function () {
         $.ajax({
             url: loaderShow(),
+            // beforeSend: ,
+            // context:this,
+            async:true,
+            success: function () {
+                GlobalPrinter.types.elev = !GlobalPrinter.types.elev;
+                GlobalPrinter.print();
+            }
+        })
+
+            /*loaderShow();
+            GlobalPrinter.types.elev = !GlobalPrinter.types.elev;
+            GlobalPrinter.print();*/
+
+    });
+    $('#vis_sfo').on('change', function () {
+
+        $.ajax({
+            url: loaderShow(),
+           // beforeSend: ,
+            // context:this,
+            async:true,
             success: function () {
                 GlobalPrinter.types.sfo = !GlobalPrinter.types.sfo;
                 GlobalPrinter.print();
             }
         })
+        /*loaderShow();
+        GlobalPrinter.types.sfo = !GlobalPrinter.types.sfo;
+        GlobalPrinter.print();*/
 
     });/*
     $('#vis_laerer').on('change', function() {
@@ -72,7 +86,11 @@ $(function(){
 });
 
 function loaderShow() {
-    $("#loader").show();
+    $.ajaxSetup({
+        async: false
+    });
+
+    $("#modalname").modal('show');
 }
 
 $(function() {
