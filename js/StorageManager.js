@@ -8,7 +8,7 @@ var StorageManager = function () {
    waiting loop in main that wait for value to change isn't a
    possibility either, as most browsers are single threaded */
 StorageManager.prototype.getJSON = function() {
-  var JsonPath = "php/yngveformatcssklasser.json";
+  var JsonPath = "data/newdata.json";
 
   var manager = this;
   // Henter versjons-nummeret til JSON filen
