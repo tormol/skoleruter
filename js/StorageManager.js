@@ -13,7 +13,7 @@ StorageManager.prototype.getJSON = function() {
   var manager = this;
   // Henter versjons-nummeret til JSON filen
   // Henter versjons-nummeret til JSON filen
-  $.get('php/JsonVersjon.txt', function(ver) {
+  $.get('data/dataversion.txt', function(ver) {
     /* Dersom nettleseren ikke støtter localStorage, er det ikke nødvendig å sjekke
        om variabler er lagret */
       if (typeof(Storage) == "undefined"){
