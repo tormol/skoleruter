@@ -97,6 +97,7 @@ function cleanArray($array)
        $grunn = "";
        if (count($arrayrow) == 5) {
            $reason = $arrayrow[$commentfield];
+           $reason = rtrim($reason);
            if ($reason == "") {
                $reason = "Ukjent";
            }
