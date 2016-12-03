@@ -103,19 +103,19 @@ function cleanArray($array)
            }
        }
        // The following are logic for adding cssclasses to the array for use in the table in the webinterface
-       if ($arrayrow[$studentfield] == 'Nei' && $arrayrow[$sfofield] == 'Nei') {
+       if ($arrayrow[$studentfield] == 'Nei' && rtrim($arrayrow[$sfofield]) == 'Nei') {
            array_push($newarray[ucfirst($arrayrow[$namefield])], array(
                $arrayrow[$datefield],
                $reason,
                'E-S'
            )); //FRIDAG FOR ALLE
-       } else if ($arrayrow[$studentfield] == 'Nei' && $arrayrow[$sfofield] == 'Ja') {
+       } else if ($arrayrow[$studentfield] == 'Nei' && rtrim($arrayrow[$sfofield]) == 'Ja') {
            array_push($newarray[ucfirst($arrayrow[$namefield])], array(
                $arrayrow[$datefield],
                $reason,
                'E-F'
            )); //FRIDAG FOR ELEV
-       } else if ($arrayrow[$studentfield] == 'Ja' && $arrayrow[$sfofield] == 'Nei') {
+       } else if ($arrayrow[$studentfield] == 'Ja' && rtrim($arrayrow[$sfofield]) == 'Nei') {
            array_push($newarray[ucfirst($arrayrow[$namefield])], array(
                $arrayrow[$datefield],
                $reason,
