@@ -44,9 +44,15 @@ $(function(){
                     GlobalPrinter.print();
                 }
             })
+            /*loaderShow();
+            GlobalPrinter.types.elev = !GlobalPrinter.types.elev;
+            GlobalPrinter.print();*/
 
     });
     $('#vis_sfo').on('change', function () {
+      $.ajaxSetup({
+        async: false
+      });
         $.ajax({
             url: loaderShow(),
             success: function () {
@@ -54,6 +60,9 @@ $(function(){
                 GlobalPrinter.print();
             }
         })
+        /*loaderShow();
+        GlobalPrinter.types.sfo = !GlobalPrinter.types.sfo;
+        GlobalPrinter.print();*/
 
     });/*
     $('#vis_laerer').on('change', function() {
@@ -72,7 +81,6 @@ $(function(){
 });
 
 function loaderShow() {
-    $("#loader").show();
     $("#modalname").modal('show');
 }
 
