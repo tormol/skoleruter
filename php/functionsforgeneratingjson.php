@@ -180,5 +180,12 @@ function saveJSONFile($jsonfile, $wantedfiledir, $filename)
    $fp = fopen($wantedfiledir . $filename, 'w');
    fwrite($fp, $jsonfile);
    fclose($fp);
+   updateVersion();
 }
+function updateVersion(){
+  $prevver = intval(file_get_contents("../data/dataversion.txt"));
+  $newver = $prevver+1;
+  file_put_contents("../data/dataversion.txt",$newver);
+}
+
 ?>
