@@ -35,20 +35,33 @@ $(function(){
     GlobalPrinter.types.sfo = $("#vis_sfo").is(":checked");
   //  types.laerer = $("#vis_laerer").is(":checked");
     GlobalPrinter.types.vanlige = $("#vis_vanlige").is(":checked");
-    $('#vis_elev').on('change', function() {
-        GlobalPrinter.types.elev = !GlobalPrinter.types.elev;
-        GlobalPrinter.print();
+    $('#vis_elev').on('change', function () {
+
+            $.ajax({
+                url:loaderShow(),
+                success:function(){
+                    GlobalPrinter.types.elev = !GlobalPrinter.types.elev;
+                    GlobalPrinter.print();
+                }
+            })
+    
     });
-    $('#vis_sfo').on('change', function() {
-        GlobalPrinter.types.sfo = !GlobalPrinter.types.sfo;
-        GlobalPrinter.print();
+    $('#vis_sfo').on('change', function () {
+        $.ajax({
+            url: loaderShow(),
+            success: function () {
+                GlobalPrinter.types.sfo = !GlobalPrinter.types.sfo;
+                GlobalPrinter.print();
+            }
+        })
+
     });/*
     $('#vis_laerer').on('change', function() {
         types.laerer = !types.laerer;
         printT();
     });
     */
-    $('#vis_vanlige').on('change', function() {
+    $('#vis_vanlige').on('change', function () {
         GlobalPrinter.types.vanlige = !GlobalPrinter.types.vanlige;
         if (GlobalPrinter.types.vanlige === true)
             GlobalPrinter.unhideNormalDays();
@@ -57,6 +70,10 @@ $(function(){
         GlobalStorage.updateSettings();
     });
 });
+
+function loaderShow() {
+    $("#loader").show();
+}
 
 $(function() {
     $('input[name="daterange"]').daterangepicker({
