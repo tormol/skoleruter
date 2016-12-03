@@ -44,7 +44,7 @@ $(function(){
                     GlobalPrinter.print();
                 }
             })
-    
+
     });
     $('#vis_sfo').on('change', function () {
         $.ajax({
@@ -73,6 +73,7 @@ $(function(){
 
 function loaderShow() {
     $("#loader").show();
+    $("#modalname").modal('show');
 }
 
 $(function() {
